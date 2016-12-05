@@ -93,7 +93,7 @@ Unity引擎相关的API均放在engine.py模块中
 
 自动化测试报告相关功能，目前部分功能仅支持云端运行，后续将陆续在本地运行实现
 
-| Device API | 说明 |
+| Reporter API | 说明 |
 | ------| ------ |
 |[add_start_scene_tag\add_end_scene_tag](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#63-打标签)|性能数据标签（仅支持wetest云端报告）|
 |[screenshot](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#62-截图)|截图，保存在screenshot目录中，云端显示在报告中|
