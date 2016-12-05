@@ -11,7 +11,7 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com'
 
 import zipfile,os
 
-_filter_dir=("sample","ngui_test","wpyscripts\\test",".idea","doc",".svn","screenshot")
+_filter_dir=("sample","ngui_test","wpyscripts\\test",".idea","doc","bin",".svn","screenshot")
 filter_file=("wpyscripts_upload.zip","python_log.log")
 filter_dir=[]
 
