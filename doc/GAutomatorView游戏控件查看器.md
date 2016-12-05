@@ -27,14 +27,14 @@ step 4:中间控件树右击可复制
 ## 三、常见问题
 **Q：GAutomatorView崩溃？**
 
-A：GAutomatorView目前不支持中文目录，请勿将GAutomatorView移动到非中文目录下
+**A：**GAutomatorView目前不支持中文目录，请勿将GAutomatorView移动到非中文目录下
 
 **Q：无法同步游戏？**
 
 <img src="image/gaview_error1.png" alt="Drawing" width="800px" />
 
-A：请确保游戏已经拉起，且拉起的游戏已经集成SDK
+**A：**请确保游戏已经拉起，且拉起的游戏已经集成SDK
 
 **Q：点击无法查找到控件？**
 
-A：1.非NGUI及UGUI UI无法通过点击的方式查找到；2、NGUI源码的事件模块如果进行过修改可能会让这部分功能无效；3、请确保SDK集成成功，u3dautomation.jar已经集成到游戏之中。
+**A：**1.非NGUI及UGUI UI无法通过点击的方式查找到；2、NGUI源码的事件模块如果进行过修改可能会让这部分功能无效；3、请确保SDK集成成功，u3dautomation.jar已经集成到游戏之中。
