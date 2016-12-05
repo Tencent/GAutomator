@@ -1,5 +1,7 @@
-## GAutomator Unity自动化测试教程 ##
+<a name="GAutomator"></a>
+## GAutomator Unity自动化测试教程 ##
 
+	- [GAutomator Unity自动化测试教程](#GAutomator)
 - [1 准备工作](#1)
 	- [1.1 介绍](#1.1)
 	- [1.2 环境](#1.2)
@@ -59,7 +61,7 @@
 	- [9.4 wait_for_scene等待某个场景加载完毕](#9.4)
 
 
-**GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在http://wetest.qq.com/cloud/index.php/phone/blrooike 下载所有需要的所有组件。
+**GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载所有需要的所有组件。
 
 <a name="1"></a>
 # 1 准备工作
@@ -78,6 +80,7 @@
 <a name="1.3"></a>
 ## 1.3 使用脚本
 如果使用pycharm的话，直接打开scripts功能即可进行编辑使用
+
 <img src="image/pycharm_step1.png" alt="Drawing" width="300px" />
 <img src="image/pycharm_step2.png" alt="Drawing" width="300px" />
 
@@ -87,6 +90,7 @@
 ## 1.4 GAutomatorView
 GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载 。GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，Unity游戏中控件查看器。
 **注：请勿将该软件放置在中文目录下**
+
 <img src="image/behaviour.png" alt="Drawing" width="800px" />
 
 集成wetest sdk的游戏拉起后，点击同步按钮，就能获取到游戏界面和控件树
@@ -148,6 +152,7 @@ logger.debug("Version Information : {0}".format(version))
 ```
 
 *`engine.get_scene()`*获取当前游戏界面对应scene名称，wetestdemo游戏的第一个界面名称为main
+
 <img src="image/scene.png" alt="Drawing" width="600px" />
 
 
@@ -197,6 +202,7 @@ def run():
 然后，运行scripts目录下的，build.py
 ```python build.py```
 会在scripts目录下产生一个,wpyscripts_upload.zip。只有企业用户才可以使用云端测试，请登录wetest.qq.com，联系工作人员了解详情。
+
 <img src="image/step1.png" alt="Drawing" width="400px" />
 <img src="image/step2.png" alt="Drawing" width="400px" />
 <img src="image/step3.png" alt="Drawing" width="400px" />
@@ -286,7 +292,9 @@ test_find_element()
 ```bat
 python find_elments.py
 ```
+
 <img src="image/find_elements_scene.png" alt="Drawing" width="400px" />
+
 ```xml
 <GameObject name="WetestSDK" components="U3DAutomationBehaviour" id="10064" />
 <GameObject name="Control" components="gobal" id="10074" />
@@ -336,7 +344,9 @@ test_find_elements_by_name()
 python find_elments.py
 ```
 *find_elements_path*能够返回所有符合的节点
-<img src="image/find_elments_xml.png" alt="Drawing" width="600px" />
+
+<img src="image/find_elments_xml.png" alt="Drawing" width="800px" />
+
 返回结果
 ```xml
 GameObject /Canvas/Panel/VerticalPanel/Item(Clone) Instance = -10080
@@ -408,7 +418,9 @@ test_find_elements_by_img()
 ```bat
 python find_elments.py
 ```
-<img src="image/find_elments_xml_img.png" alt="Drawing" width="400px" />
+
+<img src="image/find_elments_xml_img.png" alt="Drawing" width="800px" />
+
 运行结果如下，*/Canvas/Panel/Image{img=saturn}*和*/Canvas/Panel{img=saturn}*均能找到指定的节点
 ```xml
 Button : GameObject /Canvas/Panel/Image Instance = 10218,Bound : point(1461.0,81.0) width = 352.0 height = 341.0
@@ -445,7 +457,9 @@ test_find_elements_by_txt()
 ```bat
 python find_elments.py
 ```
+
 <img src="image/find_elments_xml_txt.png" alt="Drawing" width="600px" />
+
 运行结果如下，*Item(Clone){txt=关卡2}*和*Panel/VerticalPanel/Item(Clone){txt=关卡4}*均能找到指定的节点
 ```xml
 Button : GameObject /Canvas/Panel/VerticalPanel/Item(Clone) Instance = -11784,Bound : point(1420.0,710.5) width = 500.0 height = 80.0
@@ -499,6 +513,7 @@ test_click()
 Button : GameObject /Canvas/Panel/Click Instance = 10652,Bound : point(535.0,60.0) width = 250.0 height = 80.0
 ```
 `engine.get_element_bound(Element)`获取的是ElementBound，获取Element的左上角在屏幕上的坐标，和Element的长宽高。遵循的是手机的坐标系，以左上角为坐标原点，上下边框为width，左右为height。
+
 <img src="image/interaction_click.png" alt="Drawing" width="400px" />
 <img src="image/portrait.png" alt="Drawing" width="300px" />
 
@@ -531,9 +546,8 @@ center = (5.03773808305e-05,0.1374322474,0.00151373702101) extents =(0.080762296
 engine.click(button)
 ```
 Engine执行操作后，会立马返回，不会等button按钮相应完成才返回。engine.click(Element)返回为True的话，只保证执行了button中心点的点击事件，不能确保button对应的事件被有效执行（有弹出框，遮住的情况就可能使点击无效）。
+
 <img src="image/interaction_mask.png" alt="Drawing" width="400px" />
-
-
 
 <a name="4.1"></a>
 ## 4.1 点击操作
@@ -714,6 +728,7 @@ test_get_display_size()
 
 ```
 获取屏幕尺寸，DisplaySize类包括width、height单位为px。
+
 <img src="image/device_screen.png" alt="Drawing" width="600px" />
 
 <a name="5.2"></a>
@@ -830,6 +845,7 @@ def run():
         stack=traceback.format_exc()
         logger.debug(stack)
 ```
+
 <img src="image/reporter_screen.png" alt="Drawing" width="600px" />
 <img src="image/reporter_perform.png" alt="Drawing" width="600px" />
 
@@ -848,6 +864,7 @@ def screen_shot_click(element):
     engine.click_position(pos_x, pos_y)
 ```
 *reporter.capture_and_mark(pos_x, pos_y, locator_name = element.object_name)*将会截取当前手机屏幕，并在pos_x,pos_y位置标记一个红点。
+
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
 <a name="6.2"></a>
@@ -861,6 +878,7 @@ reporter.add_start_scene_tag("Find_Scene")
 reporter.add_end_scene_tag("Find_Scene")
 ```
 *reporter.add_start_scene_tag("")和reporter.add_end_scene_tag("")*一定是成对出现的，先start然后end，里面的标签内容需要一样。
+
 <img src="image/tag.png" alt="Drawing" width="600px" />
 
 **注：配合engine.get_scene()效果更佳**
@@ -972,8 +990,6 @@ engine.set_camera("CharModeCamera")
 ```
 设置Camera后，如果物体渲染的Camera中包含设置的Camera，则会直接采用设置的Camera。[UnityCamera资料](https://docs.unity3d.com/ScriptReference/Camera.html "UnityCamer资料")
 
-
-
 <a name="8"></a>
 # 8 实战用例
 举例最常见的，较难处理的引用场景scripts/testcase/tools.py封装了，场景的使用场景
@@ -1047,6 +1063,7 @@ screen_shot_click(qq_button, 6)
 <a name="8.3"></a>
 ## 8.3 QQ或微信登录
 QQ或者微信登录，设计到Activity的切换和Android标准控件的操作,操作过程复杂，但是相对较为固定。在云端运行时，每次拉起游戏之前，都会清理数据，所以每次都需要重新登录。每次登录的过程如下所示：
+
 <img src="image/login_step.png" alt="Drawing" width="600px" />
 对应的处理代码如下所示：
 ```python
@@ -1066,7 +1083,7 @@ def login():
     #步骤3，等待QQ登录界面退出，切换到游戏界面
     select_btn = find_elment_wait("/BootObj/Panle/selectBtn")
 ```
-1. 步骤1：等待进入到登录选择scene，如何获取scene名称，请看[1.4 探索测试精灵](#1.4)。wait_for_scene("SceneName")，会一直查询，直到进入名称为"SceneName"的场景。进入到"SceneName"的场景后，查询QQ登录按钮直到出现(find_elment_wait)，并点击QQ登录按钮。
+1. 步骤1：等待进入到登录选择scene，如何获取scene名称，请看[1.4 GAutomatorView](#1.4)。wait_for_scene("SceneName")，会一直查询，直到进入名称为"SceneName"的场景。进入到"SceneName"的场景后，查询QQ登录按钮直到出现(find_elment_wait)，并点击QQ登录按钮。
 2. 步骤2：从游戏的Activity切换到QQ或者微信的登录界面需要一定的时间。`wait_for_package("com.tencent.mobileqq")`检查顶层包名，直到QQ的顶层包名(微信包名为com.tencent.mm)。`device.login_qq_wechat_wait(120)`会根据当前的顶层包名，自动选择QQ或者微信登录，当顶层包名不再是"com.tencent.mm"或"com.tencent.mobileqq"时推出。
 **注：账号由云端自动分配。本地调试时请修改wpyscripts/wetest/device.py下面`native_deivce.__init__(self)`中的账号密码**
 3. 步骤3：等待进入游戏界面，直到出现某个element为止。
@@ -1102,7 +1119,9 @@ def random_click(fun=None, forbid_elements=(),max_num=1000,sleep = 2):
         time.sleep(sleep)
         elements = engine.get_touchable_elements()
 ```
+
 <img src="image/fight_random_click.png" alt="Drawing" width="600px" />
+
 上面王者荣耀这个游戏，进入游戏战斗场景后，就可以随意操作界面里面的按钮（除了暂停），如技能、英雄切换、攻击。如果，比赛胜利，则会弹出"点击屏幕继续"这个element。
 ```python
 def get_condition_fun(*name):
@@ -1132,6 +1151,7 @@ random_click()会优先点点击次数最少的按钮。
 <a name="8.5"></a>
 ## 8.5 选区操作
 所有账户需要进入指定服务器，需要选区（大部分情况下，区按钮Element名称是一样的）。选区可以巧妙的利用find_elements_path()来点击指定的服务器。
+
 <img src="image/select_section.png" alt="Drawing" width="600px" />
 
 ```python
@@ -1213,6 +1233,7 @@ screen_shot_click("Attack",sleeptime=0)
 
 ```
 截图并标记轨迹如下所示，该部分功能仅限wetest平台测试有效：
+
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
 <a name="9.2"></a>
