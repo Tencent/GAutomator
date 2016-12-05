@@ -2,6 +2,7 @@
 [![Wetest](https://img.shields.io/badge/wetest-2.2.0-brightgreen.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomator是一个针对Unity手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以Unity中的GameObject为操作对象，通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上，基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
+
 <img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/1.gif" alt="SGame" width="400px" />  <img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/2.gif" alt="Drawing" width="400px" />
 
 ## 一 运行环境要求
