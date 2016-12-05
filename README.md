@@ -15,7 +15,7 @@ window平台下运行，linux可运行脚本（GAutomator）。
 
 ## 测试用例编写
 
-GAutomator被测试的游戏需要集成**SDK**，[WeTest SDK游戏打包方式](http://wetest.qq.com/cloud/index.php/jcsdk/sdk "SDK")。GAutomator中在Sample目录下自带了一个集成有WeTest SDK的demo游戏，可以使用该游戏进行自动化的练习。[GAutomator使用说明文档](http://wetest.qq.com/help/documentation/10105.html "Document")，在doc下面也有详细的接入文档与使用说明文档。GAutomator与UIAutomator类似，提供了一个UI控件信息查看器[GAutomatorView](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip),可以查看UI对于的GameObject及相关信息，使用[说明文档]()。
+GAutomator被测试的游戏需要集成**SDK**，[WeTest SDK及打包方式](http://wetest.qq.com/cloud/index.php/phone/blrooike "SDK")。GAutomator中在Sample目录下自带了一个集成有WeTest SDK的demo游戏，可以使用该游戏进行自动化的练习。[GAutomator使用说明文档](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md "Document")，在doc下面也有详细的接入文档与使用说明文档。GAutomator与UIAutomator类似，提供了一个UI控件信息查看器[GAutomatorView](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip),可以查看UI对于的GameObject及相关信息，使用[说明文档]()。
 <img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/behaviour.png" alt="Drawing" width="800px" />
 
 
