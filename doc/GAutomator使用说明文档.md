@@ -1,7 +1,7 @@
 <a name="GAutomator"></a>
-## GAutomator Unity自动化测试教程 ##
 
-	- [GAutomator Unity自动化测试教程](#GAutomator)
+## GAutomator Unity自动化测试教程 ##
+
 - [1 准备工作](#1)
 	- [1.1 介绍](#1.1)
 	- [1.2 环境](#1.2)
@@ -64,13 +64,16 @@
 **GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载所有需要的所有组件。
 
 <a name="1"></a>
-# 1 准备工作
+
+# 1 准备工作
 <a name="1.1"></a>
-## 1.1 介绍
+
+## 1.1 介绍
 通过Python实现Unity手游的UI自动化测试。GAutomator测试运行在手机端，通过adb操控手机上的unity手游，支持所有版本的Android手机。这个工具的主要功能包括：测试与Android手机之间的兼容性--测试手游在不同Android手机上的工作情况。功能性测试，PVP游戏可以自动化测试代替人力节省操作，PVE游戏可以自动大关完成冒烟测试。性能测试，云端测试能够手机CPU、内存、流量和FPS数据，能够标记不同的场景。
 
 <a name="1.2"></a>
-## 1.2 环境
+
+## 1.2 环境
 **1 python**: python 2.7
 
 **2 adb**
@@ -78,7 +81,8 @@
 在cmd命令行里面输入adb devices，能够看到你的手机序列号
 
 <a name="1.3"></a>
-## 1.3 使用脚本
+
+## 1.3 使用脚本
 如果使用pycharm的话，直接打开scripts功能即可进行编辑使用
 
 <img src="image/pycharm_step1.png" alt="Drawing" width="300px" />
@@ -87,7 +91,8 @@
 可以在testcase目录下面直接创建你需要的.py脚本，然后编写需要的逻辑
 
 <a name="1.4"></a>
-## 1.4 GAutomatorView
+
+## 1.4 GAutomatorView
 GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载 。GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，Unity游戏中控件查看器。
 **注：请勿将该软件放置在中文目录下**
 
@@ -97,14 +102,17 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 
 
 <a name="2"></a>
-# 2 Getting Started
+
+# 2 Getting Started
 可以GAutomator脚本可前往http://wetest.qq.com/cloud/index.php/phone/blrooike下载。示例：sample/sample.py,示例apk:sampel/wetest_demo.apk
 <a name="2.1"></a>
-## 2.1 Simple Usage
+
+## 2.1 Simple Usage
 已经安装好python及依赖库后，可以使用pycharm（请下社区版，社区版免费）直接打开工程，你可以下面的代码开始我们的测试
 
 ```python
-#import lib path,only use in this demo
+
+#import lib path,only use in this demo
 #import sys,os
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..\\")))
 
@@ -134,7 +142,8 @@ python samle.py
 请确保，wetestdemo游戏已经拉起，wpyscripts库能够查找到
 	
 <a name="2.2"></a>
-## 2.2 实例详解
+
+## 2.2 实例详解
 wpyscripts.manager模块提供了自动化测试所需的所有功能，提供与引擎、手机、报告相关的内容，也提供了日志实现
 ```python
 import wpyscripts.manager as manager
@@ -178,7 +187,8 @@ logger=manager.get_logger()
 - logger:日志输出接口，保证本地与云端输出的日志都能获取到
 
 <a name="2.3"></a>
-## 2.3 wetest云端兼容测试
+
+## 2.3 wetest云端兼容测试
 wpyscripts编写好的测试脚本，只需要非常简单的修改，就能wetest云端上做兼容测试。云端几千台手机，按照脚本执行游戏。wetest能够发现兼容问题，同时高度还原执行现场，包括手机日志、崩溃信息、截图、执行过程等。
 
 云端执行脚本时，会执行testcase.runner下的run函数，只需要把自己的业务逻辑加入到这个函数中即可
@@ -208,7 +218,8 @@ def run():
 <img src="image/step3.png" alt="Drawing" width="400px" />
 
 <a name="2.4"></a>
-## 2.4 本地运行
+
+## 2.4 本地运行
 **注：调试时手动启动游戏，运行到指定界面，运行对应的脚本即可，如调试大厅界面的代码，游戏跑到大厅界面，再运行自动化测试逻辑。不需要从main.py启动**
 GAutomator支持一台PC在多台android手机上同时测试。首先需要设置游戏的包名，在main.py开头处，进行修改设置local_package。
 ```python
@@ -250,14 +261,16 @@ python main.py --qqname=2952020111 --qqpwd=wetestpwd --engineport=50032 --uiport
 ```
 
 <a name="3"></a>
-# 3 Locating Elements
+
+# 3 Locating Elements
 engine模块提供了三种GameObject的查找方式。示例：sample/find_elements.py
 - *find_element*
 - *find_elements_path*
 - *find_elements_by_component*
 
 <a name="3.1"></a>
-## 3.1 find_element
+
+## 3.1 find_element
 *find_element*通过Unity的GameObject.Find()方法查找游戏中的的gameobject。*find_element*通过GameObject的名称查找对象，名字中可以包含'/'代表GameObject树中的一层。这方法只返回当前激活(active)的gameobject。
 当界面上有两个一模一样路径的gameobject时，只返回其中的一个。代码示例：
 ```python
@@ -318,7 +331,8 @@ python find_elments.py
 
 
 <a name="3.2"></a>
-## 3.2 find_elements_path
+
+## 3.2 find_elements_path
 *find_elements_path*能够一次查找到多个符合的gameobject。但是*find_elements*是一个**非常耗时的操作需要谨慎使用**，对测试时的性能数据有一定影响（主要是fps值）。*find_elments*通过表达式查找gameobject,查找条件为（查找条件为与，只要出现就一定要满足）：
 - gameobject路径
 - gameobject在节点中的位置，顺序(第一个节点为0)
@@ -327,7 +341,8 @@ python find_elments.py
 ***注：不能确保返回结果的顺序***
 
 <a name="3.2.1"></a>
-### 3.2.1 名称查找
+
+### 3.2.1 名称查找
 ```python
 def test_find_elements_by_name():
     elements = engine.find_elements_path("/Canvas/Panel/VerticalPanel/Item(Clone)")
@@ -370,7 +385,8 @@ _elements = engine.find_elements_path("/Canvas/Panel/*/Item(Clone)")
 ***find_elments_path***接口非常耗时。
 
 <a name="3.2.2"></a>
-### 3.2.2 子节点序列查找
+
+### 3.2.2 子节点序列查找
 如果只想选择关卡2，不想返回所有的节点。可以利用*find_elements_path*中的序列来进行查找定位。序列的表达式为[num],num为数字从0开始
 ```python
 def test_find_elements_by_index():
@@ -396,7 +412,8 @@ python find_elments.py
 **注：序列从0开始，0表示第一个子节点；序列[num]与名字的关系是与，需要都符合，如果是任意名称请用***。根节点不能使用[]，[]是相对于父亲节点的位置，所以根节点不存在父节点。
 
 <a name="3.2.3"></a>
-### 3.2.3 节点中的图片名称查找
+
+### 3.2.3 节点中的图片名称查找
 *find_elements_path*能够根据节点的图片名称进行查找。表达式为{img=imageName}，img为图片名称
 ```python
 def test_find_elements_by_img():
@@ -436,7 +453,8 @@ img代表的是图片名称，Unity游戏中哪些组件符合这边的名称呢
 为什么要搜索节点及其所有子节点？Unity制作的时候，往往会在可交互节点下面挂载图片文字等。这样做的目的是为了尽可能测试人员方便查找。
 
 <a name="3.2.3"></a>
-### 3.2.3 节点中的文字查找
+
+### 3.2.3 节点中的文字查找
 *find_elements_path*能够根据节点及子节点中文字内容进行查找。表达式为{txt=txtName}，txtName为文字内容
 ```python
 def test_find_elements_by_txt():
@@ -473,7 +491,8 @@ txt代表的是文字内容，寻找匹配时，会从以下节点查找问题�
 - NGUI，wetest sdk会搜索组件UILabel、UIInput和GUIText中的内容
 
 <a name="3.3"></a>
-## 3.3 component名称查找
+
+## 3.3 component名称查找
 根据Unity中Component的名称查找，Gameobject。本质上调用的是Unity中的GameObject.FindObjectsOfType(Type.GetType(name))接口。C#里面Type.GetType传入的，应该是AssemblyQualifiedName。所以，下面的例子中传入的是"UnityEngine.UI.Button,UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"，如果传入的是Button返回为空
 ```python
 def test_find_elements_by_component():
@@ -489,9 +508,11 @@ test_find_elements_by_component()
 
 
 <a name="3.4"></a>
-## 3.4 节点位置查找
+
+## 3.4 节点位置查找
 <a name="3.4.1"></a>
-### 3.4.1 节点在屏幕上的位置
+
+### 3.4.1 节点在屏幕上的位置
 *engine.get_element_bound(element)*能够获取节点在屏幕中的位置。wpyscripts所有的操作都是通过触屏进行的，因此获取节点在屏幕上的位置是进行交互操作的基石。
 ```python
 def test_click():
@@ -519,7 +540,8 @@ Button : GameObject /Canvas/Panel/Click Instance = 10652,Bound : point(535.0,60.
 
 
 <a name="3.4.2"></a>
-### 3.4.2 世界坐标获取
+
+### 3.4.2 世界坐标获取
 手游越来越重度化，3D手游越来越普及，对于3D手游而言仅仅是屏幕坐标已经无法满足自动化测试的需求。对于王者荣耀、全民超神这种类型的手游，自动化测试过程中需要知道自己、敌方和队友英雄在地图上的位置，才能编写出想要的自动化功能（如移动英雄到某个位置、发现敌方英雄攻击等）。所以在wpyscripts v 1.1.1版本，WeTest SDK 8版本，推出了get_element_world_bound(elements)，能够获取节点的世界坐标系。**示例位置sample/joystick_tester.py 中的test_world_bounds()**
 ```python
 def test_world_bounds():
@@ -540,7 +562,8 @@ center = (5.03773808305e-05,0.1374322474,0.00151373702101) extents =(0.080762296
 返回查询的所有Element的对应世界坐标，WorldBound[]。WorldBound是节点在Unity世界坐标系中的各项值，主要包括中心点的x,y,z坐标值，及中心点距物体在x,y,z轴方向上的距离。具体可参考：Unity官网Bounds介绍[http://docs.unity3d.com/ScriptReference/Bounds.html](http://docs.unity3d.com/ScriptReference/Bounds.html)
 
 <a name="4"></a>
-# 4 交互
+
+# 4 交互
 找到节点后的第一件后，就需要对寻找到的节点进行操作。示例：sample/interaction.py
 ```python
 engine.click(button)
@@ -550,7 +573,8 @@ Engine执行操作后，会立马返回，不会等button按钮相应完成才�
 <img src="image/interaction_mask.png" alt="Drawing" width="400px" />
 
 <a name="4.1"></a>
-## 4.1 点击操作
+
+## 4.1 点击操作
 *engine.click()*允许传入Element和ElementBound。如果传入的是Element，会先去查找ElementBound,然后再计算出节点的中心位置进行点击。所以，在有ElementBound的情况下，应该首先传入ElementBound。
 ```python
 def test_click():
@@ -581,7 +605,8 @@ python interaction.py
 
 
 <a name="4.2"></a>
-## 4.2 long press长按
+
+## 4.2 long press长按
 *engine.press()和engine.press_position*与click相似，多一个时间参数，表示长按的时间（单位ms,毫秒）
 ```python
 def test_press():
@@ -603,7 +628,8 @@ python interaction.py
 
 
 <a name="4.3"></a>
-## 4.3 swipe滑动
+
+## 4.3 swipe滑动
 *engine.swipe(start_element, end_element, steps, duration=1000)和engine.swipe_position(start_x,start_y,end_x,end_y,steps, duration=1000)*，可以从一个节点滑动到另外一个节点，通过设置滑动步骤来控制滑动的平滑度和滑动速度。duration以毫秒为单位，为滑动的时长。滑动时长不能不能精确控制，只是尽可能接近。滑动由Touch触屏操作的Down->move->move...->up组合而成，steps指的是move的数量，一般指的是滑动的平滑度。*swipe与swipe_position*动作执行完之后返回，由SDK负责执行动作，不能并行的执行动作。如下面的示例中，第一个动作执行完后，才会执行第二个动作。
 ```python
 def test_swipe():
@@ -637,7 +663,8 @@ if silder:
 ```
 
 <a name="4.4"></a>
-## 4.4 input输入
+
+## 4.4 input输入
 *engine.input(Element,txt)*设置input里面的文字内容
 ```python
 def test_input():
@@ -656,7 +683,8 @@ python interaction.py
 - NGUI，Element必须包含UILabel组件
 
 <a name="4.5"></a>
-## 4.5 弹出框处理(获取可交互节点)
+
+## 4.5 弹出框处理(获取可交互节点)
 所有的交互操作，只能保证屏幕上有这些时间。列如下图，点击Click按钮，只确保在屏幕Click按钮的位置按了一下，不确保Click按钮有效果，因为这个时候有弹出框遮住了Click按钮。
 <img src="image/interaction_mask.png" alt="Drawing" width="400px" />
 游戏运行过程中，因为等级、公告、网络等各种原因可能会出现弹出框，这个时候原本的测试逻辑将无法继续运行。engine.get_touchable_elements()可以返回当前可点击的节点。
@@ -688,7 +716,8 @@ Button : GameObject /Canvas/Dialog(Clone)/Cancel Instance = 4294957136,Bound : {
 *`engine.get_touchable_elements()`*是一个相对耗时的接口，一般腾讯常见的游戏，耗时在80ms以内（在一帧内处理）。返回的是一个元组列表，元组中包含可交互的有效节点和位置（一个x,y的字典），所以无需再请求节点位置，可以直接点击。
 
 <a name="4.6"></a>
-## 4.6 获取文字内容
+
+## 4.6 获取文字内容
 SDK 9版本中，可以获取到游戏中的文字内容。NGUI能够获取到UILable、UIInput、GUIText组件上的文字内容，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Text、GUIText组件上的文字信息。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
 ```python
 def test_get_element_txt():
@@ -700,7 +729,8 @@ def test_get_element_txt():
 
 
 <a name="4.7"></a>
-## 4.7 获取图片名称
+
+## 4.7 获取图片名称
 SDK 9版本中，可以获取到游戏中的GameObject上面对应的图片名称。NGUI取UITexture、UISprite、SpriteRenderer组件上的图片名称，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Image、RawImage、SpriteRenderer组件上的图片名称。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
 ```python
 def test_get_element_image():
@@ -711,11 +741,13 @@ def test_get_element_image():
 上面的代码在sample/interaction.py中，运行该函数可以获取图片名称"back"
 
 <a name="5"></a>
-# 5 Mobile设备
+
+# 5 Mobile设备
 *engine.get_device()*类device提供与手机相关信息的API，也提供简单的操作。示例：sample/devices_tester.py
 
 <a name="5.1"></a>
-## 5.1 屏幕尺寸与转向
+
+## 5.1 屏幕尺寸与转向
 ```python
 def test_get_display_size():
     display_size=device.get_display_size()
@@ -732,7 +764,8 @@ test_get_display_size()
 <img src="image/device_screen.png" alt="Drawing" width="600px" />
 
 <a name="5.2"></a>
-## 5.2 顶层Package与Activity
+
+## 5.2 顶层Package与Activity
 ```python
 def test_get_top_package_activity():
     top_activity=device.get_top_package_activity()
@@ -752,7 +785,8 @@ package name = com.tencent.wetest.demo,activity = com.unity3d.player.UnityPlayer
 ```
 
 <a name="5.3"></a>
-## 5.3 回退键
+
+## 5.3 回退键
 wpyscripts不提供对标准Android控件的支持，所以当界面上出现标准控件时将无法进行操作。因此，提供了回退（Back）操作，返回到游戏Activity。
 ```python
 def test_back():
@@ -768,7 +802,8 @@ python devices_tester.py
 
 
 <a name="6"></a>
-# 6 云端报告
+
+# 6 云端报告
 *engine.get_reporter()*获取的Reporter类封装了与云端报告相关的内容，本地实现为空，只有在云端运行的时候才会有效果。游戏自动化测试过程中需要保持测试现场，所以在云端运行过程中需要标记测试过程和截图。Reporter主要负责与功能
 ```python
 import sys, os, time
@@ -850,7 +885,8 @@ def run():
 <img src="image/reporter_perform.png" alt="Drawing" width="600px" />
 
 <a name="6.1"></a>
-## 6.1 截图与操作过程标记
+
+## 6.1 截图与操作过程标记
 ```python
 def screen_shot_click(element):
     logger.debug("screen_shot_click")
@@ -868,11 +904,13 @@ def screen_shot_click(element):
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
 <a name="6.2"></a>
-## 6.2 截图
+
+## 6.2 截图
 *reporter.screenshot()*在云端会截图在报告里面体现，在本地运行时会截图并放在运行目录下的screenshot目录下面。
 
 <a name="6.3"></a>
-## 6.3 打标签
+
+## 6.3 打标签
 ```python
 reporter.add_start_scene_tag("Find_Scene")
 reporter.add_end_scene_tag("Find_Scene")
@@ -885,13 +923,15 @@ reporter.add_end_scene_tag("Find_Scene")
 
 
 <a name="7"></a>
-# 7 定制功能
+
+# 7 定制功能
 GAutomatorView不可能集成所有的功能，部分功能也不方便通过简单的触屏操作完成，或者通过触屏操作完成的复杂度极高。定制功能，可以向WeTest SDK注册委托，通过python脚本来触发委托的执行，并将结果返回给python脚本。
 该功能需要游戏开发者和游戏测试者协同完成
 1、游戏中注册，自定义函数
 2、自动化脚本，调用自定义函数
 <a name="7.1"></a>
-## 7.1 Unity游戏端注册委托
+
+## 7.1 Unity游戏端注册委托
 Unity游戏开发者需要，注册对应的函数供脚本调用，如完成英雄位移等
 ```C#
 using UnityEngine;
@@ -924,10 +964,12 @@ public class CustomTester : MonoBehaviour {
 *CustomHandler.UnRegisterCallBack("test")*:将函数从注册表中移除。
 
 <a name="7.2"></a>
-## 7.2 脚本调用
+
+## 7.2 脚本调用
 wpyscripts能够直接调用游戏中的注册函数，并获取返回值。**示例：sample/self_define_fun.py**
 <a name="7.2.1"></a>
-### 7.2.1 获取可执行委托
+
+### 7.2.1 获取可执行委托
 *engine.get_registered_handlers()*可以获取当前可以用的注册名单
 ```python
 def test_get_registered_handlers():
@@ -945,7 +987,8 @@ python self_define_fun.py
 运行后，可以获取当前，注册的函数为"test"
 
 <a name="7.2.2"></a>
-### 7.2.2 执行委托
+
+### 7.2.2 执行委托
 *engine.call_registered_handler("test", "python call test")*:可以调用SDK中注册的委托
 ```python
 def test_call_registered_handler():
@@ -963,7 +1006,8 @@ python self_define_fun.py
 
 
 <a name="7.3"></a>
-### 7.3 反射获取游戏中属性值
+
+### 7.3 反射获取游戏中属性值
 在使用自动化测试过程中，定制一些高级功能时，现有的接口获取的数据可能无法满足需求。如，希望根据英雄血量来定制策略。因此，GAutomator提供了一个高级接口，通过反射的方式获取游戏中组件里面的属性值。*get_component_field(element,component,attribute)*接口可以获取GameObject上组件对应的属性值
 ```python
 def test_get_component_field(self):
@@ -981,7 +1025,8 @@ def test_get_component_field(self):
 
 
 <a name="7.4"></a>
-### 7.4 设置最佳渲染Camera
+
+### 7.4 设置最佳渲染Camera
 Unity里面一个物体可能会被多个Camera渲染，如有一个主摄像机还会有光晕渲染等摄像机。WeTest SDK中会寻找一个最佳的Camera，但是有的时候可能找到的Camera并不准确。具体表现为，渲染的物体大小及位置不准确，可能是远大于实际的长宽。
 GAutomatorView查看物体，发现长宽高不对时。可以使用set_camera设置其他相机，然后再用GAutomatorView尝试看是否恢复正常，恢复正常了则该GameObject为最适合的摄像机。engine中*et_camera(gameobject_name)*：设置Camera所在的gameobject名称。
 ```C#
@@ -991,11 +1036,13 @@ engine.set_camera("CharModeCamera")
 设置Camera后，如果物体渲染的Camera中包含设置的Camera，则会直接采用设置的Camera。[UnityCamera资料](https://docs.unity3d.com/ScriptReference/Camera.html "UnityCamer资料")
 
 <a name="8"></a>
-# 8 实战用例
+
+# 8 实战用例
 举例最常见的，较难处理的引用场景scripts/testcase/tools.py封装了，场景的使用场景
 
 <a name="8.1"></a>
-## 8.1 摇杆
+
+## 8.1 摇杆
 MOBA游戏越来越流行，摇杆类游戏区别需要滑动和按压连续操作。Wpyscripts提供了专门针对摇杆类动作的封装*engine.swipe_and_press(start_x, start_y, end_x, end_y, steps, duration, step_sleep=5)*能够实现，对大部分摇杆的操作。实例位置sample/joystick_tester.py
 ```python
 def convert_pos(x, y):
@@ -1026,7 +1073,8 @@ python joystick_tester.py
 - `duration`，结束位置按压时间，单位是毫秒ms
 
 <a name="8.2"></a>
-## 8.2 记录操作流程
+
+## 8.2 记录操作流程
 自动化测试记录操作流程，有利于出现bug时定位和复现。所以原则上，应该记录每一步操作。tools.py里面封装了一个接口，能够在截图上标记点击的位置，然后执行点击操作，点击完成等待相应的时间。
 - screen_shot_click(element,sleeptime)接口,传入需要点击的节点和点击后等待时间。
 ```python
@@ -1061,7 +1109,8 @@ screen_shot_click(qq_button, 6)
 ```
 
 <a name="8.3"></a>
-## 8.3 QQ或微信登录
+
+## 8.3 QQ或微信登录
 QQ或者微信登录，设计到Activity的切换和Android标准控件的操作,操作过程复杂，但是相对较为固定。在云端运行时，每次拉起游戏之前，都会清理数据，所以每次都需要重新登录。每次登录的过程如下所示：
 
 <img src="image/login_step.png" alt="Drawing" width="600px" />
@@ -1089,7 +1138,8 @@ def login():
 3. 步骤3：等待进入游戏界面，直到出现某个element为止。
 
 <a name="8.4"></a>
-## 8.4 战斗场景随机操作
+
+## 8.4 战斗场景随机操作
 进入战斗场景后，我们通常可以在里面进行随机操作，直到比赛结束。scripts/testcase/tools.py里面封装了一个random_click(fun=None, forbid_elements=(),max_num=1000,sleep = 2)
 ```python
 def random_click(fun=None, forbid_elements=(),max_num=1000,sleep = 2):
@@ -1149,7 +1199,8 @@ random_click(get_condition_fun("/Root/Panel/ContinueBtn"),
 random_click()会优先点点击次数最少的按钮。
 
 <a name="8.5"></a>
-## 8.5 选区操作
+
+## 8.5 选区操作
 所有账户需要进入指定服务器，需要选区（大部分情况下，区按钮Element名称是一样的）。选区可以巧妙的利用find_elements_path()来点击指定的服务器。
 
 <img src="image/select_section.png" alt="Drawing" width="600px" />
@@ -1179,7 +1230,8 @@ def select_section():
 充分利用engine.find_elements_path()中的txt查找功能，找到指定的服务器。
 
 <a name="8.6"></a>
-## 8.6 自动化探索遍历
+
+## 8.6 自动化探索遍历
 用户除了编程实现游戏的各类操作外，还可以直接调用**wpyscripts**框架提供的方法，进行界面的自动化探索遍历测试。示例代码**sample/travel_tester.py**
 ```python
 def test_travel():
@@ -1198,7 +1250,8 @@ test_travel()
 利用这个方法，用户不用编写任何逻辑代码，**wpyscripts**框架就会探索遍历游戏的各个界面，并尽可能的点击每一个界面按钮
 
 <a name="8.7"></a>
-## 8.7 异常处理
+
+## 8.7 异常处理
 对于GAutomator的异常处理是一件非常头痛的事情，在设计框架的过程中也是左右为难，本质原因在于手机的端的不稳定性。不稳定主要包括以下几方面：
 1. adb不稳定:windows的adb及其不稳定长期连接过程中不可避免的会出现断开连接的情况。出现断开的情况在腾讯可能有应用宝tadb.exe端口抢占、IOA、QQ浏览器及其他所有手机助手。wetest平台重写了adb，并且运行在linux之上稳定性好很多。adb断开连接，不可恢复，脚本退出。
 1. 游戏不稳定:SDK部分与UI相关的内容运行在UI主线程，当游戏暂停时可能会出现timeout的情况。如，QQ登录按钮跳转到登录界面，分享按钮，游戏会退出前台主线程暂停。
@@ -1211,10 +1264,12 @@ test_travel()
 1. 对于操作可有可无的，也尽量catch。如点击操作不影响测试流程，如攻击按钮，可以选择catch
 
 <a name="9"></a>
-# 9 实际使用接口
+
+# 9 实际使用接口
 GAutomator主要的大三类接口engine,reporter，device属于颗粒度非常细的接口，尽可能的原子化，但是直接使用这部分内容进行开发的话，并不是一件容易的事情。所以，根据在实际项目中使用的经验，我们封装了一些更加方便的、易于使用、不容易出错的接口，供开发人员快速的开发出稳定有效的测试用例。
 <a name="9.1"></a>
-## 9.1 screen_shot_click 点击控件截图并记录轨迹
+
+## 9.1 screen_shot_click 点击控件截图并记录轨迹
 在使用过程中该接口基本，可以替代GameEngine.click。操作流程为截图->点击的位置标记红点->点击->sleep指定的时间，这个操作过程是比较理想的，也是一个最基本的操作。
 wetest平台截图的速度非常快，对性能影响也极低，可以对每一个操作步骤均进行截图。
 *`screen_shot_click(element, sleeptime=2, exception=False)`*
@@ -1237,7 +1292,8 @@ screen_shot_click("Attack",sleeptime=0)
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
 <a name="9.2"></a>
-## 9.2 screen_shot_click_pos 点击位置截图并记录轨迹
+
+## 9.2 screen_shot_click_pos 点击位置截图并记录轨迹
 screen_shot_click_pos与screen_shot_click的区别是，一个点击的是UI控件，一个纯粹是位置信息。操作流程两个是一致的，操作流程为截图->点击的位置标记红点->点击->sleep指定的时间。
 *`screen_shot_click_pos(pos_x,pos_y, sleeptime=2, exception=False)`*
 pos_x:x坐标位置
@@ -1246,7 +1302,8 @@ sleeptime:点击完成后sleep的时间
 exception:异常发生时，如果exception为True则抛出异常，如果exception为False则不抛出异常返回False
 
 <a name="9.3"></a>
-## 9.3 find_elment_wait查找控件直到出现位置
+
+## 9.3 find_elment_wait查找控件直到出现位置
 游戏对于操作的反应时间，在不同的手机上差别可能会非常大。开始游戏登录服务器到大厅加载完成，加载过程跟网络情况、手机性能都有关系，如果仅仅使用sleep来控制的话，时间长了可能会效率低下，时间短了可能会让测试失败。所以，我们提供了find_element_wait，方便用户更加精确的控制测试进度。如，点击开始游戏后，就一直查找大厅界面的某个UI控件，查找到了也代表大厅界面加载完成了。
 *`find_elment_wait(name, max_count=10, sleeptime=3)`*
 name:需要查找的控件名称
@@ -1267,7 +1324,8 @@ screen_shot_click(pve_btn)
 
 
 <a name="9.4"></a>
-## 9.4 wait_for_scene等待某个场景加载完毕
+
+## 9.4 wait_for_scene等待某个场景加载完毕
 开始进入对局到真正进入战斗场景，通常会有一段时间，这个时候通常可以用wait_for_scene来判断是否进入。wait_for_scene与find_elment_wait的区别是，一个等待Element出现，一个是等待Scene（Unity的Scene，通过GAutomatorView能查看）出现。
 
 example
