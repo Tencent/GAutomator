@@ -98,7 +98,7 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 
 <a name="2"></a>
 # 2 Getting Started
-可以GAutomator脚本可前往http://wetest.qq.com/cloud/index.php/phone/blrooike下载。示例：sample/sample.py,示例apk:sampel/wetest_demo.apk
+示例代码：sample/sample.py,示例apk游戏:sampel/wetest_demo.apk
 <a name="2.1"></a>
 ## 2.1 Simple Usage
 已经安装好python及依赖库后，可以使用pycharm（请下社区版，社区版免费）直接打开工程，你可以下面的代码开始我们的测试
