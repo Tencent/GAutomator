@@ -166,19 +166,26 @@ class GameEngine(object):
         if len(nodes) == 0:
             return None
         elif nodes[0] == '':
-            pathNode = {"name": "/", "index": -1, "txt": "", "img": ""}
+            pathNode = {"name": "/", "index": -1, "txt": "", "img": "", "regex": ""}
             nodeInfos.append(pathNode)
             nodes = nodes[1:]
         name_re = re.compile(r"(?P<name>[^[{]+)")
         txt_re = re.compile(r"(txt\s*=\s*(?P<txt>[^,\}]*))")
         img_re = re.compile(r"(img\s*=\s*(?P<img>[^,\}]*))")
         index_re = re.compile(r"\[(?P<index>\d+)\]")
+        regex_re = re.compile(r"\{\{(?P<regex>.+)\}\}")
         for node in nodes:
-            result = name_re.search(node)
+            result = regex_re.search(node)
             if result:
-                name = result.groupdict().get("name", "")
-            else:
+                regex = result.groupdict().get("regex", "")
                 name = ""
+            else:
+                regex = ""
+                result = name_re.search(node)
+                if result:
+                    name = result.groupdict().get("name", "")
+                else:
+                    name = ""
 
             result = txt_re.search(node)
             if result:
@@ -197,7 +204,7 @@ class GameEngine(object):
                 index = int(index)
             else:
                 index = -1
-            pathNode = {"name": name, "index": index, "txt": txt, "img": img}
+            pathNode = {"name": name, "index": index, "txt": txt, "img": img, "regex": regex}
             nodeInfos.append(pathNode)
         return nodeInfos
 
@@ -774,4 +781,48 @@ class GameEngine(object):
 
     def set_camera(self, camera):
         ret = self.socket.send_command(Commands.SET_CAMERA_NAME, [camera])
+        return ret
+
+    def get_component_methods(self, element, component):
+        """
+        通过反射获取组件的方法
+        :param element:已经找到的GameObject对象
+        :param component:组件名称
+        :return:方法的描述，包括方法名称，返回值类型，参数类型
+        :Usage:
+            >>>import wpyscripts.manager as manager
+            >>>engine=manager.get_engine()
+            >>>element = engine.find_element("Sample")
+            >>>methods = engine.get_component_methods(element, "ReflectionTest")
+        :raise WeTestInvaildArg，WeTestRuntimeError
+        """
+        if element is None or component is None:
+            raise WeTestInvaildArg("Invaild Instance")
+
+        ret = self.socket.send_command(Commands.GET_COMPONENT_METHODS,
+                                       {"instance": element.instance, "comopentName": component})
+        return ret
+
+    def call_component_method(self, element, component, method, params):
+        """
+        通过反射调用组件上的方法
+        :param element:已经找到的GameObject对象
+        :param component:组件名称
+        :param method:方法名称
+        :param params:方法参数数组
+        :return:方法的返回
+        :Usage:
+            >>>import wpyscripts.manager as manager
+            >>>engine=manager.get_engine()
+            >>>element = engine.find_element("Sample")
+            >>>params = [5, "Hello World"]
+            >>>result = engine.call_component_method(element, "ReflectionTest", "TestReflection", params)
+        :raise WeTestInvaildArg，WeTestRuntimeError
+        """
+        if element is None or component is None or method is None:
+            raise WeTestInvaildArg("Invaild Instance")
+
+        ret = self.socket.send_command(Commands.CALL_COMPONENT_MOTHOD,
+                                       {"instance": element.instance, "comopentName": component,
+                                        "methodName": method, "parameters": params})
         return ret

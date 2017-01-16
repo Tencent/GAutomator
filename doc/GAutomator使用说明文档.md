@@ -44,6 +44,8 @@
 	- [7.2 脚本调用](#7.2)
 		- [7.2.1 获取可执行委托](#7.2.1)
 		- [7.2.2 执行委托](#7.2.2)
+		- [7.2.3 获取组件上的方法](#7.2.3)
+		- [7.2.4 调用组件上的方法](#7.2.4)
 		- [7.3 反射获取游戏中属性值](#7.3)
 		- [7.4 设置最佳渲染Camera](#7.4)
 - [8 实战用例](#8)
@@ -718,7 +720,7 @@ Button : GameObject /Canvas/Dialog(Clone)/Cancel Instance = 4294957136,Bound : {
 <a name="4.6"></a>
 
 ## 4.6 获取文字内容
-SDK 9版本中，可以获取到游戏中的文字内容。NGUI能够获取到UILable、UIInput、GUIText组件上的文字内容，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Text、GUIText组件上的文字信息。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
+可以获取到游戏中的文字内容。NGUI能够获取到UILable、UIInput、GUIText组件上的文字内容，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Text、GUIText组件上的文字信息。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
 ```python
 def test_get_element_txt():
     e=engine.find_element("Click/Text")
@@ -731,7 +733,7 @@ def test_get_element_txt():
 <a name="4.7"></a>
 
 ## 4.7 获取图片名称
-SDK 9版本中，可以获取到游戏中的GameObject上面对应的图片名称。NGUI取UITexture、UISprite、SpriteRenderer组件上的图片名称，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Image、RawImage、SpriteRenderer组件上的图片名称。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
+可以获取到游戏中的GameObject上面对应的图片名称。NGUI取UITexture、UISprite、SpriteRenderer组件上的图片名称，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Image、RawImage、SpriteRenderer组件上的图片名称。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
 ```python
 def test_get_element_image():
     e = engine.find_element("Back")
@@ -748,6 +750,7 @@ def test_get_element_image():
 <a name="5.1"></a>
 
 ## 5.1 屏幕尺寸与转向
+
 ```python
 def test_get_display_size():
     display_size=device.get_display_size()
@@ -1003,6 +1006,33 @@ test_call_registered_handler()
 python self_define_fun.py
 ```
 运行"test"关键词对应的注册的委托，传入参数为"python call test"。获取委托执行后的返回值"python call test Response"
+
+<a name="7.2.3"></a>
+
+### 7.2.3 获取组件上的方法
+可以获取到游戏中的GameObject上某个Component上的public方法信息，包括方法名称，方法需要的参数和返回的类型。在wetest_demo.apk中，Sample按钮上挂载了ReflectionTest组件，可以使用下面代码返回该组件中的方法。
+```python
+def test_get_component_methods(self):
+    element = self.engine.find_element("Sample")
+    methods = self.engine.get_component_methods(element, "ReflectionTest")
+    logger.debug(methods)
+```
+上面的代码在sample/interaction.py中，运行该函数可以获得全部的public方法。
+
+<a name="7.2.4"></a>
+
+### 7.2.4 调用组件上的方法
+通过反射可以调用GameObject某个组件上的public方法，并获得返回值。调用时需要传入组件名称、方法名称和参数列表。wetest_demo.apk中调用Sample按钮ReflectionTest组件上的TestReflection方法（需要两个参数int,string,返回int值），调用代码如下：
+```python
+def test_call_component_method(self):
+    element = self.engine.find_element("Sample")
+    params = []
+    params.append(5)
+    params.append("Hello World")
+    result = self.engine.call_component_method(element, "ReflectionTest", "TestReflection", params)
+    logger.debug(result)
+```
+上面的代码在sample/interaction.py中，将调用游戏中的TestReflection方法，并返回105（方法的返回值）。
 
 
 <a name="7.3"></a>
