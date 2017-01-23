@@ -76,7 +76,7 @@ class GameEngineTest(unittest.TestCase):
         logger.info(sdk_info)
         #self.assertTrue(cmp(sdk_info.engine_version, "5.1.2f1") == 0, "engine version Error")
         self.assertTrue(cmp(sdk_info.engine, "Unity3D") == 0, "engine Error")
-        self.assertTrue(sdk_info.sdk_version == "1.2.1", "sdkversion Error")
+        self.assertTrue(sdk_info.sdk_version == "1.3.1", "sdkversion Error")
 
     def test_find_element(self):
         self._start()
@@ -315,6 +315,29 @@ class GameEngineTest(unittest.TestCase):
         #print self.engine.set_camera("CharModeCamera")
         # bounds = self.engine.get_element_bound(elements[0])
         # print(bounds)
+
+    def test_get_component_methods(self):
+        element = self.engine.find_element("Sample")
+        self._start()
+        methods = self.engine.get_component_methods(element, "ReflectionTest")
+        logger.debug(methods)
+        self._end("get_component_methods")
+
+    def test_call_component_method(self):
+        element = self.engine.find_element("Sample")
+        params = []
+        params.append(5)
+        params.append("Hello World")
+        self._start()
+        result = self.engine.call_component_method(element, "ReflectionTest", "TestReflection", params)
+        logger.debug(result)
+        self._end("call_component_method")
+
+    def test_find_elements_path2(self):
+        self._start()
+        elements = self.engine.find_elements_path("/Canvas/Panel/{{(.*(S|s).*)}}/Text")
+        logger.debug(elements)
+        self._end("find_elements_path /root")
 
 
 if __name__ == '__main__':

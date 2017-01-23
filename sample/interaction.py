@@ -74,4 +74,19 @@ def test_get_touchable_elements():
     engine.click_position(elements[0][1]["x"], elements[0][1]["y"])
 
 
+def test_get_component_methods():
+    element = engine.find_element("Sample")
+    methods = engine.get_component_methods(element, "ReflectionTest")
+    logger.debug(methods)
+
+
+def test_call_component_method():
+    element = engine.find_element("Sample")
+    params = []
+    params.append(5)
+    params.append("Hello World")
+    result = engine.call_component_method(element, "ReflectionTest", "TestReflection", params)
+    logger.debug(result)
+
+
 test_get_touchable_elements()

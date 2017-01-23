@@ -26,6 +26,8 @@ class Commands(object):
     GET_OBJECT_FIELD=112 # 通过反射获取gameobject中component的属性值
     FIND_ELEMENTS_COMPONENT=113 #获取所有包含改组件的gameobject
     SET_CAMERA_NAME=114 #设置渲染的最佳的Camera
+    GET_COMPONENT_METHODS = 115  # 反射获取组件上的方法
+    CALL_COMPONENT_MOTHOD = 116  # 通过反射调用组件的函数
 
     #######################/
     HANDLE_TOUCH_EVENTS = 200  # 发送down move up

@@ -1,5 +1,5 @@
 # GAutomator
-[![Wetest](https://img.shields.io/badge/wetest-2.2.0-brightgreen.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+[![Wetest](https://img.shields.io/badge/wetest-2.3.0-brightgreen.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomator是一个针对Unity手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以Unity中的GameObject为操作对象，通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上，基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
 
@@ -80,6 +80,8 @@ Unity引擎相关的API均放在engine.py模块中
 |[get_touchable_elements_bound](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#45-弹出框处理获取可交互节点)|获取当前游戏界面的可点击节点（能有效过滤弹出框下的按钮），NGUI源码有修改的游戏可能会无效|
 |[get_registered_handlers](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#72-脚本调用)|游戏开发人员可在WeTest SDK注册方法供脚本调用，完成复杂功能，如GM命令、人物移动等。该接口获取所有注册的方法|
 |[call_registered_handler](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#722-执行委托)|调用游戏开发人员注册的方法，如发送GM命令、人物移动到指定位置|
+|[get_component_methods](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#723-获取方法)|获取游戏组件上的public方法信息|
+|[call_component_method](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#724-执行委托)|调用游戏组件上的public方法，需要传入组件名称方法名称和参数列表|
 
 手机相关的接口均放在device.py中，主要通过uiautomator实现
 
