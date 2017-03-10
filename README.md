@@ -1,5 +1,5 @@
 # GAutomator
-[![Wetest](https://img.shields.io/badge/wetest-2.3.0-brightgreen.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+[![Wetest](https://img.shields.io/badge/wetest-2.3.1-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomator是一个针对Unity手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以Unity中的GameObject为操作对象，通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上，基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
 
@@ -89,7 +89,7 @@ Unity引擎相关的API均放在engine.py模块中
 | ------| ------ |
 |[back](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#53-回退键)|回退键|
 |[get_current_package](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#52-顶层package与activity)|获取手机当前应用的package名称|
-|[get_rotation](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#51-屏幕尺寸与转向)|获取屏幕专向|
+|[get_rotation](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#51-屏幕尺寸与转向)|获取屏幕转向|
 |[get_display_size](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#51-屏幕尺寸与转向)|获取屏幕尺寸，长宽高|
 |[login_qq_wechat_wait](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#83-qq或微信登录)|QQ或微信登录，环境变量或者main.py控制账号密码，完成登录过程|
 
