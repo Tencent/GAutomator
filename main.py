@@ -48,11 +48,11 @@ def _prepare_environ():
         """
             如果本地运行，需要设置登录的账户名和密码
         """
-        if os.environ.get("QQNAME", None) is None:
+        if os.environ.get("QQNAME", None):
             os.environ["QQNAME"] = ""
             os.environ["QQPWD"] = ""
 
-        if os.environ.get("WECHATNAME", None) is None:
+        if os.environ.get("WECHATNAME", None):
             os.environ["WECHATNAME"] = ""
             os.environ["WECHATPWD"] = ""
 

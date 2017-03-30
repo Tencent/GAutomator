@@ -234,7 +234,7 @@ class GameEngine(object):
             >>>engine=manager.get_engine()
             >>>button=engine.find_elements_path('/Canvas/Panel/Button')
             >>>button2=engine.find_elements_path('/Canvas/Panel/*[1]/Button')
-            >>>button3=engine.find_elements_path('Canvas/Button{txt="hello"}')
+            >>>button3=engine.find_elements_path('Canvas/Button{txt=hello}')
         :return:包含instance的Elements对象列表
             example:
             [{"objectName":"/Canvas/Panel/Button",
@@ -567,7 +567,7 @@ class GameEngine(object):
         :Usage:
             >>>import wpyscripts.manager as manager
             >>>engine=manager.get_engine()
-            >>>engine.swipe_position(200,300,500,600,1000)
+            >>>engine.swipe_position(200,300,500,600,duration=1000)
         :raises: WeTestRuntimeError
         """
 

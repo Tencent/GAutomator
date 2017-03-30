@@ -65,6 +65,7 @@ def screen_shot_click(element, sleeptime=2, exception=False):
     pos_y = bound.y + bound.height / 2
     try:
         report.capture_and_mark(pos_x, pos_y, locator_name=element.object_name+"_%s"%time.time())
+        #device.ui_device.click(pos_x,pos_y)
         engine.click_position(pos_x, pos_y)
         logger.debug("screen_shot_click_pos x = {0},y = {1},name = {2}".format(pos_x, pos_y, element.object_name))
     except:

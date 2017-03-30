@@ -8,9 +8,9 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
     GAutomator底层框架
 """
-version_info = (2, 2, 0)
-version = '2.2.0'
-release = '2.2.0'
+version_info = (2, 3, 1)
+version = '2.3.1'
+release = '2.3.1'
 
 __version__ = release  # PEP 396
 __author__='minhuaxu wukenaihesos@gmail.com,alexkan kanchuanqi@gmail.com,yifengcai'
