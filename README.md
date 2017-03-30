@@ -1,4 +1,119 @@
 # GAutomator
+[![Wetest](https://img.shields.io/badge/wetest-2.2.0-brightgreen.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+GAutomator(Game Automator) is an open source test automation framework for Unity game.GAutomator, designed just like android uiautomator, also include ui automator functions.GAutomator operation GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) implements UI automated testing.GameObject-based approach, there is no mobile phone resolution adaptation problem, a testing script test game on different mobiles.Another advantage based on GameObject is robust, the game's UI interface is constantly changing, GameObject changes the frequency is relatively low
+<img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/1.gif" alt="SGame" width="400px" />  <img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/2.gif" alt="Drawing" width="400px" />
+
+## 1 System Requirements
+**Windows Os and Software Requirements:**
+- Windows 7 (32/64 bit), Windows 8 or higher
+- python 2.7
+- Android SDK(or adb),Enable ADB setting on device and connect your android device using usb with your PC.
+
+
+**Linux and Software Requirements:**
+- Ubuntu 14.04 LTS
+- python 2.7
+- Android SDK(or adb),Enable ADB setting on device and connect your android device using usb with your PC.
+
+**Android**:
+Android 4.3 (API level 18) or higher.
+
+## 2 Writing Tests for GAutomator
+
+GAutomtor tested game needs to be integrated **SDK**
+,[WeTest SDK](https://github.com/Tencent/GAutomator/tree/master/bin "SDK") and [SDK integration tutorial](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E6%B5%8B%E8%AF%95%E6%B8%B8%E6%88%8F%E9%9B%86%E6%88%90WeTest%20SDK.md "SDK"). GAutomator in the Sample directory comes with a integrated WeTest SDK demo game, you can use it for automated practice.[GAutomator Documentation](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md "Document")，start your fisrt unity game automation。Just like uiautomatorviewer,GAutomatorViewer can help you inspect the UI of an application in order to find the layout hierarchy, and view the properties associated with the controls.[GAutomatorView](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip),While designing your UI automation suite, this tool is very helpful as it exposes the GameObject name and other attributes of an GameObject, which is needed for writing scripts.，[GAutomatorView Documentation](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomatorView%E6%B8%B8%E6%88%8F%E6%8E%A7%E4%BB%B6%E6%9F%A5%E7%9C%8B%E5%99%A8.md "GAutomatorView")。
+<img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/GAutomatorViewer_des.jpg" alt="Drawing" width="800px" />
+
+Strongly recommended[pycharm](https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=windows&code=PCC,"pycharm")as python IDE.
+```python
+
+import wpyscripts.manager as manager
+from testcase.tools import *
+
+def test():
+    engine=manager.get_engine()
+    logger=manager.get_logger()
+
+    version=engine.get_sdk_version()
+    logger.debug("Version Information : {0}".format(version))
+
+    scene=engine.get_scene()
+    logger.debug("Scene :   {0}".format(scene))
+
+    sample_button=engine.find_element("/Canvas/Panel/Sample")
+    logger.debug("Button : {0}".format(sample_button))
+	#engine.click(sample_button)
+    screen_shot_click(sample_button)
+
+test()
+
+```
+- step 1:Save the code as sample.py, in the location with the main.py sibling directory, so that you can find the relevant library of GAutomator;
+- step 2:Launch wetest demo game,and then run this test script;
+- step 3:The automation click the sample button,then you will see a ballon. 
+
+## 3 GAutomator Framework
+### GAutomator Design
+The current GAutomator version can only support Unity. GAutomator is no across test automation,so tested game needs to integrate sdk.The integrated SDK will start with the game,and open a socket listener. GAutomator Client use adb connect from your Android device to your host computer(->can use adb to build/estabilish a connection between your Android device and your host computer),then GAutomator can send requests to the SDK via socket, including querying the GameObject, getting UI location information, performing click actions, and so on. (+Through)Automated testing process, but(->you/user) also need to operate Android UI elements, such as QQ login and so on.GAutomator use[xiaocong uiautomator](https://github.com/xiaocong/uiautomator).
+<img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/Ga_framework.jpg" alt="Drawing" width="600px" />
+
+### GAutomator Project Structure
+Strictly speaking, GAutomator is not a library, but a python project. GAutomator does not use setup.py installation. Mainly in the company network environment, the installation of Python library may not be an easy thing(-> It is because in company network environment, installing python libraries are always not easy). We would like to provide a way to write script can run any computer which have python environment, eliminating the trouble of packaging and installation of the library. (-> So we would like to provide a way -- writting script rathering than packaging and intalling library, then it can be easily run on any computer with python environment)
+<img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/Ga_struct.jpg" alt="Drawing" width="800px" />
+
+### GAutomator API
+The Unity engine-related APIs are placed in the engine.py module
+
+
+| Engine API | Description |
+| ------| ------ |
+| [find_element](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#31-find_element) | Finds a GameObject by name and returns it. |
+| [find_elements_path](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#32-find_elements_path) |According to the picture name, text content, sub-node order to find GameObject instance collection|
+|[find_elements_by_component](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#33-component名称查找)|Returns a list of active GameObjects by component|
+|[get_element_bound](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#341-节点在屏幕上的位置)|Return the bounding volume of the GameObject|
+|[get_element_text](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#46-获取文字内容)|Return the string value GameObject display|
+|[get_element_image](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#47-获取图片名称)|Return the sprite name that is used to render|
+|get_scene|Gets the currently active scene[Scene](https://docs.unity3d.com/Manual/CreatingScenes.html)|
+|[get_element_world_bound](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#342-世界坐标获取)|Get 3D objects in the game world coordinates in the location and volume, writing 3D game test cases are often used|
+|[click_position](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#41-点击操作)|Perform a click at arbitrary coordinates specified by the user|
+|[click](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#41-点击操作)|Performs a click at the center of the visible bounds of the UI Node represented by this GameObject.|
+|[press_position](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#42-long-press长按)|Perform a long click at arbitrary coordinates specified by the user|
+|[press](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#42-long-press长按)|Performs a long click at the center of the visible bounds of the UI Node represented by this GameObject.|
+|[swipe_position](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#43-swipe滑动)|Performs a swipe from one coordinate to another using the number of steps to determine smoothness and speed.|
+|[swipe](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#43-swipe滑动)|Performs the swipe action from one GameObject to another|
+|[swipe_and_press](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#43-swipe滑动)|Simulates joystick|
+|[input](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#44-input输入)|Sets the text in an editable field(NGUI or UGUI), after clearing the field's content.|
+|[get_touchable_elements_bound](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#45-弹出框处理获取可交互节点)|Get the list of touchable buttons|
+|[get_registered_handlers](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#72-脚本调用)|Return list of the functions register on the sdk|
+|[call_registered_handler](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#722-执行委托)|Call the function registered on the sdk,such as call GM commands|
+|[get_component_methods](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#723-获取方法)|Get the method name in the component |
+|[call_component_method](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#724-执行委托)|Call the method in the component|
+
+Mobile API in device.py, use uiautomator
+
+| Device API | Description |
+| ------| ------ |
+|[back](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#53-回退键)|Simulates a short press on the BACK button.|
+|[get_current_package](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#52-顶层package与activity)|Retrieves the name of the last package to report accessibility events.|
+|[get_rotation](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#51-屏幕尺寸与转向)|Returns the current rotation of the display, as defined in Surface|
+|[get_display_size](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#51-屏幕尺寸与转向)|Gets the display size, in pixels.|
+|[login_qq_wechat_wait](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#83-qq或微信登录)|Login QQ or wechat|
+
+Report API in report.py
+
+| Reporter API | Description |
+| ------| ------ |
+|[add_start_scene_tag\add_end_scene_tag](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#63-打标签)|Performance data tag (only support wetest cloud report)|
+|[screenshot](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#62-截图)|Take a screenshot of current window and store it as jpg, display in the report|
+|[capture_and_mark](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#61-截图与操作过程标记)|Take a screenshot of current window,mark a red dot on the click position and store it as jpg, display in the report|
+
+## 4 Contact
+For more information about contributing issues or pull requests, [Issues](https://github.com/Tencent/GAutomator/issues)，your can also contact（QQ:800024531）
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+# GAutomator
 [![Wetest](https://img.shields.io/badge/wetest-2.3.1-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomator是一个针对Unity手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以Unity中的GameObject为操作对象，通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上，基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
