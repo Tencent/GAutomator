@@ -31,6 +31,7 @@ class DeviceTest(unittest.TestCase):
         if top_activity:
             logger.debug(top_activity)
 
+
     # def test_back(self):
     #     self.device.back()
 

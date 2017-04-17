@@ -18,6 +18,7 @@ import time
 import traceback
 import logging
 import os
+import inspect
 
 from wpyscripts.common.adb_process import excute_adb
 from wpyscripts.common.wetest_exceptions import *
@@ -28,8 +29,12 @@ logger = logging.getLogger("wetest")
 
 
 class Reporter(object):
+
+    separator1 = '=' * 70
+    separator2 = '-' * 70
+
     def __init__(self):
-        pass
+        self.errs=[]
 
     def add_start_scene_tag(self, scene):
         """
@@ -67,14 +72,60 @@ class Reporter(object):
         """
         logger.warn("capture_and_mark unimplement,implemented in cloud mode")
 
-    def _report_error(self, message):
+    def _report_total(self):
+        if not self.errs:
+            return
+
+        result_dir=os.environ.get("UPLOADDIR",".")
+        try:
+            with open(os.path.abspath(os.path.join(result_dir, "_wetest_testcase_result.txt")), 'w') as f:
+                for testcase_name,message in self.errs:
+                    if message:
+                        result=u"{0} ... ERROR\n".format(testcase_name)
+                    else:
+                        result=u"{0} ... ok\n".format(testcase_name)
+                    f.write(result.encode("utf-8"))
+                for testcase_name,message in self.errs:
+                    if message:
+                        result=u"{0}\nERROR: {1}\n{2}\n{3}\n\n".format(self.separator1,testcase_name,self.separator2,message)
+                        f.write(result.encode("utf-8"))
+        except Exception as e:
+            stack=traceback.format_exc()
+            logger.error(stack)
+
+    def report(self,result,test_case_name, message=""):
         """
-            记录错误内容，改函数无论是否出错均不会抛出异常。
-        :param message:记录的错误信息
+            错误信息判断报告。调用的过程中，会在日志中输出。脚本运行结束时，runner.run中，会调用
+            _report_total(),将所有的判断结果输出到_wetest_testcase_result.txt中。如果result为false，断言错误时，除了输出message和test_case_name之外
+            GAutomator还会加上调用堆栈
+
+            注：test_case_name与message的编码方式应该一致，都是ascii或者utf-8.如果包含中文需要用UTF-8编码
+        :param result:报告的内容是否有误,True,False
+        :param test_case_name:报告错误的名称（尽可能简短）
+        :param message:具体的信息。
+
+        :Usage:
+            >>>import wpyscripts.manager as manager
+            >>>report.report_error(True,"testName","test first content")
+
+            >>>report.report_error("a"=="b",u"test中文",u"测试中文内容")
         :return:
         """
-        _message = "report error message = {0}".format(message)
-        logger.warn(_message)
+        curframe=inspect.currentframe()
+        calframe=inspect.getouterframes(curframe,2)
+        test_case_name=u"{0} ({1})".format(test_case_name,calframe[1][3])
+        if not result:
+            stack="".join(traceback.format_stack())
+            stack=unicode(stack,"utf-8")
+            _message=u"{0}{1}\n".format(stack,message)
+            message_log=u"\n{0}\nERROR: {1}\n{2}\n{3}".format(self.separator1,test_case_name,self.separator2,_message)
+        else:
+            _message=None
+            message_log=u"\n{0} ... ok".format(test_case_name)
+
+        self.errs.append((test_case_name,_message))
+        logger.warn(message_log)
+
 
 
 class CloudReporter(Reporter):
@@ -175,38 +226,6 @@ class CloudReporter(Reporter):
             stack = traceback.format_exc()
             logger.error(stack)
 
-    def report_error(self, message):
-        """
-            自定义错误上报，比如说登陆失败之类的
-        :param message: 错误描述，尽可能英文
-        :return:
-        """
-        try:
-            logger.debug("Report Message:" + message)
-            self.platform_client.report_error(message)
-            return True
-        except:
-            stack = traceback.format_exc()
-            logger.error(stack)
-
-# class NativeReporter(Reporter):
-#     def __init__(self):
-#         pass
-# 
-#     def screenshot(self, name=None):
-#         """
-#         截图
-#         :return:
-#         """
-#         logger.debug("unimplement in native")
-#         return
-#         if name is None:
-#             excute_adb("shell /system/bin/screencap -p /sdcard/screenshot.png")
-#             image_name = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
-#             excute_adb("pull /sdcard/screenshot.png screenshot/{0}.png".format(image_name))
-#             return image_name
-
-
 
 class NativeReporter(Reporter):
     def __init__(self):
@@ -230,7 +249,7 @@ class NativeReporter(Reporter):
     def capture_and_mark(self, x, y, locator_name="point"):
         locator_name = locator_name if locator_name else "point"
         locator_name = self._escape_path(locator_name)
-        
+
         cap = "adb shell /system/bin/screencap -p /data/local/tmp/{0}.png".format(locator_name)
         pull = "adb pull /data/local/tmp/{0}.png {1}/{0}.png".format(locator_name,self.targetpath)
         clear = "adb shell rm /data/local/tmp/{0}.png".format(locator_name)
@@ -239,10 +258,10 @@ class NativeReporter(Reporter):
         os.system(clear)
         logger.debug('capture screen and save to file:{0}'.format(locator_name))
         return locator_name
-    
+
     def _escape_path(self, pathstr):
         pathstr = pathstr.lstrip("/\\")     # remove leading / and \
         pathstr = pathstr.replace("/", "_")
         pathstr = pathstr.replace("\\", "_")
-        
+
         return pathstr

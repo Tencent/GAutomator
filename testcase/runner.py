@@ -52,6 +52,6 @@ def run():
         traceback.print_exc()
         stack = traceback.format_exc()
         logger.error(stack)
-        report.report_error("script_error")
+        report._report_total()
     finally:
         report.screenshot()

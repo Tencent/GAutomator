@@ -31,3 +31,8 @@ class ReportTest(unittest.TestCase):
     def test_screen_shot(self):
         logger.debug("test_screen_shot")
         self.report.screenshot()
+
+    def test_report_error(self):
+        self.report.report("a"=="b",u"测试",u"adfa")
+        self.report.report("a"=="a",u"测试2",u"adfas 测试3")
+        self.report._report_total()

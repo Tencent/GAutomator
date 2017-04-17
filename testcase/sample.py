@@ -186,10 +186,10 @@ def main():
     # report.screenshot()
     # start()
     # test_find_elements()
-
+    report.report(True,"testfirst","test first content")
     test_interaction()
-    report.report(True,u"report_test",u"Report test error 中文")
-    test_joysctick_perform()
+    report.report(False,u"中文",u"Report test error 中文")
+    #test_joysctick_perform()
 
 
 if __name__ == '__main__':

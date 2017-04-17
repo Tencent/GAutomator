@@ -71,7 +71,7 @@
 <a name="1.1"></a>
 
 ## 1.1 介绍
-通过Python实现Unity手游的UI自动化测试。GAutomator测试运行在手机端，通过adb操控手机上的unity手游，支持所有版本的Android手机。这个工具的主要功能包括：测试与Android手机之间的兼容性--测试手游在不同Android手机上的工作情况。功能性测试，PVP游戏可以自动化测试代替人力节省操作，PVE游戏可以自动大关完成冒烟测试。性能测试，云端测试能够手机CPU、内存、流量和FPS数据，能够标记不同的场景。
+通过Python实现Unity手游的UI自动化测试。GAutomator测试运行在PC端，通过adb操控手机上的unity手游，支持所有版本的Android手机。这个工具的主要功能包括：Android兼容性测试--测试手游在不同Android手机上的工作情况。功能性测试，PVP游戏可以自动化测试代替人力节省操作，PVE游戏可以自动大关完成冒烟测试。性能测试，云端测试能够手机CPU、内存、流量和FPS数据，能够标记不同的场景。
 
 <a name="1.2"></a>
 
@@ -85,7 +85,7 @@
 <a name="1.3"></a>
 
 ## 1.3 使用脚本
-如果使用pycharm的话，直接打开scripts功能即可进行编辑使用
+推荐使用pycharm作为脚本编辑的IDE，可将GAutomator视为一个工程直接打开
 
 <img src="image/pycharm_step1.png" alt="Drawing" width="300px" />
 <img src="image/pycharm_step2.png" alt="Drawing" width="300px" />
@@ -105,7 +105,7 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 
 <a name="2"></a>
 # 2 Getting Started
-示例代码：sample/sample.py,示例apk游戏:sampel/wetest_demo.apk
+示例代码：sample/sample.py,示例apk游戏:sample/wetest_demo.apk
 
 <a name="2.1"></a>
 
@@ -141,7 +141,7 @@ test()
 ```bat
 python samle.py
 ```
-请确保，wetestdemo游戏已经拉起，wpyscripts库能够查找到
+注意：运行脚本之前，请确保wetest_demo游戏已经拉起，手机已经连上电脑并且打开开发者选项
 	
 <a name="2.2"></a>
 
@@ -456,7 +456,7 @@ img代表的是图片名称，Unity游戏中哪些组件符合这边的名称呢
 
 <a name="3.2.3"></a>
 
-### 3.2.3 节点中的文字查找
+### 3.2.4 节点中的文字查找
 *find_elements_path*能够根据节点及子节点中文字内容进行查找。表达式为{txt=txtName}，txtName为文字内容
 ```python
 def test_find_elements_by_txt():
@@ -491,6 +491,32 @@ Button : GameObject /Canvas/Panel/VerticalPanel/Item(Clone) Instance = -11832,Bo
 txt代表的是文字内容，寻找匹配时，会从以下节点查找问题内容
 - UGUI，wetest sdk会搜索组件Text、GUIText中的内容
 - NGUI，wetest sdk会搜索组件UILabel、UIInput和GUIText中的内容
+
+### 3.2.5 正则表达式查找
+*find_elements_path*能够根据节点路径的正则表达式进行查找。表达式为{{regex}}，regex为element的name正则表达式内容。现在正则表达式只能限制在单个element的name上，如果想查找跨多层的element，需要多个正则表达式进行组合，如下：
+```python
+def test_find_elements_by_regex():
+    elements = self.engine.find_elements_path("/Canvas/Panel/{{Click|Slider}}/{{Text|Background}}")
+    for element in elements:
+        bound=engine.get_element_bound(element)
+        logger.debug("Element : {0},Bound : {1}".format(element,bound))
+
+test_find_elements_by_regex()
+```
+上面的代码可以保存为find_elments.py,从wetestdemo点击Interaction，然后运行
+
+```bat
+python find_elments.py
+```
+
+<img src="image/regex_target.png" alt="Drawing" width="600px" />
+<img src="image/find_elements_by_regex.png" alt="Drawing" width="450px" />
+
+运行结果如下，*/Canvas/Panel/Click/Text*和*/Canvas/Panel/Slider/Background*均能找到指定的节点
+```xml
+Element : GameObject /Canvas/Panel/Click/Text Instance = 10616,Bound : point(535.0,60.0) width = 250.0 height = 80.0
+Element : GameObject /Canvas/Panel/Slider/Background Instance = 10618,Bound : point(560.0,243.0) width = 800.0 height = 40.0
+```
 
 <a name="3.3"></a>
 
@@ -923,6 +949,16 @@ reporter.add_end_scene_tag("Find_Scene")
 <img src="image/tag.png" alt="Drawing" width="600px" />
 
 **注：配合engine.get_scene()效果更佳**
+
+## 6.4 报告错误
+GAutomator并不是使用常见的，unittest作为测试的底层框架，因此并无断言，无法做功能测试。report接口，可用于错误报告，并且在运行目录下生成一份_wetest_testcase_result.txt用户记录报告的内容。该文件的报告格式与unittest的测试报告格式一致，因此在云端测试时可现实具体的信息。
+
+```python
+report.report("a"=="A","testcase","content")
+report.report(False,u"report_test",u"Report test error 中文")
+```
+
+*reporter.report(result,name,message)*接口调用的过程中，会在日志中输出。脚本运行结束时，runner.run中，会调用_report_total(),将所有的判断结果输出到_wetest_testcase_result.txt中。Result如果为False的情况，除了输出message和test_case_name之外GAutomator还会加上调用堆栈。name的名称尽可能不重复。name与message传入的编码方式需要一致，如果存在中文的情况下必须要使用UTF-8编码格式。
 
 
 <a name="7"></a>
