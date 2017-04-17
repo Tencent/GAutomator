@@ -530,6 +530,7 @@ vertical-align:1px;
 <li><a href="#6.1">6.1 截图与操作过程标记</a></li>
 <li><a href="#6.2">6.2 截图</a></li>
 <li><a href="#6.3">6.3 打标签</a></li>
+<li><a href="#6.4">6.4 报告错误</a></li>
 </ul>
 </li>
 <li><a href="#7">7 定制功能</a>
@@ -1223,6 +1224,7 @@ reporter.add_end_scene_tag(<span class="pl-s"><span class="pl-pds">"</span>Find_
 <p>*reporter.add_start_scene_tag("")和reporter.add_end_scene_tag("")*一定是成对出现的，先start然后end，里面的标签内容需要一样。</p>
 <p><a href="image/tag.png" target="_blank"><img src="image/tag.png" alt="Drawing" width="600px" style="max-width:100%;"></a></p>
 <p><strong>注：配合engine.get_scene()效果更佳</strong></p>
+<p><a name="6.4"></a></p>
 <h2>6.4 报告错误</h2>
 <p>GAutomator并不是使用常见的，unittest作为测试的底层框架，因此并无断言，无法做功能测试。report接口，可用于错误报告，并且在运行目录下生成一份_wetest_testcase_result.txt用户记录报告的内容。该文件的报告格式与unittest的测试报告格式一致，因此在云端测试时可现实具体的信息。</p>
 <div class="highlight highlight-source-python"><pre>report.report(<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span><span class="pl-k">==</span><span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>testcase<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>)
