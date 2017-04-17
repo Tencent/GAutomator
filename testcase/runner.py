@@ -52,6 +52,7 @@ def run():
         traceback.print_exc()
         stack = traceback.format_exc()
         logger.error(stack)
-        report._report_total()
+        report.report(False,"Game Test",e.message)
     finally:
+        report._report_total()
         report.screenshot()
