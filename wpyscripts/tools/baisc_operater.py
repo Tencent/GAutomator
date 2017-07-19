@@ -412,7 +412,7 @@ def swipe_and_press_relative(start_x, start_y, end_x, end_y, steps, duration, di
     end_x *= width
     end_y *= height
 
-    logger.debug("Start ({0},{1}) End ({2},{3}) duration".format(start_x, start_y, end_x, end_y, duration))
+    logger.debug("Start ({0},{1}) End ({2},{3}) duration {4}".format(start_x, start_y, end_x, end_y, duration))
     engine.swipe_and_press(start_x, start_y, end_x, end_y, steps, duration)
 
 

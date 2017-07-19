@@ -106,9 +106,9 @@ class Reporter(object):
 
         :Usage:
             >>>import wpyscripts.manager as manager
-            >>>report.report_error(True,"testName","test first content")
+            >>>report.report(True,"testName","test first content")
 
-            >>>report.report_error("a"=="b",u"test中文",u"测试中文内容")
+            >>>report.report("a"=="b",u"test中文",u"测试中文内容")
         :return:
         """
         curframe=inspect.currentframe()
