@@ -1,5 +1,5 @@
 # GAutomator
-[![Wetest](https://img.shields.io/badge/wetest-2.3.1-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+[![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomator(Game Automator) is an open source test automation framework for Unity game.GAutomator, designed just like android uiautomator, also include ui automator functions.GAutomator operation GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) implements UI automated testing. GameObject-based approach has no mobile phone resolution adaptation problems, a testing script test game can be executed on different mobiles. Robust is another advantage of GameObject, since the game's UI interface is constantly changing, GameObject changes the frequency is relatively low
 
@@ -111,7 +111,7 @@ Report API in report.py
 |[add_start_scene_tag\add_end_scene_tag](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#63-打标签)|Performance data tag (only support wetest cloud report)|
 |[screenshot](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#62-截图)|Take a screenshot of current window and store it as jpg, display in the report|
 |[capture_and_mark](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#61-截图与操作过程标记)|Take a screenshot of current window,mark a red dot on the click position and store it as jpg, display in the report|
-|[report]|Report information,just like assert|
+|[report]()|Report information,just like assert|
 
 ## 4 Contact
 For more information about contributing issues or pull requests, [Issues](https://github.com/Tencent/GAutomator/issues)，your can also contact（QQ:800024531）
@@ -221,7 +221,7 @@ Unity引擎相关的API均放在engine.py模块中
 |[add_start_scene_tag\add_end_scene_tag](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#63-打标签)|性能数据标签（仅支持wetest云端报告）|
 |[screenshot](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#62-截图)|截图，保存在screenshot目录中，云端显示在报告中|
 |[capture_and_mark](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#61-截图与操作过程标记)|截图并标记红点，主要可用于跟踪测试过程|
-|[report]|断言，模拟单元测试的Assert|
+|[report]()|断言，模拟单元测试的Assert|
 
 ## 四 联系
 bug、需求使用过程中的疑问均可直接发布在[Issues](https://github.com/Tencent/GAutomator/issues)，有专人负责回答。也可直接联系wetest助手（800024531）
