@@ -342,7 +342,7 @@ def random_click(fun=None, forbid_elements=(), max_num=1000, sleep=2):
         e, pos = find_less_click_element(elements)
         if pos is None:
             continue
-        screen_shot_click_pos(pos["x"], pos["y"], e.object_name)
+        screen_shot_click_pos(pos["x"], pos["y"])
         time.sleep(sleep)
         elements = engine.get_touchable_elements(["LuaButton, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"])
 
@@ -363,7 +363,7 @@ def get_random_click(fun=None, forbid_elements=(), max_num=1000, sleep=2):
             e, pos = find_less_click_element(elements)
             if pos is None:
                 continue
-            screen_shot_click_pos(pos["x"], pos["y"], e.object_name)
+            screen_shot_click_pos(pos["x"], pos["y"])
             time.sleep(sleep)
             elements = engine.get_touchable_elements()
 
