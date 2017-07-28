@@ -76,7 +76,7 @@ class GameEngineTest(unittest.TestCase):
         logger.info(sdk_info)
         #self.assertTrue(cmp(sdk_info.engine_version, "5.1.2f1") == 0, "engine version Error")
         self.assertTrue(cmp(sdk_info.engine, "Unity3D") == 0, "engine Error")
-        self.assertTrue(sdk_info.sdk_version == "1.3.1", "sdkversion Error")
+        self.assertTrue(sdk_info.sdk_version == "1.4.0", "sdkversion Error")
 
     def test_find_element(self):
         self._start()
@@ -245,7 +245,7 @@ class GameEngineTest(unittest.TestCase):
         self._start()
         result = self.engine.get_registered_handlers()
         self._end("get_registered_handlers")
-        self.assertEqual(["test"], result)
+        self.assertTrue("test" in result)
 
     def test_call_registered_handler(self):
         self._start()
@@ -319,7 +319,7 @@ class GameEngineTest(unittest.TestCase):
     def test_get_component_methods(self):
         element = self.engine.find_element("Sample")
         self._start()
-        methods = self.engine.get_component_methods(element, "ReflectionTest")
+        methods = self.engine.get_component_methods(element, "Button")
         logger.debug(methods)
         self._end("get_component_methods")
 
@@ -338,6 +338,26 @@ class GameEngineTest(unittest.TestCase):
         elements = self.engine.find_elements_path("/Canvas/Panel/{{(.*(S|s).*)}}/Text")
         logger.debug(elements)
         self._end("find_elements_path /root")
+
+    def test_find_elements_path3(self):
+        self._start()
+        elements = self.engine.find_elements_path("/Canvas/Panel/{{Click|Slider}}/{{Text|Background}}")
+        for element in elements:
+            bound = self.engine.get_element_bound(element)
+            logger.debug("Element : {0},Bound : {1}".format(element, bound))
+        self._end("find_elements_path /root")
+    @scene_enter("Joystick")
+    def test_game_script_init(self):
+        file_path = os.path.split(os.path.realpath(__file__))[0]
+        path=os.path.join(file_path,"gametestlib.dll")
+        result=self.engine.game_script_init(path)
+        logger.debug("init result : ".format(result))
+
+        result=self.engine.get_registered_handlers()
+        logger.debug("registered functions : {0}".format(result))
+
+        result=self.engine.call_registered_handler("showColider","")
+
 
 
 if __name__ == '__main__':

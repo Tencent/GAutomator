@@ -137,9 +137,12 @@ def _login_wx():
             x = width / 2
             if uiauto(text=u'微信登录').exists:
                 for y in range(height * 4 / 5, height * 1 / 5, -1 * height / 50):
-                    uiauto.wait.idle()
-                    uiauto.click(x, y)
-                    logger.info(str(x) + ", " + str(y))
+                    if uiauto(text=u'微信登录').exists:
+                        uiauto.wait.idle()
+                        uiauto.click(x, y)
+                        logger.info(str(x) + ", " + str(y))
+                    else:
+                        break
         elif uiauto(text=u'微信登录', className=u'android.widget.TextView').exists \
                 and 1 == uiauto(className=u'android.widget.Button').count \
                 and 1 == uiauto(className=u'android.widget.Image').count \
@@ -221,4 +224,4 @@ def login_tencent(account, pwd, timeout=60):
 
 if __name__ == "__main__":
     #print get_login()
-    login_tencent("2952020383", "wetesth")
+    login_tencent("2952020383", "iseven")

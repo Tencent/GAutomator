@@ -99,3 +99,10 @@ V 2.4.0 版本
 2、report接口增加report_error接口，用户用能测试的断言。在本地运行会在运行目录下生成_wetest_testcase_result.txt的统计信息
 
 
+V 2.5.0 版本
+=====================
+1、非激活的gameobject，返回get_element_bound返回的visible为false
+2、修复部分boxcolidr，返回长宽有误的bug
+3、新增第三方C#脚本调用，可动态获取与调用游戏内接口
+
+

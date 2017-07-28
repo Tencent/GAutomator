@@ -28,6 +28,7 @@ class Commands(object):
     SET_CAMERA_NAME=114 #设置渲染的最佳的Camera
     GET_COMPONENT_METHODS = 115  # 反射获取组件上的方法
     CALL_COMPONENT_MOTHOD = 116  # 通过反射调用组件的函数
+    LOAD_TEST_LIB=117 #初始化testlib服务
 
     #######################/
     HANDLE_TOUCH_EVENTS = 200  # 发送down move up

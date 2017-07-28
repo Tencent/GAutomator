@@ -12,6 +12,7 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com, alexkan kanchuanqi@gmail.com'
 
 import re
 import logging
+from wpyscripts.common.adb_process import AdbTool
 from wpyscripts.wetest.element import Element
 from wpyscripts.common.protocol import Commands, TouchEvent
 from wpyscripts.common.socket_client import SocketClient
@@ -300,7 +301,7 @@ class GameEngine(object):
             if not result["existed"]:
                 return None
             else:
-                return ElementBound(result["x"], result["y"], result["width"], result["height"],result["visible"])
+                return ElementBound(result["x"], result["y"], result["width"], result["height"], result["visible"])
         return None
 
     def get_element_text(self, element):
@@ -362,7 +363,7 @@ class GameEngine(object):
         :return: []注册的自定义函数名称序列
         :raise WeTestInvaildArg,WeTestRuntimeError
         """
-        ret = self.socket.send_command(Commands.GET_REGISTERED_HANDLERS);
+        ret = self.socket.send_command(Commands.GET_REGISTERED_HANDLERS)
         return ret
 
     def call_registered_handler(self, name, args):
@@ -430,13 +431,13 @@ class GameEngine(object):
             elements.append((element, bound))
         return ret["scenename"], elements
 
-    def _inject_touch_actions(self, actions,timeout=20):
+    def _inject_touch_actions(self, actions, timeout=20):
         """
             发送touch序列号，touch事件结束之后，才会返回。同步函数
         :param actions:
         :return:
         """
-        ret = self.socket.send_command(Commands.HANDLE_TOUCH_EVENTS, actions,timeout)
+        ret = self.socket.send_command(Commands.HANDLE_TOUCH_EVENTS, actions, timeout)
         return ret
 
     def click(self, locator):
@@ -691,7 +692,7 @@ class GameEngine(object):
 
         actions.append({"x": int(end_x), "y": int(end_y), "sleeptime": 0, "type": TouchEvent.ACTION_UP})
 
-        self._inject_touch_actions(actions,timeout=60)
+        self._inject_touch_actions(actions, timeout=60)
         return True
 
     def input(self, locator, text):
@@ -712,7 +713,7 @@ class GameEngine(object):
             result = self.socket.send_command(Commands.SET_INPUT_TEXT, {"instance": locator.instance, "content": text})
             return result
         else:
-            reason = "Input locator = {0},text = {1},vaild argument is Element or ElementBound".format(locator,text)
+            reason = "Input locator = {0},text = {1},vaild argument is Element or ElementBound".format(locator, text)
             raise WeTestInvaildArg(reason)
 
     def get_element_world_bound(self, elements):
@@ -825,4 +826,18 @@ class GameEngine(object):
         ret = self.socket.send_command(Commands.CALL_COMPONENT_MOTHOD,
                                        {"instance": element.instance, "comopentName": component,
                                         "methodName": method, "parameters": params})
+        return ret
+
+    def game_script_init(self, path):
+        """
+            将gametestlib.dll push到手机上的/data/local/tmp目录下
+            然后调用gametestlib.dll中的GameTest.Test.init()方法
+        :param path: gametestlib.dll， inject c# script
+        :return:
+        """
+        logger.debug("push c# test script : {0}".format(path))
+        result = AdbTool().cmd_wait("push", path, "/data/local/tmp/gametestlib.dll")
+        logger.debug("push result : {0}".format(result))
+
+        ret = self.socket.send_command(Commands.LOAD_TEST_LIB)
         return ret

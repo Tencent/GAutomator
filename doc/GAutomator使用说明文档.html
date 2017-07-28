@@ -530,7 +530,6 @@ vertical-align:1px;
 <li><a href="#6.1">6.1 截图与操作过程标记</a></li>
 <li><a href="#6.2">6.2 截图</a></li>
 <li><a href="#6.3">6.3 打标签</a></li>
-<li><a href="#6.4">6.4 报告错误</a></li>
 </ul>
 </li>
 <li><a href="#7">7 定制功能</a>
@@ -542,10 +541,11 @@ vertical-align:1px;
 <li><a href="#7.2.2">7.2.2 执行委托</a></li>
 <li><a href="#7.2.3">7.2.3 获取组件上的方法</a></li>
 <li><a href="#7.2.4">7.2.4 调用组件上的方法</a></li>
-<li><a href="#7.3">7.3 反射获取游戏中属性值</a></li>
-<li><a href="#7.4">7.4 设置最佳渲染Camera</a></li>
 </ul>
 </li>
+<li><a href="#7.3">7.3 反射获取游戏中属性值</a></li>
+<li><a href="#7.4">7.4 设置最佳渲染Camera</a></li>
+<li><a href="#7.5">7.5 调用第三方C#脚本</a></li>
 </ul>
 </li>
 <li><a href="#8">8 实战用例</a>
@@ -573,7 +573,7 @@ vertical-align:1px;
 <h1>1 准备工作</h1>
 <p><a name="1.1"></a></p>
 <h2>1.1 介绍</h2>
-<p>通过Python实现Unity手游的UI自动化测试。GAutomator测试运行在PC端，通过adb操控手机上的unity手游，支持所有版本的Android手机。这个工具的主要功能包括：Android兼容性测试--测试手游在不同Android手机上的工作情况。功能性测试，PVP游戏可以自动化测试代替人力节省操作，PVE游戏可以自动大关完成冒烟测试。性能测试，云端测试能够手机CPU、内存、流量和FPS数据，能够标记不同的场景。</p>
+<p>通过Python实现Unity手游的UI自动化测试。GAutomator测试运行在手机端，通过adb操控手机上的unity手游，支持所有版本的Android手机。这个工具的主要功能包括：测试与Android手机之间的兼容性--测试手游在不同Android手机上的工作情况。功能性测试，PVP游戏可以自动化测试代替人力节省操作，PVE游戏可以自动大关完成冒烟测试。性能测试，云端测试能够手机CPU、内存、流量和FPS数据，能够标记不同的场景。</p>
 <p><a name="1.2"></a></p>
 <h2>1.2 环境</h2>
 <p><strong>1 python</strong>: python 2.7</p>
@@ -582,7 +582,7 @@ vertical-align:1px;
 在cmd命令行里面输入adb devices，能够看到你的手机序列号</p>
 <p><a name="1.3"></a></p>
 <h2>1.3 使用脚本</h2>
-<p>推荐使用pycharm作为脚本编辑的IDE，可将GAutomator视为一个工程直接打开</p>
+<p>如果使用pycharm的话，直接打开scripts功能即可进行编辑使用</p>
 <p><a href="image/pycharm_step1.png" target="_blank"><img src="image/pycharm_step1.png" alt="Drawing" width="300px" style="max-width:100%;"></a></p>
 <p><a href="image/pycharm_step2.png" target="_blank"><img src="image/pycharm_step2.png" alt="Drawing" width="300px" style="max-width:100%;"></a></p>
 <p>可以在testcase目录下面直接创建你需要的.py脚本，然后编写需要的逻辑</p>
@@ -594,7 +594,7 @@ vertical-align:1px;
 <p>集成wetest sdk的游戏拉起后，点击同步按钮，就能获取到游戏界面和控件树</p>
 <p><a name="2"></a></p>
 <h1>2 Getting Started</h1>
-<p>示例代码：sample/sample.py,示例apk游戏:sample/wetest_demo.apk</p>
+<p>示例代码：sample/sample.py,示例apk游戏:sampel/wetest_demo.apk</p>
 <p><a name="2.1"></a></p>
 <h2>2.1 Simple Usage</h2>
 <p>已经安装好python及依赖库后，可以使用pycharm（请下社区版，社区版免费）直接打开工程，你可以下面的代码开始我们的测试</p>
@@ -622,7 +622,7 @@ test()
 </pre></div>
 <p>上面的代码可以保存为sample.py,然后运行</p>
 <div class="highlight highlight-source-batchfile"><pre>python samle.py</pre></div>
-<p>注意：运行脚本之前，请确保wetest_demo游戏已经拉起，手机已经连上电脑并且打开开发者选项</p>
+<p>请确保，wetestdemo游戏已经拉起，wpyscripts库能够查找到</p>
 <p><a name="2.2"></a></p>
 <h2>2.2 实例详解</h2>
 <p>wpyscripts.manager模块提供了自动化测试所需的所有功能，提供与引擎、手机、报告相关的内容，也提供了日志实现</p>
@@ -695,8 +695,8 @@ saaaweadf        device
 asdfadfadf		 device
 </pre></div>
 <p>获取到当前PC连接的手机序列号之后，通过命令行的方式控制脚本在指定的手机上进行测试。</p>
-<div class="highlight highlight-source-batchfile"><pre>python main.py --qqname=2952020110 --qqpwd=wetestpwd --engineport=50031 --uiport=19000 --serial=saaaweadf
-python main.py --qqname=2952020111 --qqpwd=wetestpwd --engineport=50032 --uiport=19001 --serial=asdfadfadf</pre></div>
+<div class="highlight highlight-source-batchfile"><pre>python main.py --qqname=<span class="pl-c1">2952020110</span> --qqpwd=wetestpwd --engineport=<span class="pl-c1">50031</span> --uiport=<span class="pl-c1">19000</span> --serial=saaaweadf
+python main.py --qqname=<span class="pl-c1">2952020111</span> --qqpwd=wetestpwd --engineport=<span class="pl-c1">50032</span> --uiport=<span class="pl-c1">19001</span> --serial=asdfadfadf</pre></div>
 <p>上面的命令分别代表，在序列号"saaaweadf"手机上测试，测试时使用的QQ号为2952020110,密码为wetestpwd，与引擎建立映射的网络端口号为50031,与UIAutomator服务建立映射的网络端口为19000。第二条命令类似。</p>
 <p><strong>命令行参数含义</strong>如下：</p>
 <div class="highlight highlight-source-batchfile"><pre>--qqname:qq账号，每部手机应该都不一样
@@ -707,7 +707,7 @@ python main.py --qqname=2952020111 --qqpwd=wetestpwd --engineport=50032 --uiport
 --otherpwd:其他任何账号的密码
 --engineport:与手机端的sdk服务建立网络映射，填入的为本地的网络端口号（如,50031），不同手机之间要确保不同
 --uiport:与手机端的UIAutomator服务建立网络映射，填入的为本地的网络端口号（如,19008），不同手机之间要确保不同
---serial<span class="pl-k">:adb </span>devcies能够查看手机的序列号，不同的序列号代表不同的手机</pre></div>
+--serial:adb devcies能够查看手机的序列号，不同的序列号代表不同的手机</pre></div>
 <p><a name="3"></a></p>
 <h1>3 Locating Elements</h1>
 <p>engine模块提供了三种GameObject的查找方式。示例：sample/find_elements.py</p>
@@ -863,7 +863,7 @@ Button : GameObject /Canvas/Panel Instance = 10222,Bound : point(0.0,0.0) width 
 </ul>
 <p>为什么要搜索节点及其所有子节点？Unity制作的时候，往往会在可交互节点下面挂载图片文字等。这样做的目的是为了尽可能测试人员方便查找。</p>
 <p><a name="3.2.3"></a></p>
-<h3>3.2.4 节点中的文字查找</h3>
+<h3>3.2.3 节点中的文字查找</h3>
 <p><em>find_elements_path</em>能够根据节点及子节点中文字内容进行查找。表达式为{txt=txtName}，txtName为文字内容</p>
 <div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">test_find_elements_by_txt</span>():
     elements<span class="pl-k">=</span>engine.find_elements_path(<span class="pl-s"><span class="pl-pds">"</span>Panel/VerticalPanel/Item(Clone){txt=关卡2}<span class="pl-pds">"</span></span>)
@@ -892,22 +892,6 @@ Button : GameObject /Canvas/Panel/VerticalPanel/Item(Clone) Instance = -11832,Bo
 <li>UGUI，wetest sdk会搜索组件Text、GUIText中的内容</li>
 <li>NGUI，wetest sdk会搜索组件UILabel、UIInput和GUIText中的内容</li>
 </ul>
-<h3>3.2.5 正则表达式查找</h3>
-<p><em>find_elements_path</em>能够根据节点路径的正则表达式进行查找。表达式为{{regex}}，regex为element的name正则表达式内容。现在正则表达式只能限制在单个element的name上，如果想查找跨多层的element，需要多个正则表达式进行组合，如下：</p>
-<div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">test_find_elements_by_regex</span>():
-    elements <span class="pl-k">=</span> <span class="pl-c1">self</span>.engine.find_elements_path(<span class="pl-s"><span class="pl-pds">"</span>/Canvas/Panel/<span class="pl-c1">{{</span>Click|Slider<span class="pl-c1">}}</span>/<span class="pl-c1">{{</span>Text|Background<span class="pl-c1">}}</span><span class="pl-pds">"</span></span>)
-    <span class="pl-k">for</span> element <span class="pl-k">in</span> elements:
-        bound<span class="pl-k">=</span>engine.get_element_bound(element)
-        logger.debug(<span class="pl-s"><span class="pl-pds">"</span>Element : <span class="pl-c1">{0}</span>,Bound : <span class="pl-c1">{1}</span><span class="pl-pds">"</span></span>.format(element,bound))
-
-test_find_elements_by_regex()</pre></div>
-<p>上面的代码可以保存为find_elments.py,从wetestdemo点击Interaction，然后运行</p>
-<div class="highlight highlight-source-batchfile"><pre>python find_elments.py</pre></div>
-<p><a href="image/regex_target.png" target="_blank"><img src="image/regex_target.png" alt="Drawing" width="600px" style="max-width:100%;"></a></p>
-<p><a href="image/find_elements_by_regex.png" target="_blank"><img src="image/find_elements_by_regex.png" alt="Drawing" width="450px" style="max-width:100%;"></a></p>
-<p>运行结果如下，<em>/Canvas/Panel/Click/Text</em>和*/Canvas/Panel/Slider/Background*均能找到指定的节点</p>
-<div class="highlight highlight-text-xml"><pre>Element : GameObject /Canvas/Panel/Click/Text Instance = 10616,Bound : point(535.0,60.0) width = 250.0 height = 80.0
-Element : GameObject /Canvas/Panel/Slider/Background Instance = 10618,Bound : point(560.0,243.0) width = 800.0 height = 40.0</pre></div>
 <p><a name="3.3"></a></p>
 <h2>3.3 component名称查找</h2>
 <p>根据Unity中Component的名称查找，Gameobject。本质上调用的是Unity中的GameObject.FindObjectsOfType(Type.GetType(name))接口。C#里面Type.GetType传入的，应该是AssemblyQualifiedName。所以，下面的例子中传入的是"UnityEngine.UI.Button,UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"，如果传入的是Button返回为空</p>
@@ -1224,12 +1208,11 @@ reporter.add_end_scene_tag(<span class="pl-s"><span class="pl-pds">"</span>Find_
 <p>*reporter.add_start_scene_tag("")和reporter.add_end_scene_tag("")*一定是成对出现的，先start然后end，里面的标签内容需要一样。</p>
 <p><a href="image/tag.png" target="_blank"><img src="image/tag.png" alt="Drawing" width="600px" style="max-width:100%;"></a></p>
 <p><strong>注：配合engine.get_scene()效果更佳</strong></p>
-<p><a name="6.4"></a></p>
 <h2>6.4 报告错误</h2>
-<p>GAutomator并不是使用常见的，unittest作为测试的底层框架，因此并无断言，无法做功能测试。report接口，可用于错误报告，并且在运行目录下生成一份_wetest_testcase_result.txt用户记录报告的内容。该文件的报告格式与unittest的测试报告格式一致，因此在云端测试时可现实具体的信息。</p>
-<div class="highlight highlight-source-python"><pre>report.report(<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span><span class="pl-k">==</span><span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>testcase<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>)
-report.report(<span class="pl-c1">False</span>,<span class="pl-s"><span class="pl-k">u</span><span class="pl-pds">"</span>report_test<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-k">u</span><span class="pl-pds">"</span>Report test error 中文<span class="pl-pds">"</span></span>)</pre></div>
-<p>*reporter.report(result,name,message)*接口调用的过程中，会在日志中输出。脚本运行结束时，runner.run中，会调用_report_total(),将所有的判断结果输出到_wetest_testcase_result.txt中。Result如果为False的情况，除了输出message和test_case_name之外GAutomator还会加上调用堆栈。name的名称尽可能不重复。name与message传入的编码方式需要一致，如果存在中文的情况下必须要使用UTF-8编码格式。</p>
+<p>GAutomator并不是使用常见的，unittest作为测试的底层框架，因此并无断言，无法做功能测试。report_error接口，可用于错误报告，并且在运行目录下生成一份_wetest_testcase_result.txt用户记录报告的内容。该文件的报告格式与unittest的测试报告格式一致，因此在云端测试时可现实具体的信息。</p>
+<div class="highlight highlight-source-python"><pre>report.report_error(<span class="pl-s"><span class="pl-pds">"</span>testcase<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>)
+report.report_error(<span class="pl-s"><span class="pl-k">u</span><span class="pl-pds">"</span>report_test<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-k">u</span><span class="pl-pds">"</span>Report test error 中文<span class="pl-pds">"</span></span>)</pre></div>
+<p>*reporter.report_error(name,message)*接口调用的过程中，会在日志中输出。脚本运行结束时，runner.run中，会调用_report_total(),将所有的判断结果输出到_wetest_testcase_result.txt中。除了输出message和test_case_name之外GAutomator还会加上调用堆栈。name的名称尽可能不重复。name与message传入的编码方式需要一致，如果存在中文的情况下必须要使用UTF-8编码格式。</p>
 <p><a name="7"></a></p>
 <h1>7 定制功能</h1>
 <p>GAutomatorView不可能集成所有的功能，部分功能也不方便通过简单的触屏操作完成，或者通过触屏操作完成的复杂度极高。定制功能，可以向WeTest SDK注册委托，通过python脚本来触发委托的执行，并将结果返回给python脚本。<br>
@@ -1314,7 +1297,7 @@ test_call_registered_handler()
     logger.debug(result)</pre></div>
 <p>上面的代码在sample/interaction.py中，将调用游戏中的TestReflection方法，并返回105（方法的返回值）。</p>
 <p><a name="7.3"></a></p>
-<h3>7.3 反射获取游戏中属性值</h3>
+<h2>7.3 反射获取游戏中属性值</h2>
 <p>在使用自动化测试过程中，定制一些高级功能时，现有的接口获取的数据可能无法满足需求。如，希望根据英雄血量来定制策略。因此，GAutomator提供了一个高级接口，通过反射的方式获取游戏中组件里面的属性值。*get_component_field(element,component,attribute)*接口可以获取GameObject上组件对应的属性值</p>
 <div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">test_get_component_field</span>(<span class="pl-smi"><span class="pl-smi">self</span></span>):
         elements <span class="pl-k">=</span> <span class="pl-c1">self</span>.engine.find_elements_path(<span class="pl-s"><span class="pl-pds">"</span>Sample/Text<span class="pl-pds">"</span></span>)
@@ -1328,12 +1311,43 @@ test_call_registered_handler()
         <span class="pl-c1">self</span>.assertEqual(res, <span class="pl-s"><span class="pl-pds">"</span>Bollon (UnityEngine.RectTransform)<span class="pl-pds">"</span></span>)</pre></div>
 <p>确保wetest_demo.apk在拉起来的界面，运行结果可以看到获取了Sample/Text GameObject上面组件Text中对应text属性的值为Sample。GAutomator获取到组件属性后，会直接调用toString()转换为string字符串。如果属性本身也是Object，toString()之后的值可能意义并不会特别大如（Bollon (UnityEngine.RectTransform)）。现在暂时未提供级联的操作，无法获取对象Bollon上的属性值。</p>
 <p><a name="7.4"></a></p>
-<h3>7.4 设置最佳渲染Camera</h3>
+<h2>7.4 设置最佳渲染Camera</h2>
 <p>Unity里面一个物体可能会被多个Camera渲染，如有一个主摄像机还会有光晕渲染等摄像机。WeTest SDK中会寻找一个最佳的Camera，但是有的时候可能找到的Camera并不准确。具体表现为，渲染的物体大小及位置不准确，可能是远大于实际的长宽。<br>
 GAutomatorView查看物体，发现长宽高不对时。可以使用set_camera设置其他相机，然后再用GAutomatorView尝试看是否恢复正常，恢复正常了则该GameObject为最适合的摄像机。engine中<em>et_camera(gameobject_name)</em>：设置Camera所在的gameobject名称。</p>
 <div class="highlight highlight-source-cs"><pre><span class="pl-en">engine.set_camera</span>("CharModeCamera")
 </pre></div>
 <p>设置Camera后，如果物体渲染的Camera中包含设置的Camera，则会直接采用设置的Camera。<a href="https://docs.unity3d.com/ScriptReference/Camera.html" title="UnityCamer资料">UnityCamera资料</a></p>
+<p><a name="7.5"></a></p>
+<h2>7.5 调用第三方C#脚本</h2>
+<p>Unity手游自动化过程中，纯UI的自动化面临越来越大的瓶颈，如人物的自动寻路、人物的战斗属性获取等通过UI的方式获取困难。因此，GAutomator一个功能，允许将自己的C#脚本注入到游戏中。能够以C#脚本的方式，调用游戏内的接口，获取游戏内的数据。<br>
+GAutomator python端提供了接口engine.game_script_init(),会将gametestlib.dll推送到/data/local/tmp，然后调用gametestlib.dll下的GameTest.Test.init方法，该方法无参数与无返回值。因此，通常会在改接口中调用WeTest.U3DAutomation.CustomHandler.RegisterCallBack，将需要调用的函数注册上去，利用engine.call_registered_handler机制完成python调用游戏中C#脚本</p>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">test_game_script_init</span>(<span class="pl-smi"><span class="pl-smi">self</span></span>):
+    file_path <span class="pl-k">=</span> os.path.split(os.path.realpath(<span class="pl-c1">__file__</span>))[<span class="pl-c1">0</span>]
+    path<span class="pl-k">=</span>os.path.join(file_path,<span class="pl-s"><span class="pl-pds">"</span>gametestlib.dll<span class="pl-pds">"</span></span>)
+    result<span class="pl-k">=</span><span class="pl-c1">self</span>.engine.game_script_init(path)
+    logger.debug(<span class="pl-s"><span class="pl-pds">"</span>init result : <span class="pl-pds">"</span></span>.format(result))
+
+    result<span class="pl-k">=</span><span class="pl-c1">self</span>.engine.get_registered_handlers()
+    logger.debug(<span class="pl-s"><span class="pl-pds">"</span>registered functions : <span class="pl-c1">{0}</span><span class="pl-pds">"</span></span>.format(result))
+
+    result<span class="pl-k">=</span><span class="pl-c1">self</span>.engine.call_registered_handler(<span class="pl-s"><span class="pl-pds">"</span>showColider<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)</pre></div>
+<p>启动wetest_demo，点击Joystick按钮，进入到摇杆页面。然后运行代码，所有的柱子会变成粉红色。执行了gametestlib.dll中的，showColider方法。<br>
+<a href="https://share.weiyun.com/b27da45dc1013db82b09cd4a31625056">gametestlib source</a>编写的时候，注意事项：<br>
+1、vs编写，工程名称任意。Assembly name为gametestlib<br>
+2、非IL2CPP编译的apk，用压缩软件打开，在assets\bin\Data\Managed下的dll为游戏脚本。可以作为gametestlib编写的依赖。<br>
+3、初始化模板固定</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">namespace</span> <span class="pl-en">GameTest</span> //固定 namespace为GameTest
+{
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Test</span> //初始化类名固定
+    {
+        <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">init</span>() <span class="pl-c">//初始化函数，GA只支持调用该函数，在该函数中注册委托</span>
+        {
+            WeTest.U3DAutomation.CustomHandler.RegisterCallBack(<span class="pl-s"><span class="pl-pds">"</span>TEST<span class="pl-pds">"</span></span>, test);
+            WeTest.U3DAutomation.CustomHandler.RegisterCallBack(<span class="pl-s"><span class="pl-pds">"</span>RecordPath<span class="pl-pds">"</span></span>, record);
+            WeTest.U3DAutomation.CustomHandler.RegisterCallBack(<span class="pl-s"><span class="pl-pds">"</span>showColider<span class="pl-pds">"</span></span>, addBoxColider);
+        }
+    }
+}</pre></div>
 <p><a name="8"></a></p>
 <h1>8 实战用例</h1>
 <p>举例最常见的，较难处理的引用场景scripts/testcase/tools.py封装了，场景的使用场景</p>

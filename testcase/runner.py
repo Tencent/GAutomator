@@ -47,6 +47,8 @@ def run():
     """
     try:
         # random_search_test()
+        # import testcase.sample as sample
+        # sample.main()
         pass
     except Exception as e:
         traceback.print_exc()
