@@ -64,7 +64,7 @@
 	- [9.4 wait_for_scene等待某个场景加载完毕](#9.4)
 
 
-**GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载所有需要的所有组件。
+**GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在bin目录下包含所有需要的组件。
 
 <a name="1"></a>
 
@@ -105,7 +105,8 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 
 
 <a name="2"></a>
-# 2 Getting Started
+
+# 2 Getting Started
 示例代码：sample/sample.py,示例apk游戏:sampel/wetest_demo.apk
 
 <a name="2.1"></a>
