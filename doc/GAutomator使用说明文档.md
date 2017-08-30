@@ -178,11 +178,11 @@ logger.debug("Button : {0}".format(sample_button))
 engine.click(sample_button)
 ```
 
-wpyscripts包含4大接口
+GAutomator包含4大接口
 ```python
 engine=manager.get_engine()
 reporter=manager.get_reporter()
-device=manager.get_devcie()
+device=manager.get_device()
 logger=manager.get_logger()
 ```
 - engine:Unity相关内容，主要包括控件获取，游戏操作
