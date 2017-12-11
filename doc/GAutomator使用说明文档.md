@@ -49,6 +49,7 @@
 	- [7.3 反射获取游戏中属性值](#7.3)
 	- [7.4 设置最佳渲染Camera](#7.4)
 	- [7.5 调用第三方C#脚本](#7.5)
+	- [7.6 C#脚本调用Python函数](#7.6)
 - [8 实战用例](#8)
 	- [8.1 摇杆](#8.1)
 	- [8.2 记录操作流程](#8.2)
@@ -792,7 +793,7 @@ package name = com.tencent.wetest.demo,activity = com.unity3d.player.UnityPlayer
 <a name="5.3"></a>
 
 ## 5.3 回退键
-wpyscripts不提供对标准Android控件的支持，所以当界面上出现标准控件时将无法进行操作。因此，提供了回退（Back）操作，返回到游戏Activity。
+GAutomator本身不提供对标准Android控件的支持，所以当界面上出现标准控件时将无法进行操作。因此，提供了回退（Back）操作，返回到游戏Activity。
 ```python
 def test_back():
     device.back()
@@ -1112,6 +1113,98 @@ namespace GameTest //固定 namespace为GameTest
         }
     }
 }
+```
+<a name="7.6"></a>
+## 7.6 C#脚本调用Python函数
+SDK 1.5.0版本提供接口，可以调用python注册的函数。该功能类似于远程RPC调用，C#脚本调用python端的实现，可传递string参数与获取返回值。
+SDK接口
+*WeTest.U3DAutomation.CustomHandler.InvokeClientMethod(string name, string params,PcCallBack callback)*
+异步调用，name为python端注册的函数名称，params为传递的参数（以json方式传输），callback为python端执行完毕后的回调函数
+
+*WeTest.U3DAutomation.CustomHandler.InvokeClientMethodReturnValue(string name, string params,int timeout)*
+同步调用，name为python端注册的函数名称，params为传递的参数（以json方式传输），timeout为超时时长单位为毫秒。返回值string,为远程python注册函数的返回值。
+
+*WeTest.U3DAutomation.CustomHandler.InvokeClientMethod(string name, string value)*
+异步调用（无返回值）,name为python端注册的函数名称，params为传递的参数（以json方式传输）。调用后立刻返回。
+
+wetest_demo首页的CallPc注册了3个点击处理函数,c#代码
+```c#
+    public static void printResult(int status, string message)
+    {
+        Debug.Log("call back result = " + message + " status = " + status);
+    }
+
+    public void CallPythonClient(GameObject obj)
+    {
+
+        /*
+         * call python register function "_print_fun"
+         * 
+         * def _print_fun(v):
+         *   print "game call"
+         *   print "value = "+v
+         *   return "_print_fun call return value"
+         * 
+         * engine.register_game_callback("test", _print_fun)
+         * 
+         */
+        WeTest.U3DAutomation.CustomHandler.InvokeClientMethod("test", "call python client callback", printResult);
+    }
+
+    public void CallPythonClientReturnValue(GameObject obj)
+    {
+        /*
+         * call python register function "_print_fun_returnvalue"
+         * 
+         * def _print_fun_returnvalue(v):
+         *   print "game call return value"
+         *   print "value = "+v
+         *   return "_print_fun_returnvalue call return value"
+         * 
+         * engine.register_game_callback("testReturn", _print_fun_returnvalue)
+         * 
+        */
+        string result = WeTest.U3DAutomation.CustomHandler.InvokeClientMethodReturnValue("testReturn", "call python client return value", 1000);
+        Debug.Log("CallPythonClientReturnValue return value = " + result);
+    }
+
+    public void CallPythonClientReturnNone(GameObject obj)
+    {
+        /*
+         * call python register function "_print_fun_returnvalue",ignore the return value
+         * 
+         * def _print_fun_returnvalue(v):
+         *   print "game call return value"
+         *   print "value = "+v
+         *   return "_print_fun_returnvalue call return value"
+         * 
+         * engine.register_game_callback("testReturn", _print_fun_returnvalue)
+         * 
+        */
+        WeTest.U3DAutomation.CustomHandler.InvokeClientMethod("testReturn", "call python client not return value");
+    }
+```
+
+python端注册处理函数
+
+```python
+def _print_fun(v):
+    print "game call"
+    print "value = "+v
+    return "_print_fun call return value"
+
+def _print_fun_returnvalue(v):
+    print "game call return value"
+    print "value = "+v
+    return "_print_fun_returnvalue call return value"
+
+result = engine.register_game_callback("test", _print_fun)
+logger.debug("register game callback {0}".format(result))
+result = engine.register_game_callback("testReturn", _print_fun_returnvalue)
+logger.debug("register game callback {0}".format(result))
+
+callPcButton=engine.find_element("CallPC")
+engine.click(callPcButton)
 ```
 
 

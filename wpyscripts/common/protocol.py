@@ -30,6 +30,9 @@ class Commands(object):
     CALL_COMPONENT_MOTHOD = 116  # 通过反射调用组件的函数
     LOAD_TEST_LIB=117 #初始化testlib服务
 
+    PRC_SET_METHOD=118#注册python端的方法
+    RPC_METHOD = 119#游戏内的接口可调用，python端的方法
+
     #######################/
     HANDLE_TOUCH_EVENTS = 200  # 发送down move up
 

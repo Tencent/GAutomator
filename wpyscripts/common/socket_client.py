@@ -1,4 +1,4 @@
-#-*- coding: UTF-8 -*-
+# -*- coding: UTF-8 -*-
 """
 Tencent is pleased to support the open source community by making GAutomator available.
 Copyright (C) 2016 THL A29 Limited, a Tencent company. All rights reserved.
@@ -10,20 +10,23 @@ Unless required by applicable law or agreed to in writing, software distributed 
 __author__ = 'alexkan kanchuanqi@gmail.com,minhuaxu wukenaihesos@gmail.com'
 
 import json, socket, struct, time
+import threading
+import logging
 from wpyscripts.common.wetest_exceptions import *
+
+logger = logging.getLogger(__name__)
 
 
 class SocketClient(object):
-
     def __init__(self, _host='localhost', _port=27018):
         self.host = _host
         self.port = _port
-        self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        self.socket.connect((self.host, self.port))
+        self.connect()
 
-    def _connect(self):
+    def connect(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
         self.socket.connect((self.host, self.port))
 
     def _send_data(self, data):
@@ -36,8 +39,13 @@ class SocketClient(object):
         self.socket.send(buff)
         self.socket.sendall(serialized)
 
+    def close(self):
+        try:
+            self.socket.close()
+        except Exception as e:
+            logger.exception(e)
 
-    def _recv_data(self):
+    def recv_package(self):
         length_buffer = self.socket.recv(4)
         if length_buffer:
             total = struct.unpack_from("i", length_buffer)[0]
@@ -48,25 +56,52 @@ class SocketClient(object):
         while total - next_offset > 0:
             recv_size = self.socket.recv_into(view[next_offset:], total - next_offset)
             next_offset += recv_size
-        #print str(view.tobytes())
         try:
             deserialized = json.loads(view.tobytes())
+            return deserialized
         except (TypeError, ValueError) as e:
             raise WeTestInvaildArg('Data received was not in JSON format')
-        if deserialized['status']!=0:
-            message="Error code: "+str(deserialized['status'])+" msg: "+deserialized['data']
+
+    def _recv_data(self):
+        deserialized = self.recv_package()
+        if deserialized['status'] != 0:
+            message = "Error code: " + str(deserialized['status']) + " msg: " + deserialized['data']
             raise WeTestSDKError(message)
         return deserialized['data']
+
+    def send_package(self, cmd, params=None):
+        if not params:
+            params = ""
+        command = {}
+        command["cmd"] = cmd
+        command["value"] = params
+        for retry in range(0, 2):
+            try:
+                self._send_data(command)
+                return
+            except WeTestRuntimeError as e:
+                raise e
+            except socket.timeout:
+                self.socket.close()
+                self.connect()
+                raise WeTestSDKError("Recv Data From SDK timeout")
+            except socket.error as e:
+                time.sleep(1)
+                print("Retry...{0}".format(e.errno))
+                self.socket.close()
+                self.connect()
+                continue
+        raise Exception('Socket Error')
 
     def send_command(self, cmd, params=None, timeout=20):
         # if params != None and not isinstance(params, dict):
         #     raise Exception('Params should be dict')
         if not params:
             params = ""
-        command={}
+        command = {}
         command["cmd"] = cmd
         command["value"] = params
-        for retry in range(0,2):
+        for retry in range(0, 2):
             try:
                 self.socket.settimeout(timeout)
                 self._send_data(command)
@@ -76,15 +111,16 @@ class SocketClient(object):
                 raise e
             except socket.timeout:
                 self.socket.close()
-                self._connect()
+                self.connect()
                 raise WeTestSDKError("Recv Data From SDK timeout")
             except socket.error as e:
                 time.sleep(1)
                 print("Retry...{0}".format(e.errno))
                 self.socket.close()
-                self._connect()
+                self.connect()
                 continue
         raise Exception('Socket Error')
+
 
 host = 'localhost'
 port = 27018
@@ -96,5 +132,6 @@ def get_socket_client():
     else:
         get_socket_client.instance = SocketClient(host, port)
         return get_socket_client.instance
+
 
 get_socket_client.instance = None

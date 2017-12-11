@@ -546,6 +546,7 @@ vertical-align:1px;
 <li><a href="#7.3">7.3 反射获取游戏中属性值</a></li>
 <li><a href="#7.4">7.4 设置最佳渲染Camera</a></li>
 <li><a href="#7.5">7.5 调用第三方C#脚本</a></li>
+<li><a href="#7.6">7.6 C#脚本调用Python函数</a></li>
 </ul>
 </li>
 <li><a href="#8">8 实战用例</a>
@@ -568,7 +569,7 @@ vertical-align:1px;
 </ul>
 </li>
 </ul>
-<p><strong>GAutomator</strong> 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在<a href="http://wetest.qq.com/cloud/index.php/phone/blrooike%E4%B8%8B%E8%BD%BD%E6%89%80%E6%9C%89%E9%9C%80%E8%A6%81%E7%9A%84%E6%89%80%E6%9C%89%E7%BB%84%E4%BB%B6%E3%80%82">http://wetest.qq.com/cloud/index.php/phone/blrooike下载所有需要的所有组件。</a></p>
+<p><strong>GAutomator</strong> 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在<a href="http://wetest.qq.com/cloud/index.php/phone/blrooike%E4%B8%8B%E8%BD%BD%E6%89%80%E6%9C%89%E9%9C%80%E8%A6%81%E7%9A%84%E6%89%80%E6%9C%89%E7%BB%84%E4%BB%B6%E3%80%82" rel="nofollow">http://wetest.qq.com/cloud/index.php/phone/blrooike下载所有需要的所有组件。</a></p>
 <p><a name="1"></a></p>
 <h1>1 准备工作</h1>
 <p><a name="1.1"></a></p>
@@ -588,7 +589,7 @@ vertical-align:1px;
 <p>可以在testcase目录下面直接创建你需要的.py脚本，然后编写需要的逻辑</p>
 <p><a name="1.4"></a></p>
 <h2>1.4 GAutomatorView</h2>
-<p>GAutomatorView工具可在<a href="http://wetest.qq.com/cloud/index.php/phone/blrooike%E4%B8%8B%E8%BD%BD">http://wetest.qq.com/cloud/index.php/phone/blrooike下载</a> 。GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，Unity游戏中控件查看器。<br>
+<p>GAutomatorView工具可在<a href="http://wetest.qq.com/cloud/index.php/phone/blrooike%E4%B8%8B%E8%BD%BD" rel="nofollow">http://wetest.qq.com/cloud/index.php/phone/blrooike下载</a> 。GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，Unity游戏中控件查看器。<br>
 <strong>注：请勿将该软件放置在中文目录下</strong></p>
 <p><a href="image/behaviour.png" target="_blank"><img src="image/behaviour.png" alt="Drawing" width="800px" style="max-width:100%;"></a></p>
 <p>集成wetest sdk的游戏拉起后，点击同步按钮，就能获取到游戏界面和控件树</p>
@@ -631,12 +632,12 @@ test()
 <div class="highlight highlight-source-python"><pre>engine<span class="pl-k">=</span>manager.get_engine()
 logger<span class="pl-k">=</span>manager.get_logger()</pre></div>
 <p>*<code>engine.get_sdk_version()</code>*能够获取Unity版本信息、Wetest sdk版本信息，能够获取该信息时，证明脚本已经成功连上游戏。如果获取失败，则会抛出<code>WeTestNativeEngineDllError</code>异常,抛出该异常可能是手机USB线没有连好或者手机开发者选项未打开。<br>
-*logger.debug("")*输出对应日志，请使用manager.get_logger()获取的实例，避免脚本在云端<a href="http://wetest.qq.com" title="wetest">wetest.qq.com</a>使用时出错。</p>
+*logger.debug("")*输出对应日志，请使用manager.get_logger()获取的实例，避免脚本在云端<a href="http://wetest.qq.com" title="wetest" rel="nofollow">wetest.qq.com</a>使用时出错。</p>
 <div class="highlight highlight-source-python"><pre>version<span class="pl-k">=</span>engine.get_sdk_version()
 logger.debug(<span class="pl-s"><span class="pl-pds">"</span>Version Information : <span class="pl-c1">{0}</span><span class="pl-pds">"</span></span>.format(version))</pre></div>
 <p>*<code>engine.get_scene()</code>*获取当前游戏界面对应scene名称，wetestdemo游戏的第一个界面名称为main</p>
 <p><a href="image/scene.png" target="_blank"><img src="image/scene.png" alt="Drawing" width="600px" style="max-width:100%;"></a></p>
-<p>*<code>engine.find_element("/Canvas/Panel/Sample")</code>*查找当前界面中路径为/Canvas/Panel/Sample的节点，如果存在则返回Element，不存在则返回None。find_element直接使用Unity <a href="http://docs.unity3d.com/ScriptReference/GameObject.Find.html?from=index">GameObject.Find</a>查找当前游戏中的game object。<br>
+<p>*<code>engine.find_element("/Canvas/Panel/Sample")</code>*查找当前界面中路径为/Canvas/Panel/Sample的节点，如果存在则返回Element，不存在则返回None。find_element直接使用Unity <a href="http://docs.unity3d.com/ScriptReference/GameObject.Find.html?from=index" rel="nofollow">GameObject.Find</a>查找当前游戏中的game object。<br>
 查找到的节点samle_button（<em>Element</em>），有两个属性object_name,instance。object_name是节点的全路径，instance是节点实例的编号（GameObject.GetInstanceID()获取）instance在当前游戏中一定是唯一的。<br>
 *<code>engine.click(sample_button)</code>*尝试点击samle_button这个GameObject的中心点。</p>
 <div class="highlight highlight-source-python"><pre>sample_button<span class="pl-k">=</span>engine.find_element(<span class="pl-s"><span class="pl-pds">"</span>/Canvas/Panel/Sample<span class="pl-pds">"</span></span>)
@@ -941,7 +942,7 @@ test_world_bounds()</pre></div>
 <div class="highlight highlight-source-batchfile"><pre>python joystick_tester.py</pre></div>
 <p>结果如下：</p>
 <div class="highlight highlight-text-xml"><pre>center = (5.03773808305e-05,0.1374322474,0.00151373702101) extents =(0.0807622969151,0.09486310184,0.0181320905685)</pre></div>
-<p>返回查询的所有Element的对应世界坐标，WorldBound[]。WorldBound是节点在Unity世界坐标系中的各项值，主要包括中心点的x,y,z坐标值，及中心点距物体在x,y,z轴方向上的距离。具体可参考：Unity官网Bounds介绍<a href="http://docs.unity3d.com/ScriptReference/Bounds.html">http://docs.unity3d.com/ScriptReference/Bounds.html</a></p>
+<p>返回查询的所有Element的对应世界坐标，WorldBound[]。WorldBound是节点在Unity世界坐标系中的各项值，主要包括中心点的x,y,z坐标值，及中心点距物体在x,y,z轴方向上的距离。具体可参考：Unity官网Bounds介绍<a href="http://docs.unity3d.com/ScriptReference/Bounds.html" rel="nofollow">http://docs.unity3d.com/ScriptReference/Bounds.html</a></p>
 <p><a name="4"></a></p>
 <h1>4 交互</h1>
 <p>找到节点后的第一件后，就需要对寻找到的节点进行操作。示例：sample/interaction.py</p>
@@ -1102,7 +1103,7 @@ test_get_top_package_activity()
 </code></pre>
 <p><a name="5.3"></a></p>
 <h2>5.3 回退键</h2>
-<p>wpyscripts不提供对标准Android控件的支持，所以当界面上出现标准控件时将无法进行操作。因此，提供了回退（Back）操作，返回到游戏Activity。</p>
+<p>GAutomator本身不提供对标准Android控件的支持，所以当界面上出现标准控件时将无法进行操作。因此，提供了回退（Back）操作，返回到游戏Activity。</p>
 <div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">test_back</span>():
     device.back()
 test_back()</pre></div>
@@ -1316,7 +1317,7 @@ test_call_registered_handler()
 GAutomatorView查看物体，发现长宽高不对时。可以使用set_camera设置其他相机，然后再用GAutomatorView尝试看是否恢复正常，恢复正常了则该GameObject为最适合的摄像机。engine中<em>et_camera(gameobject_name)</em>：设置Camera所在的gameobject名称。</p>
 <div class="highlight highlight-source-cs"><pre><span class="pl-en">engine.set_camera</span>("CharModeCamera")
 </pre></div>
-<p>设置Camera后，如果物体渲染的Camera中包含设置的Camera，则会直接采用设置的Camera。<a href="https://docs.unity3d.com/ScriptReference/Camera.html" title="UnityCamer资料">UnityCamera资料</a></p>
+<p>设置Camera后，如果物体渲染的Camera中包含设置的Camera，则会直接采用设置的Camera。<a href="https://docs.unity3d.com/ScriptReference/Camera.html" title="UnityCamer资料" rel="nofollow">UnityCamera资料</a></p>
 <p><a name="7.5"></a></p>
 <h2>7.5 调用第三方C#脚本</h2>
 <p>Unity手游自动化过程中，纯UI的自动化面临越来越大的瓶颈，如人物的自动寻路、人物的战斗属性获取等通过UI的方式获取困难。因此，GAutomator一个功能，允许将自己的C#脚本注入到游戏中。能够以C#脚本的方式，调用游戏内的接口，获取游戏内的数据。<br>
@@ -1332,7 +1333,7 @@ GAutomator python端提供了接口engine.game_script_init(),会将gametestlib.d
 
     result<span class="pl-k">=</span><span class="pl-c1">self</span>.engine.call_registered_handler(<span class="pl-s"><span class="pl-pds">"</span>showColider<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)</pre></div>
 <p>启动wetest_demo，点击Joystick按钮，进入到摇杆页面。然后运行代码，所有的柱子会变成粉红色。执行了gametestlib.dll中的，showColider方法。<br>
-<a href="https://share.weiyun.com/b27da45dc1013db82b09cd4a31625056">gametestlib source</a>编写的时候，注意事项：<br>
+<a href="https://share.weiyun.com/b27da45dc1013db82b09cd4a31625056" rel="nofollow">gametestlib source</a>编写的时候，注意事项：<br>
 1、vs编写，工程名称任意。Assembly name为gametestlib<br>
 2、非IL2CPP编译的apk，用压缩软件打开，在assets\bin\Data\Managed下的dll为游戏脚本。可以作为gametestlib编写的依赖。<br>
 3、初始化模板固定</p>
@@ -1348,6 +1349,89 @@ GAutomator python端提供了接口engine.game_script_init(),会将gametestlib.d
         }
     }
 }</pre></div>
+<p><a name="7.6"></a></p>
+<h2>7.6 C#脚本调用Python函数</h2>
+<p>SDK 1.5.0版本提供接口，可以调用python注册的函数。该功能类似于远程RPC调用，C#脚本调用python端的实现，可传递string参数与获取返回值。<br>
+SDK接口<br>
+<em>WeTest.U3DAutomation.CustomHandler.InvokeClientMethod(string name, string params,PcCallBack callback)</em><br>
+异步调用，name为python端注册的函数名称，params为传递的参数（以json方式传输），callback为python端执行完毕后的回调函数</p>
+<p><em>WeTest.U3DAutomation.CustomHandler.InvokeClientMethodReturnValue(string name, string params,int timeout)</em><br>
+同步调用，name为python端注册的函数名称，params为传递的参数（以json方式传输），timeout为超时时长单位为毫秒。返回值string,为远程python注册函数的返回值。</p>
+<p><em>WeTest.U3DAutomation.CustomHandler.InvokeClientMethod(string name, string value)</em><br>
+异步调用（无返回值）,name为python端注册的函数名称，params为传递的参数（以json方式传输）。调用后立刻返回。</p>
+<p>wetest_demo首页的CallPc注册了3个点击处理函数,c#代码</p>
+<div class="highlight highlight-source-cs"><pre>    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">printResult</span>(<span class="pl-k">int</span> <span class="pl-smi">status</span>, <span class="pl-k">string</span> <span class="pl-smi">message</span>)
+    {
+        Debug.Log(<span class="pl-s"><span class="pl-pds">"</span>call back result = <span class="pl-pds">"</span></span> + message + <span class="pl-s"><span class="pl-pds">"</span> status = <span class="pl-pds">"</span></span> + status);
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">CallPythonClient</span>(<span class="pl-en">GameObject</span> <span class="pl-smi">obj</span>)
+    {
+
+        <span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">         * call python register function "_print_fun"</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         * def _print_fun(v):</span>
+<span class="pl-c">         *   print "game call"</span>
+<span class="pl-c">         *   print "value = "+v</span>
+<span class="pl-c">         *   return "_print_fun call return value"</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         * engine.register_game_callback("test", _print_fun)</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         <span class="pl-c">*/</span></span>
+        WeTest.U3DAutomation.CustomHandler.InvokeClientMethod(<span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>call python client callback<span class="pl-pds">"</span></span>, printResult);
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">CallPythonClientReturnValue</span>(<span class="pl-en">GameObject</span> <span class="pl-smi">obj</span>)
+    {
+        <span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">         * call python register function "_print_fun_returnvalue"</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         * def _print_fun_returnvalue(v):</span>
+<span class="pl-c">         *   print "game call return value"</span>
+<span class="pl-c">         *   print "value = "+v</span>
+<span class="pl-c">         *   return "_print_fun_returnvalue call return value"</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         * engine.register_game_callback("testReturn", _print_fun_returnvalue)</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">        <span class="pl-c">*/</span></span>
+        <span class="pl-k">string</span> <span class="pl-en">result</span> = WeTest.U3DAutomation.CustomHandler.InvokeClientMethodReturnValue(<span class="pl-s"><span class="pl-pds">"</span>testReturn<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>call python client return value<span class="pl-pds">"</span></span>, <span class="pl-c1">1000</span>);
+        Debug.Log(<span class="pl-s"><span class="pl-pds">"</span>CallPythonClientReturnValue return value = <span class="pl-pds">"</span></span> + result);
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">CallPythonClientReturnNone</span>(<span class="pl-en">GameObject</span> <span class="pl-smi">obj</span>)
+    {
+        <span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">         * call python register function "_print_fun_returnvalue",ignore the return value</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         * def _print_fun_returnvalue(v):</span>
+<span class="pl-c">         *   print "game call return value"</span>
+<span class="pl-c">         *   print "value = "+v</span>
+<span class="pl-c">         *   return "_print_fun_returnvalue call return value"</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">         * engine.register_game_callback("testReturn", _print_fun_returnvalue)</span>
+<span class="pl-c">         * </span>
+<span class="pl-c">        <span class="pl-c">*/</span></span>
+        WeTest.U3DAutomation.CustomHandler.InvokeClientMethod(<span class="pl-s"><span class="pl-pds">"</span>testReturn<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>call python client not return value<span class="pl-pds">"</span></span>);
+    }</pre></div>
+<p>python端注册处理函数</p>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">_print_fun</span>(<span class="pl-smi">v</span>):
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>game call<span class="pl-pds">"</span></span>
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>value = <span class="pl-pds">"</span></span><span class="pl-k">+</span>v
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>_print_fun call return value<span class="pl-pds">"</span></span>
+
+<span class="pl-k">def</span> <span class="pl-en">_print_fun_returnvalue</span>(<span class="pl-smi">v</span>):
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>game call return value<span class="pl-pds">"</span></span>
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>value = <span class="pl-pds">"</span></span><span class="pl-k">+</span>v
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>_print_fun_returnvalue call return value<span class="pl-pds">"</span></span>
+
+result <span class="pl-k">=</span> engine.register_game_callback(<span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>, _print_fun)
+logger.debug(<span class="pl-s"><span class="pl-pds">"</span>register game callback <span class="pl-c1">{0}</span><span class="pl-pds">"</span></span>.format(result))
+result <span class="pl-k">=</span> engine.register_game_callback(<span class="pl-s"><span class="pl-pds">"</span>testReturn<span class="pl-pds">"</span></span>, _print_fun_returnvalue)
+logger.debug(<span class="pl-s"><span class="pl-pds">"</span>register game callback <span class="pl-c1">{0}</span><span class="pl-pds">"</span></span>.format(result))
+
+callPcButton<span class="pl-k">=</span>engine.find_element(<span class="pl-s"><span class="pl-pds">"</span>CallPC<span class="pl-pds">"</span></span>)
+engine.click(callPcButton)</pre></div>
 <p><a name="8"></a></p>
 <h1>8 实战用例</h1>
 <p>举例最常见的，较难处理的引用场景scripts/testcase/tools.py封装了，场景的使用场景</p>

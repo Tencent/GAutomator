@@ -106,3 +106,9 @@ V 2.5.0 版本
 3、新增第三方C#脚本调用，可动态获取与调用游戏内接口
 
 
+V 2.6.0 版本
+=====================
+GAutomato SDK发布版本为1.4.1版本
+1、新增本地弹出框点击，android手机的权限框。可调动device中的start_handle_popbox开启，stop_handle_popbox关闭
+2、新增C#脚本调用python端注册的函数，engine中的register_game_callback可注册python端委托。SDK最新版本1.4.0以上版本，可通过WeTest.U3DAutomation.ClientCaller的相关接口与python端进行互动
+3、修复微信6.50版本以上无法登陆的问题

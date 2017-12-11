@@ -12,10 +12,12 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com, alexkan kanchuanqi@gmail.com'
 
 import re
 import logging
+import threading
 from wpyscripts.common.adb_process import AdbTool
 from wpyscripts.wetest.element import Element
 from wpyscripts.common.protocol import Commands, TouchEvent
 from wpyscripts.common.socket_client import SocketClient
+from wpyscripts.common.rpc_thread import RPCReceiveThread
 from wpyscripts.common.wetest_exceptions import *
 
 logger = logging.getLogger("wetest")
@@ -64,7 +66,7 @@ class ElementBound(object):
         self.visible = visible
 
     def __str__(self):
-        return "point({0},{1}) width = {2} height = {3}".format(self.x, self.y, self.width, self.height)
+        return "point({0},{1}) width = {2} height = {3},visible={4}".format(self.x, self.y, self.width, self.height,self.visible)
 
     def __repr__(self):
         return self.__str__()
@@ -107,6 +109,9 @@ class GameEngine(object):
         self.port = port
         self.sdk_version = None
         self.socket = SocketClient(self.address, self.port)
+        self._callback_socket = None
+        self._callback_functions = {}
+        self._callback_thread = None
 
     def get_sdk_version(self):
         """ 获取引擎集成的SDK的版本信息
@@ -841,3 +846,17 @@ class GameEngine(object):
 
         ret = self.socket.send_command(Commands.LOAD_TEST_LIB)
         return ret
+
+    def register_game_callback(self, name, func):
+        if not name or not func:
+            raise WeTestInvaildArg("Name or Function can't be None")
+        if not self._callback_socket or not self._callback_functions:
+            self._callback_socket = SocketClient(self.address, self.port)
+            event = threading.Event()
+            self._callback_thread = RPCReceiveThread(self._callback_socket, self._callback_functions, event)
+            self._callback_thread.start()
+
+        self._callback_functions[name] = func
+        self._callback_socket.send_package(Commands.PRC_SET_METHOD, name)
+        return self._callback_thread.get_result()
+

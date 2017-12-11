@@ -13,11 +13,13 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com'
 import unittest, math, time
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..\\..\\")))
 
 from wpyscripts.manager import *
 
 logger = logging.getLogger("wetest")
+
 
 def scene_enter(button, *args, **kwargs):
     def real_decorator(fun):
@@ -46,6 +48,7 @@ class GameEngineTest(unittest.TestCase):
     def setUp(self):
         self.engine = get_engine()
 
+
     @classmethod
     def setUpClass(cls):
         cls.timeuse = []
@@ -53,7 +56,9 @@ class GameEngineTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         for item in cls.timeuse:
-            print("{0},{1}".format(item["name"],item["use"]))
+            print("{0},{1}".format(item["name"], item["use"]))
+
+        engine=get_engine()
 
     # def test_test(self):
     #     button=self.engine.find_element("QQ")
@@ -74,9 +79,9 @@ class GameEngineTest(unittest.TestCase):
         self._end("get_sdk_version")
         self.ui_type = sdk_info.ui_type
         logger.info(sdk_info)
-        #self.assertTrue(cmp(sdk_info.engine_version, "5.1.2f1") == 0, "engine version Error")
+        # self.assertTrue(cmp(sdk_info.engine_version, "5.1.2f1") == 0, "engine version Error")
         self.assertTrue(cmp(sdk_info.engine, "Unity3D") == 0, "engine Error")
-        self.assertTrue(sdk_info.sdk_version == "1.4.0", "sdkversion Error")
+        self.assertTrue(sdk_info.sdk_version == "1.5.0", "sdkversion Error")
 
     def test_find_element(self):
         self._start()
@@ -86,8 +91,8 @@ class GameEngineTest(unittest.TestCase):
 
     def test_find_elments_by_components(self):
         self._start()
-        elements=self.engine.find_elements_by_component("CustomTester")
-        self.assertTrue(len(elements)==1,"Find error")
+        elements = self.engine.find_elements_by_component("CustomTester")
+        self.assertTrue(len(elements) == 1, "Find error")
         self._end("find_elements_by_component")
 
     def test_get_element_bound(self):
@@ -140,7 +145,7 @@ class GameEngineTest(unittest.TestCase):
         end_element = self.engine.find_element("Click")
 
         # 根据元素按压
-        result=self.engine.swipe(start_element,end_element,100)
+        result = self.engine.swipe(start_element, end_element, 100)
         self.assertTrue(result)
 
         # 根据位置按压
@@ -160,7 +165,8 @@ class GameEngineTest(unittest.TestCase):
         self.assertEqual(len(elements), 9)
 
         self._start()
-        elements = self.engine.get_touchable_elements(["LuaButton, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","UISprite, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"])
+        elements = self.engine.get_touchable_elements(["LuaButton, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                                                       "UISprite, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"])
         self._end("get_touchable_element")
         self.assertEqual(len(elements), 9)
 
@@ -173,7 +179,7 @@ class GameEngineTest(unittest.TestCase):
         self.assertEqual(scene, "FindElements")
 
         self._start()
-        scene,elements = self.engine.get_touchable_elements_bound(["LuaButton, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"])
+        scene, elements = self.engine.get_touchable_elements_bound(["LuaButton, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"])
         self._end("get_touchable_element")
         self.assertEqual(len(elements), 9)
 
@@ -193,7 +199,7 @@ class GameEngineTest(unittest.TestCase):
         self._end("input")
         self.assertEqual(old_content, "Hello wpyscripts")
 
-        #self.assertRaises(WeTestSDKError, self.engine.get_element_text, e)
+        # self.assertRaises(WeTestSDKError, self.engine.get_element_text, e)
 
         e = self.engine.find_element("/Canvas/Panel/InputField/Text")
         str = self.engine.get_element_text(e)
@@ -238,8 +244,8 @@ class GameEngineTest(unittest.TestCase):
         bound = self.engine.get_element_bound(element)
         logger.debug(bound)
         self._end("get_element_bound")
-        #self.assertEqual(bound.width, 250.0)
-        #self.assertEqual(bound.height, 80.0)
+        # self.assertEqual(bound.width, 250.0)
+        # self.assertEqual(bound.height, 80.0)
 
     def test_get_registered_handlers(self):
         self._start()
@@ -263,9 +269,9 @@ class GameEngineTest(unittest.TestCase):
 
     @scene_enter("Joystick")
     def test_swipe_and_press(self):
-        start_x,start_y=200,300
-        end_x,end_y=400,500
-        self.engine.swipe_and_press(start_x,start_y,end_x,end_y,100,2000,step_sleep=200)
+        start_x, start_y = 200, 300
+        end_x, end_y = 400, 500
+        self.engine.swipe_and_press(start_x, start_y, end_x, end_y, 100, 2000, step_sleep=200)
 
     def test_get_element_text(self):
         e = self.engine.find_element('/Canvas/Panel/Sample/Text')
@@ -307,12 +313,12 @@ class GameEngineTest(unittest.TestCase):
 
     def test_set_camera(self):
         pass
-        #elements = self.engine.find_elements_path("UICamera")
+        # elements = self.engine.find_elements_path("UICamera")
         # self._start()
         # bounds = self.engine.get_element_world_bound(elements)
         # self._end("get_element_world_bound")
 
-        #print self.engine.set_camera("CharModeCamera")
+        # print self.engine.set_camera("CharModeCamera")
         # bounds = self.engine.get_element_bound(elements[0])
         # print(bounds)
 
@@ -346,17 +352,39 @@ class GameEngineTest(unittest.TestCase):
             bound = self.engine.get_element_bound(element)
             logger.debug("Element : {0},Bound : {1}".format(element, bound))
         self._end("find_elements_path /root")
+
     @scene_enter("Joystick")
     def test_game_script_init(self):
         file_path = os.path.split(os.path.realpath(__file__))[0]
-        path=os.path.join(file_path,"gametestlib.dll")
-        result=self.engine.game_script_init(path)
+        path = os.path.join(file_path, "gametestlib.dll")
+        result = self.engine.game_script_init(path)
         logger.debug("init result : ".format(result))
 
-        result=self.engine.get_registered_handlers()
+        result = self.engine.get_registered_handlers()
         logger.debug("registered functions : {0}".format(result))
 
-        result=self.engine.call_registered_handler("showColider","")
+        result = self.engine.call_registered_handler("showColider", "")
+
+    def test_register_game_callback(self):
+        def _print_fun(v):
+            print "game call"
+            print "value = "+v
+            return "_print_fun call return value"
+
+        def _print_fun_returnvalue(v):
+            print "game call return value"
+            print "value = "+v
+            return "_print_fun_returnvalue call return value"
+
+        result = self.engine.register_game_callback("test", _print_fun)
+        logger.debug("register game callback {0}".format(result))
+        result = self.engine.register_game_callback("testReturn", _print_fun_returnvalue)
+        logger.debug("register game callback {0}".format(result))
+
+        callPcButton=self.engine.find_element("CallPC")
+
+        for i in range(100):
+            self.engine.click(callPcButton)
 
 
 

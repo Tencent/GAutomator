@@ -326,6 +326,12 @@ class Device(object):
         pwd = os.environ.get("OTHERPWD")
         return account, pwd
 
+    def start_handle_popbox(self, handle_package_pattern=None, handle_text_pattern=None):
+        pass
+
+    def stop_handle_popbox(self):
+        pass
+
 
 class CloudDevice(Device):
     """
@@ -451,6 +457,7 @@ class NativeDevice(Device):
     """
         在本地运行调试时，会创建
     """
+
     def __init__(self, serial, ui_device):
         super(NativeDevice, self).__init__(serial, None, ui_device)
         """
@@ -463,3 +470,18 @@ class NativeDevice(Device):
         if not os.environ.get("WECHATNAME"):
             os.environ["WECHATNAME"] = ""
             os.environ["WECHATPWD"] = ""
+
+    def start_handle_popbox(self, handle_package_pattern=None, handle_text_pattern=None):
+        if not handle_package_pattern:
+            handle_package_pattern = u"^(?!(com.tencent.mm|com.tencent.mqq|com.tencent.mobileqq|com.android.contacts|com.android.mms|com.yulong.android.contacts|com.android.dialer|com.android.keyguard|com.tencent.mm.coolassist|com.example.test.wegame.TestMainPanel|cn.uc.gamesdk.account)$).*"
+
+        if not handle_text_pattern:
+            handle_text_pattern = u"(^(完成|关闭|关闭应用|好|好的|确定|确认|安装|下次再说|知道了)$|(.*(?<!不)(忽略|允(\s){0,2}许|同意)|继续|清理|稍后|暂不|强制|下一步).*)"
+
+        logger.debug(u"monitor package pattern {0}".format(handle_package_pattern))
+        logger.debug(u"monitor click text {0}".format(handle_text_pattern))
+        self.ui_device.start_pop_monitor(handle_package_pattern, handle_text_pattern)
+
+    def stop_handle_popbox(self):
+        logger.debug("close pop box handler")
+        self.ui_device.stop_pop_monitor()

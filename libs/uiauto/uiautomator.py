@@ -449,6 +449,10 @@ class AutomatorServer(object):
     def jsonrpc(self):
         return self.jsonrpc_wrap(timeout=int(os.environ.get("jsonrpc_timeout", 90)))
 
+    @property
+    def jsonmonitor(self):
+        return self.jsonmonitor_wrap(timeout=int(os.environ.get("jsonrpc_timeout", 90)))
+
     def jsonrpc_wrap(self, timeout):
         server = self
         ERROR_CODE_BASE = -32000
@@ -485,6 +489,45 @@ class AutomatorServer(object):
             return wrapper
 
         return JsonRPCClient(self.rpc_uri,
+                             timeout=timeout,
+                             method_class=_JsonRPCMethod)
+
+    def jsonmonitor_wrap(self, timeout):
+        server = self
+        ERROR_CODE_BASE = -32000
+
+        def _JsonRPCMethod(url, method, timeout, restart=True):
+            _method_obj = JsonRPCMethod(url, method, timeout)
+
+            def wrapper(*args, **kwargs):
+                URLError = urllib3.exceptions.HTTPError if os.name == "nt" else urllib2.URLError
+                try:
+                    return _method_obj(*args, **kwargs)
+                except (URLError, socket.error, HTTPException) as e:
+                    if restart:
+                        server.stop()
+                        server.start(timeout=30)
+                        return _JsonRPCMethod(url, method, timeout, False)(*args, **kwargs)
+                    else:
+                        raise
+                except JsonRPCError as e:
+                    if e.code >= ERROR_CODE_BASE - 1:
+                        server.stop()
+                        server.start()
+                        return _method_obj(*args, **kwargs)
+                    elif e.code == ERROR_CODE_BASE - 2 and self.handlers['on']:  # Not Found
+                        try:
+                            self.handlers['on'] = False
+                            # any handler returns True will break the left handlers
+                            any(handler(self.handlers.get('device', None)) for handler in self.handlers['handlers'])
+                        finally:
+                            self.handlers['on'] = True
+                        return _method_obj(*args, **kwargs)
+                    raise
+
+            return wrapper
+
+        return JsonRPCClient(self.monitor_uri,
                              timeout=timeout,
                              method_class=_JsonRPCMethod)
 
@@ -575,6 +618,10 @@ class AutomatorServer(object):
     @property
     def screenshot_uri(self):
         return "http://%s:%d/screenshot/0" % (self.adb.adb_server_host, self.local_port)
+
+    @property
+    def monitor_uri(self):
+        return "http://%s:%d/permission" % (self.adb.adb_server_host, self.local_port)
 
     def screenshot(self, filename=None, scale=1.0, quality=100):
         if self.sdk_version() >= 18:
@@ -719,6 +766,14 @@ class AutomatorDevice(object):
     def clear_traversed_text(self):
         '''clear the last traversed text.'''
         self.server.jsonrpc.clearLastTraversedText()
+
+    def start_pop_monitor(self, handle_package, handle_text):
+        self.server.jsonmonitor.setPackagePattern(handle_package)
+        self.server.jsonmonitor.setTextPattern(handle_text)
+        self.server.jsonmonitor.setPermissionMonitor(True)
+
+    def stop_pop_monitor(self):
+        self.server.jsonmonitor.setPermissionMonitor(False)
 
     @property
     def open(self):

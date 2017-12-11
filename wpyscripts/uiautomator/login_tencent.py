@@ -145,7 +145,6 @@ def _login_wx():
                         break
         elif uiauto(text=u'微信登录', className=u'android.widget.TextView').exists \
                 and 1 == uiauto(className=u'android.widget.Button').count \
-                and 1 == uiauto(className=u'android.widget.Image').count \
                 and 0 == uiauto(className=u'android.widget.EditText').count:
             uiauto.wait.idle()
             uiauto(className=u'android.widget.Button').click()
