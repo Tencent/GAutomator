@@ -184,7 +184,7 @@ def handle_ungame_activity():
         report.screenshot()
 
 
-def find_elements_tries(name, max_count=10, sleeptime=3):
+def find_element_tries(name, max_count=10, sleeptime=3):
     """
         找到指定的节点，否者随机点击
     :param name:
@@ -205,7 +205,7 @@ def find_elements_tries(name, max_count=10, sleeptime=3):
             random_click(get_condition_fun(name))
 
 
-def find_elment_wait(name, max_count=10, sleeptime=3):
+def find_element_wait(name, max_count=10, sleeptime=3):
     """
         查找控件
 
