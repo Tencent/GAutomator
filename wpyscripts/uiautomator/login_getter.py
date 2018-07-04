@@ -24,6 +24,13 @@ def is_login(pkg=""):
     elements = root.findall(".//node[@class='android.widget.EditText'][@password='true']")
     if len(elements) > 0:
         return True
+    if pkg == "com.tencent.mm" or pkg == "com.tencent.mobileqq":
+        buttons = root.findall(".//node[@class='android.widget.Button']")
+        if len(buttons) > 1:
+            for button in buttons:
+                text = button.get("text")
+                if text == u"登录" or text == u"登 录":
+                    return True
 
     # 三星等一部分手机特殊处理
     elements = root.findall(".//node[@class='android.widget.EditText']")
@@ -73,13 +80,12 @@ def get_login():
         if pass_uiauto.count==1:
             password = pass_uiauto
         else:
+            pass_edit_bound = pass_edit.get("bounds", "")
             for view in pass_uiauto:
-                left = view.info[u'bounds'][u'left']
-                top = view.info[u'bounds'][u'top']
-                right = view.info[u'bounds'][u'right']
-                bottom = view.info[u'bounds'][u'bottom']
+                bound_info=view.info[u'bounds']
+                left,top,right,bottom = bound_info[u'left'],bound_info[u'top'],bound_info[u'right'],bound_info[u'bottom']
                 bounds = '[{0},{1}][{2},{3}]'.format(left, top, right, bottom)
-                if bounds==pass_edit.get("bounds",""):
+                if bounds==pass_edit_bound:
                     password = view
                     break
         if password == None or not password.exists:
@@ -89,9 +95,9 @@ def get_login():
             user_uiauto = password.left(className=u'android.widget.EditText')
         if user_uiauto == None or not user_uiauto.exists:
             return user_pass
-        login_uiauto = password.down(className=u'android.widget.Button', textContains=u'登')
+        login_uiauto = password.down(className=u'android.widget.Button',  textMatches=u'.*((?<!用手机号)登).*')
         if login_uiauto == None or not login_uiauto.exists:
-            login_uiauto = password.right(className=u'android.widget.Button', textContains=u'登')
+            login_uiauto = password.right(className=u'android.widget.Button', textMatches=u'.*((?<!用手机号)登).*')
         if login_uiauto == None or not login_uiauto.exists:
             login_uiauto = password.down(className=u'android.widget.Button')
         if login_uiauto == None or not login_uiauto.exists:

@@ -31,7 +31,9 @@ def __click_by_step__(obj, step, number):
 
 
 def _login_edit_box(account, pwd):
+    logger.info("login edit box...")
     logins = getter.get_login()
+    logger.info("after get login...")
     if logins and len(logins) > 0:
         try:
             local_step = 10
@@ -43,6 +45,7 @@ def _login_edit_box(account, pwd):
             while None == re.search(account, user_edit.get_text(), re.IGNORECASE):
                 # click the x point
                 for i in range(0, local_range):
+                    uiauto.wait.idle()
                     uiauto.click(local_x - i * local_step, local_y)
                     logger.info(
                         "click the usr x point. local_x is " + str(local_x - i * local_step) + ". local_y is " + str(
@@ -128,6 +131,7 @@ def _login_qq():
 
 
 def _login_wx():
+    time.sleep(10)
     try:
         if uiauto(className=u'com.tencent.smtt.webkit.WebView').exists or uiauto(
                 className=u'android.webkit.WebView').exists \
@@ -136,19 +140,25 @@ def _login_wx():
             width = uiauto.info["displayWidth"]
             x = width / 2
             if uiauto(text=u'微信登录').exists:
+                logger.info("微信登录 found")
                 for y in range(height * 4 / 5, height * 1 / 5, -1 * height / 50):
-                    if uiauto(text=u'微信登录').exists:
-                        uiauto.wait.idle()
-                        uiauto.click(x, y)
-                        logger.info(str(x) + ", " + str(y))
-                    else:
-                        break
+                    uiauto.wait.idle()
+                    uiauto.click(x, y)
+                    logger.info(str(x) + ", " + str(y))
         elif uiauto(text=u'微信登录', className=u'android.widget.TextView').exists \
                 and 1 == uiauto(className=u'android.widget.Button').count \
+                and 1 == uiauto(className=u'android.widget.Image').count \
                 and 0 == uiauto(className=u'android.widget.EditText').count:
+            logger.info("微信登录 found...")
             uiauto.wait.idle()
             uiauto(className=u'android.widget.Button').click()
             logger.info("this.")
+
+        elif uiauto(text=u'通讯录', className=u'android.widget.TextView').exists \
+                and uiauto(text=u'发现', className=u'android.widget.TextView').exists:
+            uiauto.wait.idle()
+            uiauto.press.back()
+            logger.info("press back.")
 
         elif uiauto(text=u'帐号或密码错误，请重新填写。', className=u'android.widget.TextView').exists \
                 and uiauto(text=u'确定', className=u'android.widget.Button').exists:
@@ -198,29 +208,62 @@ def _login_wx():
             uiauto.wait.idle()
             uiauto(text=u'确定', className=u'android.widget.Button').click()
             logger.info("this.")
-
+        elif uiauto(textStartsWith=u'确认登录', className=u'android.widget.Button').exists:
+            uiauto.wait.idle()
+            uiauto(text=u'确认登录', className=u'android.widget.Button').click()
+            logger.info("click 确认登录")
     except Exception as e:
         logger.info(e)
 
+def _prelogin_qq():
+    try:
+        if uiauto(text=u'登 录', className=u'android.widget.Button').exists and uiauto(text=u'新用户', className=u'android.widget.Button').exists and not uiauto(className=u'android.widget.EditText').exists:
+            logger.info("pre login qq")
+            uiauto.wait.idle()
+            uiauto(text=u'登 录', className=u'android.widget.Button').click()
+    except Exception, e:
+            logger.info(e)
+
+def _prelogin_wechat():
+    try:
+        if uiauto(text=u'登录', className=u'android.widget.Button').exists and uiauto(text=u'注册', className=u'android.widget.Button').exists and not uiauto(className=u'android.widget.EditText').exists:
+            logger.info("pre login wechat")
+            uiauto.wait.idle()
+            uiauto(text=u'登录', className=u'android.widget.Button').click()
+        if uiauto(text=u'用微信号/QQ号/邮箱登录', className=u'android.widget.Button').exists:
+            uiauto.wait.idle()
+            uiauto(text=u'用微信号/QQ号/邮箱登录', className=u'android.widget.Button').click()
+
+    except Exception, e:
+        logger.info(e)
+
+
 @time_snap(interval=5, times=12)
-def login_tencent(account, pwd, timeout=60):
+def login_tencent(account, pwd, timeout=120):
     start_time = time.time()
     end_time = start_time
+    logger.info("login tencent...")
 
     while end_time - start_time < timeout:
-        ret = _login_edit_box(account, pwd)
-        if ret == -1:
-            return False
+        # 在密码框界面之前可能会有另一个跳转界面需要处理
         package_name = uiauto.info["currentPackageName"]
+        if package_name == "com.tencent.mobileqq":
+            _prelogin_qq()
+        elif package_name == "com.tencent.mm":
+            _prelogin_wechat()
+        _login_edit_box(account, pwd)
         if package_name == "com.tencent.mobileqq":
             _login_qq()
         elif package_name == "com.tencent.mm":
             _login_wx()
-        else:
+        elif package_name is not None:
+            logger.info("login success.")
             return True
+        else:
+            logger.info("get current pkg failed")
         end_time = time.time()
     return False
 
 if __name__ == "__main__":
     #print get_login()
-    login_tencent("2952020383", "iseven")
+    login_tencent("2952020383", "wetesth")
