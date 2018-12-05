@@ -46,7 +46,7 @@ We offer a recorder plugin for Pycharm. See "docs/GA Recorder.md" for interfaces
 ### iOS Sample:
 demo ipa files: ([Unity UGUI](https://cdn.wetest.qq.com/com/c/ugui.ipa) and [Unity  NGUI](https://cdn.wetest.qq.com/com/c/ngui.ipa))
 
-ios test sample code : [sample/IOSTestTutorial](sample/IOSTestTutorial) (just edit the udid before run)
+ios test sample code : [sample/iOSTestTutorial.py](sample/IOSTestTutorial.py) (just edit the udid before run)
 
 ![MacDown Screenshot](docs/pic/demo-GA2.gif)
 
@@ -55,7 +55,7 @@ ios test sample code : [sample/IOSTestTutorial](sample/IOSTestTutorial) (just ed
 
 [login\_helper](ga2\_contrib/login\_helper) is an extension on logining wechat/qq. 
 
-[sample\_engine\_extension](ga2\_contrib/sample\_engine\_extension) is a demo about how to support other engine types .
+[sample\_engine\_extension](ga2_contrib/sample_engine_extention) is a demo about how to support other engine types .
 
 if you want to install both ga2 and ga2_contrib packages:
 RUN:
