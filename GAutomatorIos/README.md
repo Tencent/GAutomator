@@ -29,7 +29,7 @@ RUN:
 ## Usage
 ### iOS Test Steps:
 
-0.make sure your game has integrated with [GAutomator SDK]("sdks/")
+0.make sure your game has integrated with [GAutomator SDK](../GAutomatorSdk/UnitySDK/compiled)
 
 1.connect you iPhone to Mac by USB and get your device udid(`idevice -l`)
 
