@@ -7,7 +7,7 @@ GAutomator(Game Automator) is an open source test automation framework for mobil
 
 ## Usage
 1. integrate your game with GAutomator SDK as [docs](docs)
-2. write your iOS or Android testing scripts（ see [GAutomatorAndroid](GAutomatorAndroid) and [GAutomatorIOS](GAutomatorIOS) for details）
+2. write your iOS or Android testing scripts（ see [GAutomatorAndroid](GAutomatorAndroid) and [GAutomatorIos](GAutomatorIos) for details）
 
 
 ## GAutomatorAndroid
@@ -31,13 +31,13 @@ For more information about contributing issues or pull requests, [Issues](https:
 # GAutomator
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com) 
 
-GAutomator是一个针对手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以引擎中的元素为操作对象（如Unity中的GameObject），通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上.基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
+GAutomator是一个针对手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以引擎中的元素为操作对象（如Unity中的GameObject），通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上。基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
 
 <img src="GAutomatorAndroid/doc/image/1.gif" alt="SGame" width="400px" />  <img src="GAutomatorAndroid/doc/image/2.gif" alt="Drawing" width="400px" />
 
 ## 基本使用步骤
 1. 集成GAutomator SDK到游戏中，参照[docs](docs)
-2. 编写Android或者iOS的python自动化脚本实现游戏交互（参照[GAutomatorAndroid](GAutomatorAndroid)以及[GAutomatorIOS](GAutomatorIOS)中的说明）
+2. 编写Android或者iOS的python自动化脚本实现游戏交互（参照[GAutomatorAndroid](GAutomatorAndroid)以及[GAutomatorIOS](GAutomatorIos)中的说明）
 
 ## GAutomatorAndroid
 针对android游戏的Pychon测试工程。（目前支持Unity与UE4引擎的交互）
