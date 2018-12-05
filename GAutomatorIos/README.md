@@ -40,7 +40,7 @@ RUN:
 4.edit and run scripts with ga2 (See sample/IOSTestTutorial for details)
 
 ### Record and Playback
-We offer a recorder plugin for Pycharm. See "docs/GA Recorder.md" for interfaces.
+We offer a recorder plugin for Pycharm. See (docs/GA Recorder.md)[docs/GA Recorder.md] for interfaces.
 
 ## Sample
 ### iOS Sample:
@@ -74,4 +74,6 @@ RUN:
 WebDriverAgent: https://github.com/facebook/WebDriverAgent
 
 openatx/facebook-wda: https://github.com/openatx/facebook-wda
+
+
 

@@ -1,4 +1,4 @@
-# GA2 SDK for Unity
+# GA SDK for Unity
 
 基于Unity引擎的游戏的GAutomator SDK包分为NGUI与UGUI版本。
 用户可按照如下步骤在为Unity游戏集成GAutomator SDK.
