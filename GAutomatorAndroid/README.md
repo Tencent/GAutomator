@@ -1,7 +1,7 @@
 # GAutomatorAndroid
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
-GAutomatorAndroid, designed just like android uiautomator, also includes ui automator functions.GAutomator interacts with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach has no mobile device resolution adaptation problems, a testing script can be executed on different mobiles. Robust is another advantage of GameObject, since the game's UI interface is changing frequently, while the GameObject changing frequency is relatively low.
+GAutomatorAndroid, designed just like android uiautomator, also includes ui automator functions. GAutomator interacts with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) .
 
 <img src="doc/image/1.gif" alt="SGame" width="400px" /><img src="doc/image/2.gif" alt="Drawing" width="400px" />
 

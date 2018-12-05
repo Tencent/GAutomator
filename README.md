@@ -1,7 +1,7 @@
 # GAutomator
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com) 
 
-GAutomator(Game Automator) is an open source test automation framework for mobile games.GAutomator, designed just like android uiautomator, also includes ui automator functions.GAutomator interacts  with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach has no mobile device resolution adaptation problems, a testing script can be executed on different mobiles. Robust is another advantage of GameObject, since the game's UI interface is changing frequently, while the GameObject changing frequency is relatively low.
+GAutomator(Game Automator) is an open source test automation framework for mobile games. Designed just like android uiautomator, GAutomator also includes ui automator functions. GAutomator interacts  with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach has no mobile device resolution adaptation problems so that a testing script is able to be executed on various devices. Robust is another advantage of GameObject, since the game's UI interface is changing frequently, while the GameObject changing frequency is relatively low.
 
 <img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/1.gif" alt="SGame" width="400px" /><img src="https://github.com/Tencent/GAutomator/blob/master/doc/image/2.gif" alt="Drawing" width="400px" />
 
