@@ -6,7 +6,7 @@ GAutomator(Game Automator) is an open source test automation framework for mobil
 <img src="GAutomatorAndroid/doc/image/1.gif" alt="SGame" width="400px" /><img src="GAutomatorAndroid/doc/image/2.gif" alt="Drawing" width="400px" />
 
 ## Usage
-1. integrate your game with GAutomator SDK as [docs](docs)
+1. integrate your game with GAutomator SDK as [docs](GAutomatorSdk/docs)
 2. write your iOS or Android testing scripts（ see [GAutomatorAndroid](GAutomatorAndroid) and [GAutomatorIos](GAutomatorIos) for details）
 
 
