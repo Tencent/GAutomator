@@ -1,4 +1,4 @@
-# GAutomator2
+# GAutomatorIos
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 UIAutomation Test Framework For Android/iOS App/Games ( iOS ONLY FOR NOW)
@@ -75,10 +75,8 @@ RUN:
 5. choose iPhones in device list and start the test.
 
 
-
 ## Thanks
 WebDriverAgent: https://github.com/facebook/WebDriverAgent
 
 openatx/facebook-wda: https://github.com/openatx/facebook-wda
 
-GA For Android :  http://git.code.oa.com/gautomator/GAutomator 

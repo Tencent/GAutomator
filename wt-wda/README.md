@@ -1,5 +1,14 @@
-# see https://github.com/facebook/WebDriverAgent for more details
+# wt-wda
 
-Compared to the original wda , this version adds some interfaces for fast interaction and screen capturing .
+This project is based on [Facebook WebDriverAgent](https://github.com/facebook/WebDriverAgent )
 
-## 如果你从未使用过wda ，可以参考 wdaUserGuide.docx 
+Compared to the original wda , this version adds some interfaces for fast interaction and screen capturing required by GA Recorder
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+# wt-wda
+
+
+与facebook原版wda相比，增加了一些快速操作与截图接口,使用[GA Recorder](https://git.code.oa.com/GAutomator2/GAutomator2/tree/master/tools)录制工具时需要使用该版本。
+
+**如果您从未使用过wda ，可以参考 [wdaUserGuide.docx](wdaUserGuide.docx)**
