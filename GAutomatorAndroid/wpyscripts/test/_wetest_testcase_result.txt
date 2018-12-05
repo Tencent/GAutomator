@@ -1,0 +1,26 @@
+测试 (test_report_error) ... ERROR
+测试2 (test_report_error) ... ok
+测试3 (test_report_error) ... ok
+======================================================================
+ERROR: 测试 (test_report_error)
+----------------------------------------------------------------------
+  File "E:\Program\PyCharm Community Edition 4.5.4\helpers\pycharm\utrunner.py", line 155, in <module>
+    TeamcityTestRunner().run(all, **options)
+  File "E:\Program\PyCharm Community Edition 4.5.4\helpers\pycharm\tcunittest.py", line 249, in run
+    test(result)
+  File "C:\Python27\lib\unittest\suite.py", line 70, in __call__
+    return self.run(*args, **kwds)
+  File "C:\Python27\lib\unittest\suite.py", line 108, in run
+    test(result)
+  File "C:\Python27\lib\unittest\case.py", line 393, in __call__
+    return self.run(*args, **kwds)
+  File "C:\Python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "D:\wetest\GAutomator_proj\trunk\GAutomator\wpyscripts\test\reporter_test.py", line 36, in test_report_error
+    self.report.report("a"=="b",u"测试",u"adfa")
+  File "D:\wetest\GAutomator_proj\trunk\GAutomator\wpyscripts\wetest\reporter.py", line 118, in report
+    stack="".join(traceback.format_stack())
+adfa
+
+
+

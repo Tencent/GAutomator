@@ -1,0 +1,27 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "GAutomator",
+	"Description": "UE4 engine game automation test",
+	"Category": "Test",
+	"CreatedBy": "Tencent",
+	"CreatedByURL": "wetest.qq.com",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "GAutomator",
+			"Type": "Runtime",
+			"LoadingPhase": "PostEngineInit",
+			"WhitelistPlatforms" :
+			[
+				"Android"
+			]
+		}
+	]
+}

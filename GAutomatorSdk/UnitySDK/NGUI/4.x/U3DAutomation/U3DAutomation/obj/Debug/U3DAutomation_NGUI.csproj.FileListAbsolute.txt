@@ -1,0 +1,16 @@
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/bin/Debug/U3DAutomation.dll
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/bin/Debug/U3DAutomation.pdb
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/bin/Debug/UnityEditor.dll
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/bin/Debug/UnityEngine.dll
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/obj/Debug/U3DAutomation_NGUI.csprojAssemblyReference.cache
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/obj/Debug/U3DAutomation_NGUI.csproj.CoreCompileInputs.cache
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/obj/Debug/U3DAutomation_NGUI.csproj.CopyComplete
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/obj/Debug/U3DAutomation.dll
+/Users/vivi/Documents/git/gautomator-sdk-unity/UnitySDK/NGUI/4.x/U3DAutomation/U3DAutomation/obj/Debug/U3DAutomation.pdb
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\U3DAutomation.dll
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\U3DAutomation.pdb
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\UnityEditor.dll
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\UnityEngine.dll
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation_NGUI.csprojResolveAssemblyReference.cache
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation.dll
+D:\git\gautomator2\gautomator-sdk-unity\UnitySDK\NGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation.pdb

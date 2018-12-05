@@ -1,0 +1,13 @@
+Tencent is pleased to support the open source community by making GAutomator available.  
+Copyright (C) 2016 THL A29 Limited, a Tencent company.  All rights reserved.
+If you have downloaded a copy of the GAutomator binary from Tencent, please note that the GAutomator binary is licensed under the MIT License.
+If you have downloaded a copy of the GAutomator source code from Tencent, please note that GAutomator source code is licensed under the MIT License, except for the third-party components listed below which are subject to different license terms.  Your integration of GAutomator into your own projects may require compliance with the MIT License, as well as the other licenses applicable to the third-party components included within GAutomator.
+A copy of the MIT License is included in this file.
+Other dependencies and licenses:
+
+Open Source Software Licensed under the Apache License, Version 2.0: 
+The below software in this distribution may have been modified by THL A29 Limited (¡°Tencent Modifications¡±). All Tencent Modifications are Copyright (C) 2016 THL A29 Limited.
+--------------------------------------------------------------------
+1. selenium  3.0.0-beta3
+Copyright 2011-2016 Software Freedom Conservancy
+Copyright 2004-2011 Selenium committers

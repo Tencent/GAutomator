@@ -1,0 +1,84 @@
+# GAutomator2
+[![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+
+UIAutomation Test Framework For Android/iOS App/Games ( iOS ONLY FOR NOW)
+![MacDown Screenshot](docs/pic/wzry-GA2.gif)
+
+## Requirements
+
+python2.7/3.4+
+
+### iOS Test Requirements:
+Mac OS X 10.13.6+
+
+XCode10 For iOS9\~12
+
+Recommend Environment:Xcode10+iOS11
+
+[wt-wda](http://git.code.oa.com/GAutomator2/wt-wda "wt-wda")
+
+[libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice")
+ (`brew install libimobiledevice`)
+
+
+## Installation
+
+RUN:
+`python setup.py install --user`
+
+if http proxy is necessary, install it with the following steps:
+`export http_proxy=http://dev-proxy.oa.com:8080`
+`export https_proxy=http://dev-proxy.oa.com:8080`
+`python setup.py install --user`
+
+## Usage
+### iOS Test Steps:
+
+0.make sure your game has integrated with GA SDK(see "sdks/" for details)
+
+1.connect you iPhone to Mac by USB and get your device udid(`idevice -l`)
+
+2.build && run WebDriverAgentRunner on the target device by xcodebuild
+
+3.run `iproxy your_port 8100 your_udid`
+
+4.edit and run scripts with ga2 (See sample/IOSTestTutorial for details)
+
+### Record and Playback
+We offer a recorder plugin for Pycharm. See "docs/GA Recorder.md" for interfaces.
+
+## Sample
+### iOS Sample:
+demo ipa files: ([Unity UGUI](https://cdn.wetest.qq.com/com/c/ugui.ipa) and [Unity  NGUI](https://cdn.wetest.qq.com/com/c/ngui.ipa))
+
+ios test sample code : [sample/IOSTestTutorial](sample/IOSTestTutorial) (just edit the udid before run)
+
+![MacDown Screenshot](docs/pic/demo-GA2.gif)
+
+## Contribution
+[ga2_contrib](ga2_contrib) package is intended for development of so-called "extra" modules, contributed functionality. 
+
+[login\_helper](ga2\_contrib/login\_helper) is an extension on logining wechat/qq. 
+
+[sample\_engine\_extension](ga2\_contrib/sample\_engine\_extension) is a demo about how to support other engine types .
+
+if you want to install both ga2 and ga2_contrib packages:
+RUN:
+`env ENABLE_CONTRIB=1 python setup.py install --user`
+
+
+## Commit Your Script to WeTest Cloud
+1. prepare your script named by "main.py" 
+2. go to https://wetest.qq.com/console/cloud/autotest
+3. upload the ipa file signed by a enterprise development certificate.
+4. pack your "main.py" and any other files into a ".zip" and upload the zip as scripts
+5. choose iPhones in device list and start the test.
+
+
+
+## Thanks
+WebDriverAgent: https://github.com/facebook/WebDriverAgent
+
+openatx/facebook-wda: https://github.com/openatx/facebook-wda
+
+GA For Android :  http://git.code.oa.com/gautomator/GAutomator 

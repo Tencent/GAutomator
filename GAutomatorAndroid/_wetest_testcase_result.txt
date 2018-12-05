@@ -1,0 +1,17 @@
+Game Test (run) ... ERROR
+======================================================================
+ERROR: Game Test (run)
+----------------------------------------------------------------------
+  File "D:/git/GAutomator/main.py", line 205, in <module>
+    sys.exit(main())
+  File "D:/git/GAutomator/main.py", line 196, in main
+    _run()
+  File "D:/git/GAutomator/main.py", line 135, in _run
+    runner.run()
+  File "D:\git\GAutomator\testcase\runner.py", line 57, in run
+    report.report(False,"Game Test",e.message)
+  File "D:\git\GAutomator\wpyscripts\wetest\reporter.py", line 126, in report
+    stack="".join(traceback.format_stack())
+No module named tools
+
+

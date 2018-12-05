@@ -1,0 +1,6 @@
+build
+dist
+*.log
+files.txt
+ga2.zip
+GAutomator2.egg-info

@@ -1,0 +1,27 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="U3DAutomation/NGUI/NGUITools.cs">
+    <Files>
+      <File FileName="U3DAutomation/NGUI/NGUIHelper.cs" Line="182" Column="55" />
+      <File FileName="U3DAutomation/Dispatcher/Command.cs" Line="8" Column="1" />
+      <File FileName="U3DAutomation/U3DAutomationBehaviour.cs" Line="68" Column="72" />
+      <File FileName="U3DAutomation/Handler/CommandHandler.cs" Line="139" Column="25" />
+      <File FileName="U3DAutomation/NGUI/NGUITools.cs" Line="372" Column="54" />
+      <File FileName="U3DAutomation/Common/U3DManager.cs" Line="13" Column="51" />
+      <File FileName="U3DAutomation/Common/CustomHandler.cs" Line="1" Column="1" />
+      <File FileName="U3DAutomation/Common/ReflectionTools.cs" Line="413" Column="1" />
+      <File FileName="U3DAutomation/Common/ThirdManager.cs" Line="219" Column="40" />
+      <File FileName="U3DAutomation/VersionInfo.cs" Line="9" Column="6" />
+      <File FileName="U3DAutomation/Dispatcher/CommandDispatcher.cs" Line="393" Column="17" />
+      <File FileName="U3DAutomation/CrashReport/CrashMonitor.cs" Line="56" Column="44" />
+      <File FileName="U3DAutomation/protocl/ProtoclCommon.cs" Line="28" Column="25" />
+      <File FileName="U3DAutomation/Common/AndroidJavaObjectWrapper.cs" Line="81" Column="37" />
+      <File FileName="U3DAutomation/Common/AndroidRobot.cs" Line="116" Column="26" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
