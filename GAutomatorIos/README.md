@@ -15,7 +15,7 @@ XCode10 For iOS9\~12
 
 Recommend Environment:Xcode10+iOS11
 
-[wt-wda](http://git.code.oa.com/GAutomator2/wt-wda "wt-wda")
+[wt-wda](../wt-wda "wt-wda")
 
 [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice")
  (`brew install libimobiledevice`)
