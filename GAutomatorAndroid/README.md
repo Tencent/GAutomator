@@ -1,7 +1,7 @@
 # GAutomatorAndroid
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
-GAutomator(Game Automator) is an open source test automation framework for mobile games. GAutomatorAndroid, designed just like android uiautomator, also includes ui automator functions.GAutomator interacts with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach has no mobile device resolution adaptation problems, a testing script can be executed on different mobiles. Robust is another advantage of GameObject, since the game's UI interface is changing frequently, while the GameObject changing frequency is relatively low.
+GAutomatorAndroid, designed just like android uiautomator, also includes ui automator functions.GAutomator interacts with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach has no mobile device resolution adaptation problems, a testing script can be executed on different mobiles. Robust is another advantage of GameObject, since the game's UI interface is changing frequently, while the GameObject changing frequency is relatively low.
 
 <img src="doc/image/1.gif" alt="SGame" width="400px" /><img src="doc/image/2.gif" alt="Drawing" width="400px" />
 
@@ -122,7 +122,7 @@ For more information about contributing issues or pull requests, [Issues](https:
 # GAutomatorAndroid
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
-GAutomator是一个针对Unity手游的UI自动化测试框架。设计理念与使用方式,类似于Android的UIAutomator。GAutomator以Unity中的GameObject为操作对象，通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上，基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
+GAutomatoraAndroid的设计理念与使用方式,类似于Android的UIAutomator。GAutomator以引擎中的元素为操作对象（如Unity中的GameObject），通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上.基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
 
 <img src="doc/image/1.gif" alt="SGame" width="400px" />  <img src="doc/image/2.gif" alt="Drawing" width="400px" />
 
@@ -136,7 +136,7 @@ window平台下运行，linux可运行脚本（GAutomator）。
 
 ## 二 测试用例编写
 
-GAutomator被测试的游戏需要集成**SDK**，[WeTest SDK](https://github.com/Tencent/GAutomator/tree/master/bin "SDK")及[打包方式](doc/GAutomator%E6%B5%8B%E8%AF%95%E6%B8%B8%E6%88%8F%E9%9B%86%E6%88%90WeTest%20SDK.md "SDK")。GAutomator中在Sample目录下有针对[demo游戏](https://cdn.wetest.qq.com/com/c/wetest_demo_unity.apk)的脚本，可以使用该游戏进行自动化的练习。[GAutomator使用说明文档](doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md "Document")，在doc下面也有详细的接入文档与使用说明文档。GAutomatorAndroid与UIAutomator类似，提供了一个UI控件信息查看器[GAutomatorView](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip),可以查看UI对于的GameObject及相关信息，[GAutomatorView使用说明文档](doc/GAutomatorView%E6%B8%B8%E6%88%8F%E6%8E%A7%E4%BB%B6%E6%9F%A5%E7%9C%8B%E5%99%A8.md "GAutomatorView")。
+GAutomator被测试的游戏需要集成**SDK**，[WeTest SDK](bin "SDK")及[打包方式](doc/GAutomator%E6%B5%8B%E8%AF%95%E6%B8%B8%E6%88%8F%E9%9B%86%E6%88%90WeTest%20SDK.md "SDK")。GAutomator中在Sample目录下有针对[demo游戏](https://cdn.wetest.qq.com/com/c/wetest_demo_unity.apk)的脚本，可以使用该游戏进行自动化的练习。[GAutomator使用说明文档](doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md "Document")，在doc下面也有详细的接入文档与使用说明文档。GAutomatorAndroid与UIAutomator类似，提供了一个UI控件信息查看器[GAutomatorView](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip),可以查看UI对于的GameObject及相关信息，[GAutomatorView使用说明文档](doc/GAutomatorView%E6%B8%B8%E6%88%8F%E6%8E%A7%E4%BB%B6%E6%9F%A5%E7%9C%8B%E5%99%A8.md "GAutomatorView")。
 <img src="doc/image/behaviour.png" alt="Drawing" width="800px" />
 
 
@@ -224,4 +224,4 @@ GAutomatorAndroid目前支持Unity和UE4。GAutomator是非跨进程的，所以
 |[report]()|断言，模拟单元测试的Assert|
 
 ## 四 联系
-bug、需求使用过程中的疑问均可直接发布在[Issues](https://github.com/Tencent/GAutomator/issues)，有专人负责回答。也可直接联系wetest助手（800024531）
+bug,需求或使用过程中的疑问均可直接发布在[Issues](https://github.com/Tencent/GAutomator/issues)，有专人负责回答。也可直接联系wetest助手（800024531）

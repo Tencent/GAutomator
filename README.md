@@ -43,5 +43,5 @@ GAutomator SDK的源码。为了实现测试脚本或工具与游戏引擎的交
 一个基于facebook的WebDriverAgent的工程，用于iOS自动化测试。
 
 
-## Contact
-For more information about contributing issues or pull requests, [Issues](https://github.com/Tencent/GAutomator/issues)，your can also contact（QQ:800024531）
+## 联系
+bug,需求或使用过程中的疑问均可直接发布在[Issues](https://github.com/Tencent/GAutomator/issues)，有专人负责回答。也可直接联系wetest助手（800024531）
