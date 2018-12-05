@@ -1,12 +1,12 @@
-# GAutomatorIos
+# GAutomator2(iOS for now)
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
-UIAutomation Test Framework For Android/iOS App/Games ( iOS ONLY FOR NOW)
+UIAutomation Test Framework For Games ( iOS ONLY FOR NOW)
 ![MacDown Screenshot](docs/pic/wzry-GA2.gif)
 
 ## Requirements
 
-python2.7/3.4+
+Python2.7/3.4+
 
 ### iOS Test Requirements:
 Mac OS X 10.13.6+
@@ -24,23 +24,18 @@ Recommend Environment:Xcode10+iOS11
 ## Installation
 
 RUN:
-`python setup.py install --user`
-
-if http proxy is necessary, install it with the following steps:
-`export http_proxy=http://dev-proxy.oa.com:8080`
-`export https_proxy=http://dev-proxy.oa.com:8080`
-`python setup.py install --user`
+`python setup.py install`
 
 ## Usage
 ### iOS Test Steps:
 
-0.make sure your game has integrated with GA SDK(see "sdks/" for details)
+0.make sure your game has integrated with [GAutomator SDK]("sdks/")
 
 1.connect you iPhone to Mac by USB and get your device udid(`idevice -l`)
 
-2.build && run WebDriverAgentRunner on the target device by xcodebuild
+2.build && run wt-wda(or WebDriverAgent) on the target device by xcodebuild(see [wt-wda](../wt-wda) for details
 
-3.run `iproxy your_port 8100 your_udid`
+3.run `iproxy $your_port 8100 $your_udid`
 
 4.edit and run scripts with ga2 (See sample/IOSTestTutorial for details)
 
@@ -68,10 +63,10 @@ RUN:
 
 
 ## Commit Your Script to WeTest Cloud
-1. prepare your script named by "main.py" 
+1. rename your entry script with "main.py" 
 2. go to https://wetest.qq.com/console/cloud/autotest
 3. upload the ipa file signed by a enterprise development certificate.
-4. pack your "main.py" and any other files into a ".zip" and upload the zip as scripts
+4. pack your "main.py" with any other files into a ".zip" and upload the zip as scripts
 5. choose iPhones in device list and start the test.
 
 

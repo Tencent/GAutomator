@@ -1,13 +1,13 @@
 # GAutomator
 [![Wetest](https://img.shields.io/badge/wetest-2.4.0-green.svg)](wetest.qq.com) 
 
-GAutomator(Game Automator) is an open source test automation framework for mobile games. Designed just like android uiautomator, GAutomator also includes ui automator functions. GAutomator interacts  with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach has no mobile device resolution adaptation problems so that a testing script is able to be executed on various devices. Robust is another advantage of GameObject, since a game's UI interface is changing frequently, while the GameObject changing frequency is relatively low.
+GAutomator(Game Automator) is an open source test automation framework for mobile games. Designed just like android uiautomator, GAutomator also includes ui automator functions. GAutomator interacts  with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) . GameObject-based approach will not suffer from device resolution adaptation problems so that a single testing script is able to be executed on various devices.
 
 <img src="GAutomatorAndroid/doc/image/1.gif" alt="SGame" width="400px" /><img src="GAutomatorAndroid/doc/image/2.gif" alt="Drawing" width="400px" />
 
-## usage
+## Usage
 1. integrate your game with GAutomator SDK as [docs](docs)
-2. write your iOS or Android test scripts（ see GAutomator-Android/GAutomator-iOS for details）
+2. write your iOS or Android testing scripts（ see [GAutomatorAndroid](GAutomatorAndroid) and [GAutomatorIOS](GAutomatorIOS) for details）
 
 
 ## GAutomatorAndroid
@@ -20,7 +20,7 @@ python scripts library for games on iOS(with Unity UI interaction)
 SDK source code . In order to interact with Game Engine Elements, the SDK is required to be integrated to game.
 
 ## wt-wda
-A project based on WebDriverAgent used for iOS testing.
+A project based on [WebDriverAgent](https://github.com/facebook/WebDriverAgent) used for iOS testing.
 
 
 ## Contact
@@ -37,19 +37,19 @@ GAutomator是一个针对手游的UI自动化测试框架。设计理念与使�
 
 ## 基本使用步骤
 1. 集成GAutomator SDK到游戏中，参照[docs](docs)
-2. 编写Android或者iOS的python自动化脚本实现游戏交互（参照GAutomator-Android/GAutomator-iOS中的说明）
+2. 编写Android或者iOS的python自动化脚本实现游戏交互（参照[GAutomatorAndroid](GAutomatorAndroid)以及[GAutomatorIOS](GAutomatorIOS)中的说明）
 
 ## GAutomatorAndroid
-针对android游戏的GA python测试工程。（目前支持Unity与UE4引擎的交互）
+针对android游戏的Pychon测试工程。（目前支持Unity与UE4引擎的交互）
 
 ## GAutomatorIos
-针对iOS游戏的GA python库。（目前支持Unity引擎交互）
+针对iOS游戏的Python库。（目前支持Unity引擎交互）
 
 ## GAutomatorSDK
-GAutomator SDK的源码。为了实现测试脚本或工具与游戏引擎的交互，需要将GA SDK集成到游戏包中。
+GAutomator SDK的源码。为了实现测试脚本或工具与游戏引擎的交互，需要将GAutomator SDK集成到游戏包中。
 
 ## wt-wda
-一个基于facebook的WebDriverAgent的工程，用于iOS自动化测试。
+一个基于[WebDriverAgent](https://github.com/facebook/WebDriverAgent)的工程，用于iOS自动化测试。
 
 
 ## 联系
