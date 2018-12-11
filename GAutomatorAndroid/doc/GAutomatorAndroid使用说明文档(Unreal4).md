@@ -1,5 +1,6 @@
 <a name="GAutomator"></a>
-## GAutomator Unity自动化测试教程 ##
+
+## GAutomator UE4自动化测试教程 ##
 
 - [1 准备工作](#1)
 	- [1.1 介绍](#1.1)
@@ -39,16 +40,20 @@
 **GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在bin目录下包含所有需要的组件。
 
 <a name="注："></a>
-### 注： GAutomator UE4版本，需要把config.py中的EngineType修改为Engine.UE4，默认为Unity
+
+### 注： GAutomator UE4版本，需要把config.py中的EngineType修改为Engine.UE4，默认为Unity
 
 <a name="1"></a>
-# 1 准备工作
+
+# 1 准备工作
 <a name="1.1"></a>
-## 1.1 介绍
+
+## 1.1 介绍
 通过Python实现Unreal 4手游的UI自动化测试。GAutomator测试运行在手机端，通过adb操控手机上的UE4手游，支持所有版本的Android手机。这个工具的主要功能包括：测试与Android手机之间的兼容性--测试手游在不同Android手机上的工作情况。功能性测试，PVP游戏可以自动化测试代替人力节省操作，PVE游戏可以自动大关完成冒烟测试。性能测试，云端测试能够手机CPU、内存、流量和FPS数据，能够标记不同的场景。
 
 <a name="1.2"></a>
-## 1.2 环境
+
+## 1.2 环境
 **1 python**: python 2.7
 
 **2 adb**
@@ -56,7 +61,8 @@
 在cmd命令行里面输入adb devices，能够看到你的手机序列号
 
 <a name="1.3"></a>
-## 1.3 使用脚本
+
+## 1.3 使用脚本
 如果使用pycharm的话，直接打开scripts功能即可进行编辑使用
 
 <img src="image/pycharm_step1.png" alt="Drawing" width="300px" />
@@ -65,8 +71,9 @@
 可以在testcase目录下面直接创建你需要的.py脚本，然后编写需要的逻辑
 
 <a name="1.4"></a>
-## 1.4 GAutomatorView
-GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载 。GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，Unity游戏中控件查看器。
+
+## 1.4 GAutomatorView
+GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载 。GAutomator主要根据，Unity中的GameObject和UE4游戏中的UWidget的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，游戏中控件查看器。
 **注：请勿将该软件放置在中文目录下**
 
 <img src="image/behaviour.png" alt="Drawing" width="800px" />
@@ -75,15 +82,18 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 
 
 <a name="2"></a>
-# 2 Getting Started
+
+# 2 Getting Started
 示例代码：sample/sample.py,示例apk游戏:sampel/wetest_demo_ue.apk
 <a name="2.1"></a>
-## 2.1 Simple Usage
+
+## 2.1 Simple Usage
 已经安装好python及依赖库后，可以使用pycharm（请下社区版，社区版免费）直接打开工程，你可以下面的代码开始我们的测试
 
 ```python
 <a name="lib"></a>
-#import lib path,only use in this demo
+
+#import lib path,only use in this demo
 #import sys,os
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..\\")))
 
@@ -111,7 +121,8 @@ python samle.py
 请确保，wetestdemo游戏已经拉起，GAutomator库能够查找到
 	
 <a name="2.2"></a>
-## 2.2 实例详解
+
+## 2.2 实例详解
 wpyscripts.manager模块提供了自动化测试所需的所有功能，提供与引擎、手机、报告相关的内容，也提供了日志实现
 ```python
 import wpyscripts.manager as manager
@@ -121,7 +132,7 @@ import wpyscripts.manager as manager
 engine=manager.get_engine()
 logger=manager.get_logger()
 ```
-*`engine.get_sdk_version()`*能够获取Unity版本信息、Wetest sdk版本信息，能够获取该信息时，证明脚本已经成功连上游戏。如果获取失败，则会抛出`WeTestNativeEngineDllError`异常,抛出该异常可能是手机USB线没有连好或者手机开发者选项未打开。
+*`engine.get_sdk_version()`*能够获取引擎版本信息、Wetest sdk版本信息，能够获取该信息时，证明脚本已经成功连上游戏。如果获取失败，则会抛出`WeTestNativeEngineDllError`异常,抛出该异常可能是手机USB线没有连好或者手机开发者选项未打开。
 *logger.debug("")*输出对应日志，请使用manager.get_logger()获取的实例，避免脚本在云端[wetest.qq.com](http://wetest.qq.com "wetest")使用时出错。
 ```python
 version=engine.get_sdk_version()
@@ -146,12 +157,13 @@ engine=manager.get_engine()
 reporter=manager.get_reporter()
 device=manager.get_devcie()
 ```
-- engine:Unity相关内容，主要包括控件获取，游戏操作。**Unity与UE4 engine的接口不一致，具体详见文档**。GAutomator根据配置，选择对应的实现，Unity引擎实现为UnityEngine类，**UE4引擎为UnRealEngine类**
+- engine:引擎相关内容，主要包括控件获取，游戏操作。**Unity与UE4 engine的接口不一致，具体详见文档**。GAutomator根据配置，选择对应的实现，Unity引擎实现为UnityEngine类，**UE4引擎为UnRealEngine类**
 - reporter:云端报告相关，截图、标记操作过程、性能数据打标签
 - device:手机设备相关，如屏幕长宽高、转向，也包括QQ登录等。
 
 <a name="2.3"></a>
-## 2.3 wetest云端兼容测试
+
+## 2.3 wetest云端兼容测试
 GAutomator编写好的测试脚本，只需要非常简单的修改，就能wetest云端上做兼容测试。云端几千台手机，按照脚本执行游戏。wetest能够发现兼容问题，同时高度还原执行现场，包括手机日志、崩溃信息、截图、执行过程等。
 
 云端执行脚本时，会执行testcase.runner下的run函数，只需要把自己的业务逻辑加入到这个函数中即可
@@ -181,7 +193,8 @@ def run():
 <img src="image/step3.png" alt="Drawing" width="400px" />
 
 <a name="2.4"></a>
-## 2.4 本地运行
+
+## 2.4 本地运行
 **注：调试时手动启动游戏，运行到指定界面，运行对应的脚本即可，如调试大厅界面的代码，游戏跑到大厅界面，再运行自动化测试逻辑。不需要从main.py启动**
 GAutomator支持一台PC在多台android手机上同时测试。在config.py文件中，可以配置，完成单台手机测试的情况。
 **测试的游戏包名**
@@ -202,7 +215,8 @@ class Account(object):
 UE4用户一定要配置为UE4
 ```
 <a name="Engine"></a>
-### Engine Type
+
+### Engine Type
 Unity="unity"
 UE4="ue4"
 
@@ -243,15 +257,16 @@ python main.py --qqname=2952020111 --qqpwd=wetestpwd --engineport=50032 --uiport
 ```
 
 <a name="3"></a>
-# 3 Locating Elements
+
+# 3 Locating Elements
 UE4目前版本仅支持UMG控件的查找与操作
 engine模块提供了一种UI控件的查找方式。示例：sample/UE4/find_elements.py
 - *find_element*
 
 <a name="3.1"></a>
-## 3.1 find_element
-*find_element*通过Unity的GameObject.Find()方法查找游戏中的的gameobject。*find_element*通过GameObject的名称查找对象，名字中可以包含'/'代表GameObject树中的一层。这方法只返回当前激活(active)的gameobject。
-当界面上有两个一模一样路径的gameobject时，只返回其中的一个。代码示例：
+
+## 3.1 find_element
+*find_element*通过引擎中UserWidget的GetWidgetFromName()方法查找对象，这方法只返回当前v可见的gameobject。代码示例：
 ```python
 #import sys,os,time
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..","..")))
@@ -285,9 +300,11 @@ python find_elments.py
 UE4的UMG中UI控件的名称一定是唯一的，可以作为标识存在。如果查找的名称存在则返回Element，如果不存在则返回None
 
 <a name="3.2"></a>
-## 3.2 节点位置查找
+
+## 3.2 节点位置查找
 <a name="3.2.1"></a>
-### 3.2.1 节点在屏幕上的位置
+
+### 3.2.1 节点在屏幕上的位置
 *engine.get_element_bound(element)*能够获取节点在屏幕中的位置。GAutomator所有的操作都是通过触屏进行的，因此获取节点在屏幕上的位置是进行交互操作的基石。
 ```python
 def test_click():
@@ -316,7 +333,8 @@ test_click()
 
 
 <a name="4"></a>
-# 4 交互
+
+# 4 交互
 找到节点后的第一件后，就需要对寻找到的节点进行操作。示例：sample/interaction.py
 ```python
 engine.click(button)
@@ -328,7 +346,8 @@ Engine执行操作后，会等到操作执行完成后才会返回。engine.clic
 
 
 <a name="4.1"></a>
-## 4.1 点击操作
+
+## 4.1 点击操作
 *engine.click()*允许传入Element和ElementBound。如果传入的是Element，会先去查找ElementBound,然后再计算出节点的中心位置进行点击。所以，在有ElementBound的情况下，应该首先传入ElementBound。
 ```python
 def test_click():
@@ -359,7 +378,8 @@ python interaction.py
 
 
 <a name="4.2"></a>
-## 4.2 long press长按
+
+## 4.2 long press长按
 *engine.press()和engine.press_position*与click相似，多一个时间参数，表示长按的时间（单位ms,毫秒）
 ```python
 def test_press():
@@ -381,7 +401,8 @@ python interaction.py
 
 
 <a name="4.3"></a>
-## 4.3 swipe滑动
+
+## 4.3 swipe滑动
 *engine.swipe(start_element, end_element, steps, duration=1000)和engine.swipe_position(start_x,start_y,end_x,end_y, duration=1000)*，可以从一个节点滑动到另外一个节点。duration以毫秒为单位，为滑动的时长。滑动时长不能不能精确控制，只是尽可能接近。。*swipe与swipe_position*动作执行完之后返回，由SDK负责执行动作，不能并行的执行动作。如下面的示例中，第一个动作执行完后，才会执行第二个动作。
 ```python
 def test_swipe():
@@ -417,7 +438,8 @@ engine.swipe(start_e, end_e,2000)
 ```
 
 <a name="4.4"></a>
-## 4.4 获取文字内容
+
+## 4.4 获取文字内容
 可以获取到游戏中的文字内容。NGUI能够获取到UILable、UIInput、GUIText组件上的文字内容，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Text、GUIText组件上的文字信息。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
 ```python
 def test_get_element_txt():
@@ -428,11 +450,13 @@ def test_get_element_txt():
 上面的代码在sample/interaction.py中，运行该函数可以获取文字内容"Click"
 
 <a name="5"></a>
-# 5 Mobile设备
+
+# 5 Mobile设备
 *engine.get_device()*类device提供与手机相关信息的API，也提供简单的操作。示例：sample/devices_tester.py
 
 <a name="5.1"></a>
-## 5.1 屏幕尺寸与转向
+
+## 5.1 屏幕尺寸与转向
 ```python
 def test_get_display_size():
     display_size=device.get_display_size()
@@ -449,7 +473,8 @@ test_get_display_size()
 <img src="image/device_screen.png" alt="Drawing" width="600px" />
 
 <a name="5.2"></a>
-## 5.2 顶层Package与Activity
+
+## 5.2 顶层Package与Activity
 ```python
 def test_get_top_package_activity():
     top_activity=device.get_top_package_activity()
@@ -469,7 +494,8 @@ package name = com.tencent.wetest.demo,activity = com.unity3d.player.UnityPlayer
 ```
 
 <a name="5.3"></a>
-## 5.3 回退键
+
+## 5.3 回退键
 GAutomator本身不提供对标准Android控件的支持，所以当界面上出现标准控件时将无法进行操作。因此，提供了回退（Back）操作，返回到游戏Activity。
 
 ```python
@@ -486,7 +512,8 @@ python devices_tester.py
 
 
 <a name="6"></a>
-# 6 云端报告
+
+# 6 云端报告
 *engine.get_reporter()*获取的Reporter类封装了与云端报告相关的内容，本地实现为空，只有在云端运行的时候才会有效果。游戏自动化测试过程中需要保持测试现场，所以在云端运行过程中需要标记测试过程和截图。Reporter主要负责与功能
 ```python
 import sys, os, time
@@ -570,7 +597,8 @@ def run():
 <img src="image/reporter_perform.png" alt="Drawing" width="600px" />
 
 <a name="6.1"></a>
-## 6.1 截图与操作过程标记
+
+## 6.1 截图与操作过程标记
 ```python
 def screen_shot_click(element):
     logger.debug("screen_shot_click")
@@ -588,11 +616,13 @@ def screen_shot_click(element):
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
 <a name="6.2"></a>
-## 6.2 截图
+
+## 6.2 截图
 *reporter.screenshot()*在云端会截图在报告里面体现，在本地运行时会截图并放在运行目录下的screenshot目录下面。
 
 <a name="6.3"></a>
-## 6.3 打标签
+
+## 6.3 打标签
 ```python
 reporter.add_start_scene_tag("Find_Scene")
 reporter.add_end_scene_tag("Find_Scene")
@@ -604,7 +634,8 @@ reporter.add_end_scene_tag("Find_Scene")
 **注：配合engine.get_scene()效果更佳**
 
 <a name="6.4"></a>
-## 6.4 报告错误
+
+## 6.4 报告错误
 GAutomator并不是使用常见的，unittest作为测试的底层框架，因此并无断言，无法做功能测试。report_error接口，可用于错误报告，并且在运行目录下生成一份_wetest_testcase_result.txt用户记录报告的内容。该文件的报告格式与unittest的测试报告格式一致，因此在云端测试时可现实具体的信息。
 
 ```python
@@ -617,11 +648,13 @@ report.report_error(u"report_test",u"Report test error 中文")
 
 
 <a name="7"></a>
-# 7 实战用例
+
+# 7 实战用例
 举例最常见的，较难处理的引用场景scripts/testcase/tools.py封装了，场景的使用场景
 
 <a name="7.1"></a>
-## 7.1 记录操作流程
+
+## 7.1 记录操作流程
 自动化测试记录操作流程，有利于出现bug时定位和复现。所以原则上，应该记录每一步操作。tools.py里面封装了一个接口，能够在截图上标记点击的位置，然后执行点击操作，点击完成等待相应的时间。
 - screen_shot_click(element,sleeptime)接口,传入需要点击的节点和点击后等待时间。
 ```python
@@ -656,7 +689,8 @@ screen_shot_click(qq_button, 6)
 ```
 
 <a name="7.2"></a>
-## 7.2 QQ或微信登录
+
+## 7.2 QQ或微信登录
 QQ或者微信登录，设计到Activity的切换和Android标准控件的操作,操作过程复杂，但是相对较为固定。在云端运行时，每次拉起游戏之前，都会清理数据，所以每次都需要重新登录。每次登录的过程如下所示：
 
 <img src="image/login_step.png" alt="Drawing" width="600px" />
@@ -685,7 +719,8 @@ def login():
 
 
 <a name="7.3"></a>
-## 7.3 异常处理
+
+## 7.3 异常处理
 对于GAutomator的异常处理是一件非常头痛的事情，在设计框架的过程中也是左右为难，本质原因在于手机的端的不稳定性。不稳定主要包括以下几方面：
 1. adb不稳定:windows的adb及其不稳定长期连接过程中不可避免的会出现断开连接的情况。出现断开的情况在腾讯可能有应用宝tadb.exe端口抢占、IOA、QQ浏览器及其他所有手机助手。wetest平台重写了adb，并且运行在linux之上稳定性好很多。adb断开连接，不可恢复，脚本退出。
 1. 游戏不稳定:SDK部分与UI相关的内容运行在UI主线程，当游戏暂停时可能会出现timeout的情况。如，QQ登录按钮跳转到登录界面，分享按钮，游戏会退出前台主线程暂停。
@@ -698,10 +733,12 @@ def login():
 1. 对于操作可有可无的，也尽量catch。如点击操作不影响测试流程，如攻击按钮，可以选择catch
 
 <a name="8"></a>
-# 8 实际使用接口
+
+# 8 实际使用接口
 GAutomator主要的大三类接口engine,reporter，device属于颗粒度非常细的接口，尽可能的原子化，但是直接使用这部分内容进行开发的话，并不是一件容易的事情。所以，根据在实际项目中使用的经验，我们封装了一些更加方便的、易于使用、不容易出错的接口，供开发人员快速的开发出稳定有效的测试用例。
 <a name="8.1"></a>
-## 8.1 screen_shot_click 点击控件截图并记录轨迹
+
+## 8.1 screen_shot_click 点击控件截图并记录轨迹
 在使用过程中该接口基本，可以替代GameEngine.click。操作流程为截图->点击的位置标记红点->点击->sleep指定的时间，这个操作过程是比较理想的，也是一个最基本的操作。
 wetest平台截图的速度非常快，对性能影响也极低，可以对每一个操作步骤均进行截图。
 *`screen_shot_click(element, sleeptime=2, exception=False)`*
@@ -724,7 +761,8 @@ screen_shot_click("Attack",sleeptime=0)
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
 <a name="8.2"></a>
-## 8.2 screen_shot_click_pos 点击位置截图并记录轨迹
+
+## 8.2 screen_shot_click_pos 点击位置截图并记录轨迹
 screen_shot_click_pos与screen_shot_click的区别是，一个点击的是UI控件，一个纯粹是位置信息。操作流程两个是一致的，操作流程为截图->点击的位置标记红点->点击->sleep指定的时间。
 *`screen_shot_click_pos(pos_x,pos_y, sleeptime=2, exception=False)`*
 pos_x:x坐标位置
