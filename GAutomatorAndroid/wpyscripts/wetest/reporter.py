@@ -25,7 +25,6 @@ from wpyscripts.common.wetest_exceptions import *
 
 import wpyscripts.common.platform_helper as platform
 
-from wpyscripts.common.SceneReporter import SceneReporter
 
 logger = logging.getLogger("wetest")
 
@@ -39,7 +38,6 @@ class Reporter(object):
 
     def __init__(self):
         self.errs=[]
-        self.scene_reporter = SceneReporter()
 
     def add_scene_tag(self,scene):
         logger.warn("add_scene_tag unimplement,implemented in cloud mode")
@@ -86,7 +84,6 @@ class Reporter(object):
 
         result_dir=os.environ.get("UPLOADDIR",".")
         try:
-            self.scene_reporter.reportAtEnd()
             with open(os.path.abspath(os.path.join(result_dir, "_wetest_testcase_result.txt")), 'w') as f:
                 for testcase_name,message in self.errs:
                     if message:
@@ -154,7 +151,7 @@ class CloudReporter(Reporter):
             return False
 
     def add_scene_tag(self,scene):
-         self.scene_reporter.reportCurScene(scene)
+        self.platform_client.reportCurScene(scene)
 
     def add_start_scene_tag(self, scene):
         """

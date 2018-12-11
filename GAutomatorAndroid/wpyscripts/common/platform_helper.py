@@ -29,11 +29,13 @@ class Command(object):
     START_UIAUTOMATOR = (Method.GET, "resumeuiautomator")
     TOUCH = (Method.POST, "touch")
     GET_TEST_TIME = (Method.GET, "runtime")
-    SCENE_TAG = (Method.POST, "scenetag")
+   # SCENE_TAG = (Method.POST, "scenetag")
+    REPORT_SCENE = (Method.POST , "scenereport")
     ANDROIDVERSION = (Method.GET, "androidversion")
     MODEL = (Method.GET, "model")
     FORWARD = (Method.POST, "forward")
     REPORT_ERROR=(Method.POST,"reporterror")
+
 
 
 class Executor(object):
@@ -116,8 +118,10 @@ class Executor(object):
                                     {"name": name, "width": width,
                                      "height": height, "x": x, "y": y})
 
-    def add_scene_tag(self, tag):
-        return self.excute_platform(Command.SCENE_TAG, {"tagName": tag})
+    # def add_scene_tag(self, tag):
+    #     return self.excute_platform(Command.SCENE_TAG, {"tagName": tag})
+    def reportCurScene(self,tag):
+        return self.excute_platform(Command.REPORT_SCENE,{"tagName": tag})
 
     def touch_screen(self, width, height, x, y):
         return self.excute_platform(Command.TOUCH, {"width": width, "height": height, "x": x, "y": y})

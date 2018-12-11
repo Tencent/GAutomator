@@ -500,7 +500,7 @@ class UnityEngine(GameEngine):
         """
             获取GameObject文字信息
             NGUI控件则获取UILable、UIInput、GUIText组件上的文字信息
-            UGUI控件则获取Text、GUIText组件上的问题信息
+            UGUI控件则获取Text、GUIText组件上的文字信息
         :param element: 查找到的GameObject
 
         :Usage:
