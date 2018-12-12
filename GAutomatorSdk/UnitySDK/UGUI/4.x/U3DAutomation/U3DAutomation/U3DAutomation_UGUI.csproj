@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57C9135A-AA36-4240-ADFD-4165F625DB3C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>U3DAutomation</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor">
+      <HintPath>.\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>.\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>.\UnityEngine.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AndroidJavaObjectWrapper.cs" />
+    <Compile Include="Common\BlockQueue.cs" />
+    <Compile Include="Common\CoordinateTool.cs" />
+    <Compile Include="Common\AndroidRobot.cs" />
+    <Compile Include="Common\CustomHandler.cs" />
+    <Compile Include="Common\GameObjectTool.cs" />
+    <Compile Include="Common\GUINode.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\ReflectionTools.cs" />
+    <Compile Include="Common\ThirdManager.cs" />
+    <Compile Include="Handler\ClientCaller.cs" />
+    <Compile Include="Handler\TouchEventHandler.cs" />
+    <Compile Include="Common\U3DManager.cs" />
+    <Compile Include="Common\UITool.cs" />
+    <Compile Include="CrashReport\CrashMonitor.cs" />
+    <Compile Include="Dispatcher\Command.cs" />
+    <Compile Include="Dispatcher\CommandDispatcher.cs" />
+    <Compile Include="Dispatcher\JsonParser.cs" />
+    <Compile Include="Handler\CommandHandler.cs" />
+    <Compile Include="Handler\GameObjectManager.cs" />
+    <Compile Include="Handler\GameObjectTable.cs" />
+    <Compile Include="Json\IJsonWrapper.cs" />
+    <Compile Include="Json\JsonData.cs" />
+    <Compile Include="Json\JsonException.cs" />
+    <Compile Include="Json\JsonMapper.cs" />
+    <Compile Include="Json\JsonMockWrapper.cs" />
+    <Compile Include="Json\JsonReader.cs" />
+    <Compile Include="Json\JsonWriter.cs" />
+    <Compile Include="Json\Lexer.cs" />
+    <Compile Include="Json\ParserToken.cs" />
+    <Compile Include="Common\Point.cs" />
+    <Compile Include="protocl\ProtoclCommon.cs" />
+    <Compile Include="protocl\Response.cs" />
+    <Compile Include="U3DAutomationBehaviour.cs" />
+    <Compile Include="UGUI\EventSystemTool.cs" />
+    <Compile Include="UGUI\UGUIHelper.cs" />
+    <Compile Include="UGUI\UGUITools.cs" />
+    <Compile Include="VersionInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

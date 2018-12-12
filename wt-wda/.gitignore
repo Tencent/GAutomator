@@ -1,0 +1,52 @@
+# OS X
+.DS_Store
+
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## Build generated
+build/
+clang/
+DerivedData
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+
+# AppCode
+.idea/
+
+# Carthage
+Carthage/Build
+Carthage/Checkouts
+Carthage/Cartfile.resolved
+
+# Inspector files
+Inspector/node_modules
+
+# Resource bundle recreated on each build
+Resources/WebDriverAgent.bundle
+
+# Modules map recreated on each build
+Modules/module.modulemap
+
+# test run
+*.trace

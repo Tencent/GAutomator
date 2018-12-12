@@ -1,7 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.DS_Store
 *.py[cod]
 *$py.class
 *.pyc
 *.log
 .idea
+GAutomatorAndroid/_wetest_testcase_result.txt
