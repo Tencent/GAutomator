@@ -36,7 +36,7 @@ GAutomator是一个针对手游的UI自动化测试框架。设计理念与使�
 <img src="GAutomatorAndroid/doc/image/1.gif" alt="SGame" width="400px" />  <img src="GAutomatorAndroid/doc/image/2.gif" alt="Drawing" width="400px" />
 
 ## 基本使用步骤
-1. 集成GAutomator SDK到游戏中，参照[docs](docs)
+1. 集成GAutomator SDK到游戏中，参照[docs]((GAutomatorSdk/docs)
 2. 编写Android或者iOS的python自动化脚本实现游戏交互（参照[GAutomatorAndroid](GAutomatorAndroid)以及[GAutomatorIOS](GAutomatorIos)中的说明）
 
 ## GAutomatorAndroid
