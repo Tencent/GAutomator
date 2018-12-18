@@ -10,7 +10,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 __author__ = 'minhuaxu wukenaihesos@gmail.com'
 
 import os
-from wpyscripts.tools.baisc_operater import *
+from wpyscripts.tools.basic_operator import *
 import wpyscripts.tools.traverse.travel as travel
 
 logger = manager.get_testcase_logger()

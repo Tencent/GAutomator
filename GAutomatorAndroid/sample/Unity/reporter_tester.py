@@ -34,7 +34,7 @@ def screen_shot_click(element):
     engine.click_position(pos_x, pos_y)
 
 
-def enter_find_elmeents():
+def enter_find_elements():
     find_elements_button = engine.find_element("/Canvas/Panel/FindElements")
     logger.debug(find_elements_button)
     screen_shot_click(find_elements_button)
@@ -56,7 +56,7 @@ def test_capture_and_mark():
 
 
 def test_reporter():
-    enter_find_elmeents()
+    enter_find_elements()
     time.sleep(2)
     reporter.add_start_scene_tag("Find_Scene")
     test_capture_and_mark()

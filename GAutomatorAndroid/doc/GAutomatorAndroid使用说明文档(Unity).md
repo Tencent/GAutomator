@@ -1,5 +1,5 @@
-<a name="GAutomator"></a>
-## GAutomator Unity自动化测试教程 ##
+<a name="GAutomatorAndroid"></a>
+## GAutomatorAndroid Unity自动化测试教程 ##
 - [1 准备工作](#1)
 	- [1.1 介绍](#1.1)
 	- [1.2 环境](#1.2)
@@ -60,7 +60,7 @@
 - [9 实际使用接口](#9)
 	- [9.1 screen_shot_click](#9.1)
 	- [9.2 screen_shot_click_pos](#9.2)
-	- [9.3 find_elment_wait查找控件直到出现位置](#9.3)
+	- [9.3 find_element_wait查找控件直到出现位置](#9.3)
 	- [9.4 wait_for_scene等待某个场景加载完毕](#9.4)
 
 
@@ -309,10 +309,10 @@ def test_find_element():
 
 test_find_element()
 ```
-上面的代码可以保存为find_elments.py,从wetestdemo点击FindElements，然后运行
+上面的代码可以保存为find_elements.py,从wetestdemo点击FindElements，然后运行
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 
 <img src="image/find_elements_scene.png" alt="Drawing" width="400px" />
@@ -341,7 +341,7 @@ python find_elments.py
 
 <a name="3.2"></a>
 ## 3.2 find_elements_path
-*find_elements_path*能够一次查找到多个符合的gameobject。但是*find_elements*是一个**非常耗时的操作需要谨慎使用**，对测试时的性能数据有一定影响（主要是fps值）。*find_elments*通过表达式查找gameobject,查找条件为（查找条件为与，只要出现就一定要满足）：
+*find_elements_path*能够一次查找到多个符合的gameobject。但是*find_elements*是一个**非常耗时的操作需要谨慎使用**，对测试时的性能数据有一定影响（主要是fps值）。*find_elements*通过表达式查找gameobject,查找条件为（查找条件为与，只要出现就一定要满足）：
 - gameobject路径
 - gameobject在节点中的位置，顺序(第一个节点为0)
 - gameobject包含图片组件时的图片名称
@@ -360,14 +360,14 @@ def test_find_elements_by_name():
         time.sleep(0.5)
 test_find_elements_by_name()
 ```
-上面的代码可以保存为find_elments.py,从wetestdemo点击FindElements，然后运行
+上面的代码可以保存为find_elements.py,从wetestdemo点击FindElements，然后运行
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 *find_elements_path*能够返回所有符合的节点
 
-<img src="image/find_elments_xml.png" alt="Drawing" width="800px" />
+<img src="image/find_elements_xml.png" alt="Drawing" width="800px" />
 
 返回结果
 ```xml
@@ -389,7 +389,7 @@ _elements = engine.find_elements_path("/Canvas/Panel/*/Item(Clone)")
 - `Item(Clone)`，表示查找所有名叫Item(Clone)的节点
 - `/Canvas/Panel/*/Item(Clone)`，表示查找节点Item(Clone)，任意父亲节点，祖父节点为Panel,曾祖父节点为Canvas且为根节点。其中*表示任意名称。
 
-***find_elments_path***接口非常耗时。
+***find_elements_path***接口非常耗时。
 
 <a name="3.2.2"></a>
 ### 3.2.2 子节点序列查找
@@ -407,10 +407,10 @@ def test_find_elements_by_index():
     assert elements == []
 test_find_elements_by_index()
 ```
-上面的代码可以保存为find_elments.py,从wetestdemo点击FindElements，然后运行
+上面的代码可以保存为find_elements.py,从wetestdemo点击FindElements，然后运行
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 *find_elements_path*能够返回所有符合的节点,这个脚本中会返回关卡2，并进行点击
 - /Canvas/Panel/VerticalPanel/*[1]，表示查找VericalPanel节点中的第二个子节点，VericalPanel的父节点为Panel,Panel的父节点为Cavnvas，且Canvas为根节点
@@ -435,13 +435,13 @@ def test_find_elements_by_img():
         logger.debug("Button : {0},Bound : {1}".format(element,bound))
 test_find_elements_by_img()
 ```
-上面的代码可以保存为find_elments.py,从wetestdemo点击FindElements，然后运行
+上面的代码可以保存为find_elements.py,从wetestdemo点击FindElements，然后运行
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 
-<img src="image/find_elments_xml_img.png" alt="Drawing" width="800px" />
+<img src="image/find_elements_xml_img.png" alt="Drawing" width="800px" />
 
 运行结果如下，*/Canvas/Panel/Image{img=saturn}*和*/Canvas/Panel{img=saturn}*均能找到指定的节点
 ```xml
@@ -474,13 +474,13 @@ def test_find_elements_by_txt():
         engine.click(elements[0])
 test_find_elements_by_txt()
 ```
-上面的代码可以保存为find_elments.py,从wetestdemo点击FindElements，然后运行
+上面的代码可以保存为find_elements.py,从wetestdemo点击FindElements，然后运行
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 
-<img src="image/find_elments_xml_txt.png" alt="Drawing" width="600px" />
+<img src="image/find_elements_xml_txt.png" alt="Drawing" width="600px" />
 
 运行结果如下，*Item(Clone){txt=关卡2}*和*Panel/VerticalPanel/Item(Clone){txt=关卡4}*均能找到指定的节点
 ```xml
@@ -820,7 +820,7 @@ def screen_shot_click(element):
     engine.click_position(pos_x, pos_y)
 
 
-def enter_find_elmeents():
+def enter_find_elements():
     find_elements_button = engine.find_element("/Canvas/Panel/FindElements")
     logger.debug(find_elements_button)
     screen_shot_click(find_elements_button)
@@ -840,7 +840,7 @@ def test_capture_and_mark():
 
 def test_reporter():
     print("test_reporter")
-    enter_find_elmeents()
+    enter_find_elements()
     time.sleep(2)
     reporter.add_start_scene_tag("Find_Scene")
     test_capture_and_mark()
@@ -1263,7 +1263,7 @@ def login():
     wait_for_scene("SceneName")
 
     # 选择QQ登陆
-    qq_button = find_elment_wait("/BootObj/Panel/btnQQ")
+    qq_button = find_element_wait("/BootObj/Panel/btnQQ")
     screen_shot_click(qq_button, 6)
 
     #步骤2 ，等待进入QQ登录界面，packagename为com.tencent.mobileqq，如果是微信登录界面package为com.tencent.mm
@@ -1272,9 +1272,9 @@ def login():
     time.sleep(10)
 
     #步骤3，等待QQ登录界面退出，切换到游戏界面
-    select_btn = find_elment_wait("/BootObj/Panle/selectBtn")
+    select_btn = find_element_wait("/BootObj/Panle/selectBtn")
 ```
-1. 步骤1：等待进入到登录选择scene，如何获取scene名称，请看[1.4 GAutomatorView](#1.4)。wait_for_scene("SceneName")，会一直查询，直到进入名称为"SceneName"的场景。进入到"SceneName"的场景后，查询QQ登录按钮直到出现(find_elment_wait)，并点击QQ登录按钮。
+1. 步骤1：等待进入到登录选择scene，如何获取scene名称，请看[1.4 GAutomatorView](#1.4)。wait_for_scene("SceneName")，会一直查询，直到进入名称为"SceneName"的场景。进入到"SceneName"的场景后，查询QQ登录按钮直到出现(find_element_wait)，并点击QQ登录按钮。
 2. 步骤2：从游戏的Activity切换到QQ或者微信的登录界面需要一定的时间。`wait_for_package("com.tencent.mobileqq")`检查顶层包名，直到QQ的顶层包名(微信包名为com.tencent.mm)。`device.login_qq_wechat_wait(120)`会根据当前的顶层包名，自动选择QQ或者微信登录，当顶层包名不再是"com.tencent.mm"或"com.tencent.mobileqq"时推出。
 **注：账号由云端自动分配。本地调试时请修改wpyscripts/wetest/device.py下面`native_deivce.__init__(self)`中的账号密码**
 3. 步骤3：等待进入游戏界面，直到出现某个element为止。
@@ -1351,7 +1351,7 @@ def select_section():
         选区
     :return:
     """
-    select_btn = find_elment_wait("/Root/pnlStartGame/Panel")
+    select_btn = find_element_wait("/Root/pnlStartGame/Panel")
     screen_shot_click(select_btn, 5)
 
     servers = engine.find_elements_path(
@@ -1364,7 +1364,7 @@ def select_section():
     if len(old_server) > 0:
         screen_shot_click(old_server[0], 4)
 
-    start_game_button = find_elment_wait("/Root/Form_Login/ZoneContainer/ScrollRect/Content/btnStartGame")
+    start_game_button = find_element_wait("/Root/Form_Login/ZoneContainer/ScrollRect/Content/btnStartGame")
     screen_shot_click(start_game_button, 10)
 ```
 充分利用engine.find_elements_path()中的txt查找功能，找到指定的服务器。
@@ -1437,9 +1437,9 @@ sleeptime:点击完成后sleep的时间
 exception:异常发生时，如果exception为True则抛出异常，如果exception为False则不抛出异常返回False
 
 <a name="9.3"></a>
-## 9.3 find_elment_wait查找控件直到出现位置
+## 9.3 find_element_wait查找控件直到出现位置
 游戏对于操作的反应时间，在不同的手机上差别可能会非常大。开始游戏登录服务器到大厅加载完成，加载过程跟网络情况、手机性能都有关系，如果仅仅使用sleep来控制的话，时间长了可能会效率低下，时间短了可能会让测试失败。所以，我们提供了find_element_wait，方便用户更加精确的控制测试进度。如，点击开始游戏后，就一直查找大厅界面的某个UI控件，查找到了也代表大厅界面加载完成了。
-*`find_elment_wait(name, max_count=10, sleeptime=3)`*
+*`find_element_wait(name, max_count=10, sleeptime=3)`*
 name:需要查找的控件名称
 max_count:尝试查找，调用engine.find_element的最大次数
 sleeptime:每次调用engine.find_element的间隔时间。max_count*sleeptime约等于最大等待市场
@@ -1448,7 +1448,7 @@ example
 ```python
 from testcase.tools import *
 
-start_game_button = find_elment_wait("btnStartGame")
+start_game_button = find_element_wait("btnStartGame")
 screen_shot_click(start_game_button, 5)
 
 pve_btn=fine_element_wait("PveBtn",max_count=20,sleeptime=2)
@@ -1459,7 +1459,7 @@ screen_shot_click(pve_btn)
 
 <a name="9.4"></a>
 ## 9.4 wait_for_scene等待某个场景加载完毕
-开始进入对局到真正进入战斗场景，通常会有一段时间，这个时候通常可以用wait_for_scene来判断是否进入。wait_for_scene与find_elment_wait的区别是，一个等待Element出现，一个是等待Scene（Unity的Scene，通过GAutomatorView能查看）出现。
+开始进入对局到真正进入战斗场景，通常会有一段时间，这个时候通常可以用wait_for_scene来判断是否进入。wait_for_scene与find_element_wait的区别是，一个等待Element出现，一个是等待Scene（Unity的Scene，通过GAutomatorView能查看）出现。
 
 example
 ```python
@@ -1469,7 +1469,7 @@ from testcase.tools import *
 wait_for_scene("Loading", times=40)
 
 #等待加载界面的控件已经产生
-find_elment_wait("Form_Loading", max_count=30)
+find_element_wait("Form_Loading", max_count=30)
 
 #等待加载界面的显示控件消失。不能用find_element_wait战斗场景某个控件的方式。loading的时候已经在生成element
 while True:

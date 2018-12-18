@@ -205,7 +205,7 @@ def find_elements_tries(name, max_count=10, sleeptime=3):
             random_click(get_condition_fun(name))
 
 
-def find_elment_wait(name, max_count=10, sleeptime=3):
+def find_element_wait(name, max_count=10, sleeptime=3):
     """
         查找控件
 
@@ -325,7 +325,7 @@ def tencent_login(scene_name, login_button, sleeptime=10):
     wait_for_scene(scene_name)
 
     # 选择QQ登陆
-    qq_button = find_elment_wait(login_button, max_count=40, sleeptime=3)
+    qq_button = find_element_wait(login_button, max_count=40, sleeptime=3)
     if qq_button == None:
         logger.debug("Can't Find QQ Login Btn")
         report.screenshot()

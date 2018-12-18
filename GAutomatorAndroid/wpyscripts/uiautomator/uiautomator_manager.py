@@ -47,6 +47,7 @@ def init_uiautomator():
         初始化uiautomator
     :return:
     """
+    kill_uiautomator()
     file_path = os.path.split(os.path.realpath(__file__))[0]
     uiautomator_stub_path = os.path.abspath(
         os.path.join(file_path, "..","third","libs","uiAutomator","uiautomator-stub.jar"))

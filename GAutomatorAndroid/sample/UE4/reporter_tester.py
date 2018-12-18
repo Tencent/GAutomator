@@ -21,7 +21,6 @@ engine = manager.get_engine()
 logger = manager.get_logger()
 reporter = manager.get_reporter()
 
-
 def screen_shot_click(element):
     logger.debug("screen_shot_click")
     if element is None:
@@ -33,13 +32,11 @@ def screen_shot_click(element):
     reporter.capture_and_mark(pos_x, pos_y, locator_name=element.object_name)
     engine.click_position(pos_x, pos_y)
 
-
-def enter_find_elmeents():
+def enter_find_elements():
     find_elements_button = engine.find_element("FindElements")
     logger.debug(find_elements_button)
     screen_shot_click(find_elements_button)
     time.sleep(1)
-
 
 def back_main():
     find_elements_button = engine.find_element("Back")
@@ -56,7 +53,7 @@ def test_capture_and_mark():
 
 
 def test_reporter():
-    enter_find_elmeents()
+    enter_find_elements()
     time.sleep(2)
     reporter.add_start_scene_tag("Find_Scene")
     test_capture_and_mark()

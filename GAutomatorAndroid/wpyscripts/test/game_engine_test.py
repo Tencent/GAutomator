@@ -89,7 +89,7 @@ class GameEngineTest(unittest.TestCase):
         self._end("find_element")
         logger.debug(element)
 
-    def test_find_elments_by_components(self):
+    def test_find_elements_by_components(self):
         self._start()
         elements = self.engine.find_elements_by_component("CustomTester")
         self.assertTrue(len(elements) == 1, "Find error")

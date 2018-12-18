@@ -1,6 +1,6 @@
-<a name="GAutomator"></a>
+<a name="GAutomatorAndroid"></a>
 
-## GAutomator UE4自动化测试教程 ##
+## GAutomatorAndroid UE4自动化测试教程 ##
 
 - [1 准备工作](#1)
 	- [1.1 介绍](#1.1)
@@ -37,11 +37,11 @@
 - [8 实际使用接口](#8)
 	- [8.1 screen_shot_click](#8.1)
 	- [8.2 screen_shot_click_pos](#8.2)
-**GAutomator** 通过Python实现Unity手游的UI自动化测试，强烈建议使用pycharm编辑python。可在bin目录下包含所有需要的组件。
+**GAutomatorAndroid** 通过Python实现Unity手/UEE4游的UI自动化测试，强烈建议使用pycharm编辑python。可在bin目录下包含所有需要的组件。
 
 <a name="注："></a>
 
-### 注： GAutomator UE4版本，需要把config.py中的EngineType修改为Engine.UE4，默认为Unity
+### 注： GAutomatorAndroid UE4版本，需要把config.py中的EngineType修改为Engine.UE4，默认为Unity
 
 <a name="1"></a>
 
@@ -63,7 +63,7 @@
 <a name="1.3"></a>
 
 ## 1.3 使用脚本
-如果使用pycharm的话，直接打开scripts功能即可进行编辑使用
+如果使用pycharm的话，直接打开GAutomator功能即可进行编辑使用
 
 <img src="image/pycharm_step1.png" alt="Drawing" width="300px" />
 <img src="image/pycharm_step2.png" alt="Drawing" width="300px" />
@@ -73,7 +73,7 @@
 <a name="1.4"></a>
 
 ## 1.4 GAutomatorView
-GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载 。GAutomator主要根据，Unity中的GameObject和UE4游戏中的UWidget的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器；GAutomator也提供了一款类似的，游戏中控件查看器。
+GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下载 。GAutomator主要根据，UE4游戏中的UWidget的路径名称来编写逻辑。类似于UIAutomator需要有一个控件查看器；GAutomator也提供了一款类似的游戏中控件查看器。
 **注：请勿将该软件放置在中文目录下**
 
 <img src="image/behaviour.png" alt="Drawing" width="800px" />
@@ -84,7 +84,7 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 <a name="2"></a>
 
 # 2 Getting Started
-示例代码：sample/sample.py,示例apk游戏:sampel/wetest_demo_ue.apk
+示例代码：sample/UE4/sample.py,示例apk游戏:sampel/UE4/wetest_demo_ue4.apk
 <a name="2.1"></a>
 
 ## 2.1 Simple Usage
@@ -119,7 +119,7 @@ test()
 python samle.py
 ```
 请确保，wetestdemo游戏已经拉起，GAutomator库能够查找到
-	
+​	
 <a name="2.2"></a>
 
 ## 2.2 实例详解
@@ -132,8 +132,9 @@ import wpyscripts.manager as manager
 engine=manager.get_engine()
 logger=manager.get_logger()
 ```
-*`engine.get_sdk_version()`*能够获取引擎版本信息、Wetest sdk版本信息，能够获取该信息时，证明脚本已经成功连上游戏。如果获取失败，则会抛出`WeTestNativeEngineDllError`异常,抛出该异常可能是手机USB线没有连好或者手机开发者选项未打开。
+*`engine.get_sdk_version()`*能够获引擎版本信息、Wetest sdk版本信息，能够获取该信息时，证明脚本已经成功连上游戏。如果获取失败，则会抛出`WeTestNativeEngineDllError`异常,抛出该异常可能是手机USB线没有连好或者手机开发者选项未打开。
 *logger.debug("")*输出对应日志，请使用manager.get_logger()获取的实例，避免脚本在云端[wetest.qq.com](http://wetest.qq.com "wetest")使用时出错。
+
 ```python
 version=engine.get_sdk_version()
 logger.debug("Version Information : {0}".format(version))
@@ -141,10 +142,10 @@ logger.debug("Version Information : {0}".format(version))
 
 *`engine.get_scene()`*获取当前游戏界面对应地图(Level关卡)名称
 
-
 *`engine.find_element("Sample")`*查找当前界面中路径为Sample的节点，如果存在则返回Element，不存在则返回None。当前节点返回的仅为UMG的节点信息，UMG的节点名称唯一，因此find_element仅传节点名称即可。
 查找到的节点samle_button（*Element*），有两个属性object_name,instance。object_name代表的是节点的名称，在UMG中该节点名称一定唯一。
 *`engine.click(sample_button)`*尝试点击samle_button这个UObject的中心点。
+
 ```python
 sample_button=engine.find_element("Sample")
 logger.debug("Button : {0}".format(sample_button))
@@ -266,7 +267,8 @@ engine模块提供了一种UI控件的查找方式。示例：sample/UE4/find_el
 <a name="3.1"></a>
 
 ## 3.1 find_element
-*find_element*通过引擎中UserWidget的GetWidgetFromName()方法查找对象，这方法只返回当前v可见的gameobject。代码示例：
+*find_element*通过UE4的UWidget的GetWidgetFromName()查找游戏中的元素这方法只返回当前可见的（visible）的元素。代码示例：
+
 ```python
 #import sys,os,time
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..","..")))
@@ -292,10 +294,10 @@ def test_find_element():
 
 test_find_element()
 ```
-上面的代码可以保存为find_elments.py,从wetest_demo_ue点击FindElements，然后运行
+上面的代码可以保存为find_elements.py，从wetest_demo_ue4游戏点击FindElements，然后运行
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 UE4的UMG中UI控件的名称一定是唯一的，可以作为标识存在。如果查找的名称存在则返回Element，如果不存在则返回None
 
@@ -323,6 +325,7 @@ def test_click():
 
 test_click()
 ```
+运行结果：
 ```
 [{u'existed': True, u'width': 200.688, u'visible': True, u'height': 99.9, u'instance': 0, u'path': u'ClickBtn', u'y': 140.4, u'x': 552.796}]
 ```
@@ -335,7 +338,7 @@ test_click()
 <a name="4"></a>
 
 # 4 交互
-找到节点后的第一件后，就需要对寻找到的节点进行操作。示例：sample/interaction.py
+找到节点后的第一件后，就需要对寻找到的节点进行操作。示例：UE4/sample/interaction.py
 ```python
 engine.click(button)
 ```
@@ -349,6 +352,7 @@ Engine执行操作后，会等到操作执行完成后才会返回。engine.clic
 
 ## 4.1 点击操作
 *engine.click()*允许传入Element和ElementBound。如果传入的是Element，会先去查找ElementBound,然后再计算出节点的中心位置进行点击。所以，在有ElementBound的情况下，应该首先传入ElementBound。
+
 ```python
 def test_click():
     #点击节点
@@ -440,14 +444,14 @@ engine.swipe(start_e, end_e,2000)
 <a name="4.4"></a>
 
 ## 4.4 获取文字内容
-可以获取到游戏中的文字内容。NGUI能够获取到UILable、UIInput、GUIText组件上的文字内容，如果GameObject上不包含以上组件，将抛出异常。UGUI能够获取Text、GUIText组件上的文字信息。示例在interaction.py中，wetest_demo.apk需要在interaction界面。
+可以获取到游戏中的文字内容。unity NGUI能够获取到UILable、UIInput、GUIText组件上的文字内容，如果GameObject上不包含以上组件，将抛出异常。unity UGUI能够获取Text、GUIText组件上的文字信息。示例在interaction.py中；对UE4获取UMG文字内容，目前支持UMultiLineEditableText、UTextBlock、UMultiLineEditableTextBox及其子类UMG类型。demo apk需要在interaction界面。
 ```python
 def test_get_element_txt():
     e=engine.find_element("Click/Text")
     text=engine.get_element_text(e)
     logger.debug("Text = {0}".format(text))
 ```
-上面的代码在sample/interaction.py中，运行该函数可以获取文字内容"Click"
+上面的代码在UE4/sample/interaction.py中，运行该函数可以获取文字内容"Click"
 
 <a name="5"></a>
 
@@ -539,7 +543,7 @@ def screen_shot_click(element):
     engine.click_position(pos_x, pos_y)
 
 
-def enter_find_elmeents():
+def enter_find_elements():
     find_elements_button = engine.find_element("FindElements")
     logger.debug(find_elements_button)
     screen_shot_click(find_elements_button)
@@ -561,7 +565,7 @@ def test_capture_and_mark():
 
 
 def test_reporter():
-    enter_find_elmeents()
+    enter_find_elements()
     time.sleep(2)
     reporter.add_start_scene_tag("Find_Scene")
     test_capture_and_mark()
@@ -572,7 +576,7 @@ def test_reporter():
 
 ```
 
-runner.py里面，调用test_reporter()。上传到平台后的结果的运行结果（同事在几百台手机上运行）
+runner.py里面，调用test_reporter()。上传到平台后的结果的运行结果（同时在几百台手机上运行）
 ```python
 import traceback
 
@@ -650,7 +654,7 @@ report.report_error(u"report_test",u"Report test error 中文")
 <a name="7"></a>
 
 # 7 实战用例
-举例最常见的，较难处理的引用场景scripts/testcase/tools.py封装了，场景的使用场景
+举例最常见的，较难处理的引用场景GAutomator/testcase/tools.py封装了，场景的使用场景
 
 <a name="7.1"></a>
 
@@ -701,7 +705,7 @@ def login():
     wait_for_scene("SceneName")
 
     # 选择QQ登陆
-    qq_button = find_elment_wait("/BootObj/Panel/btnQQ")
+    qq_button = find_element_wait("/BootObj/Panel/btnQQ")
     screen_shot_click(qq_button, 6)
 
     #步骤2 ，等待进入QQ登录界面，packagename为com.tencent.mobileqq，如果是微信登录界面package为com.tencent.mm
@@ -710,9 +714,9 @@ def login():
     time.sleep(10)
 
     #步骤3，等待QQ登录界面退出，切换到游戏界面
-    select_btn = find_elment_wait("/BootObj/Panle/selectBtn")
+    select_btn = find_element_wait("/BootObj/Panle/selectBtn")
 ```
-1. 步骤1：等待进入到登录选择scene，如何获取scene名称，请看[1.4 GAutomatorView](#1.4)。wait_for_scene("SceneName")，会一直查询，直到进入名称为"SceneName"的场景。进入到"SceneName"的场景后，查询QQ登录按钮直到出现(find_elment_wait)，并点击QQ登录按钮。
+1. 步骤1：等待进入到登录选择scene，如何获取scene名称，请看[1.4 GAutomatorView](#1.4)。wait_for_scene("SceneName")，会一直查询，直到进入名称为"SceneName"的场景。进入到"SceneName"的场景后，查询QQ登录按钮直到出现(find_element_wait)，并点击QQ登录按钮。
 2. 步骤2：从游戏的Activity切换到QQ或者微信的登录界面需要一定的时间。`wait_for_package("com.tencent.mobileqq")`检查顶层包名，直到QQ的顶层包名(微信包名为com.tencent.mm)。`device.login_qq_wechat_wait(120)`会根据当前的顶层包名，自动选择QQ或者微信登录，当顶层包名不再是"com.tencent.mm"或"com.tencent.mobileqq"时推出。
 **注：账号由云端自动分配。本地调试时请修改wpyscripts/wetest/device.py下面`native_deivce.__init__(self)`中的账号密码**
 3. 步骤3：等待进入游戏界面，直到出现某个element为止。

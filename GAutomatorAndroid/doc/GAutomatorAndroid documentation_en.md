@@ -273,7 +273,7 @@ test_find_element()
 Save as find_elements.py, launch wetest_demo application, then run your test script
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 
 <img src="image/find_elements_scene.png" alt="Drawing" width="400px" />
@@ -322,14 +322,14 @@ def test_find_elements_by_name():
         time.sleep(0.5)
 test_find_elements_by_name()
 ```
-save as find_elments.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
+save as find_elements.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 *find_elements_path* return all matching gameobjects
 
-<img src="image/find_elments_xml.png" alt="Drawing" width="800px" />
+<img src="image/find_elements_xml.png" alt="Drawing" width="800px" />
 
 return results:
 ```xml
@@ -351,7 +351,7 @@ _elements = engine.find_elements_path("/Canvas/Panel/*/Item(Clone)")
 - `Item(Clone)`，find all the gameobjects which name is Item(Clone)
 - `/Canvas/Panel/*/Item(Clone)`，find the gameobjects which name is Item(Clone)，any name of parent gameobjct，grandfather gameobject is Panel, great-grandfather gameobject is Canvas, Canvas is also the root gameobject。* means any name of gameobject.
 
-***find_elments_path*** function is very time consuming.
+***find_elements_path*** function is very time consuming.
 
 
 <a name="3.2.2"></a>
@@ -370,10 +370,10 @@ def test_find_elements_by_index():
     assert elements == []
 test_find_elements_by_index()
 ```
-save as find_elments.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
+save as find_elements.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 *find_elements_path* in above test script only return the gameobject of index 2
 - /Canvas/Panel/VerticalPanel/*[1]，find the second child gameobject of VericalPanel,VericalPanel's parent is Panel,Panel's parent is Cavnvas，Canvas is also the root gameobject.
@@ -398,13 +398,13 @@ def test_find_elements_by_img():
         logger.debug("Button : {0},Bound : {1}".format(element,bound))
 test_find_elements_by_img()
 ```
-save as find_elments.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
+save as find_elements.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 
-<img src="image/find_elments_xml_img.png" alt="Drawing" width="800px" />
+<img src="image/find_elements_xml_img.png" alt="Drawing" width="800px" />
 
 results:，*/Canvas/Panel/Image{img=saturn}* or */Canvas/Panel{img=saturn}* find the gameobjects.
 ```xml
@@ -435,13 +435,13 @@ def test_find_elements_by_txt():
         engine.click(elements[0])
 test_find_elements_by_txt()
 ```
-save as find_elments.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
+save as find_elements.py,launch wetest_demo and click "FindElements" button，go to the "FindElements" scene, then run test script:
 
 ```bat
-python find_elments.py
+python find_elements.py
 ```
 
-<img src="image/find_elments_xml_txt.png" alt="Drawing" width="600px" />
+<img src="image/find_elements_xml_txt.png" alt="Drawing" width="600px" />
 
 results，*Item(Clone){txt=关卡2}* or *Panel/VerticalPanel/Item(Clone){txt=关卡4}* can also find the gameobject.
 ```xml
@@ -788,7 +788,7 @@ def screen_shot_click(element):
     engine.click_position(pos_x, pos_y)
 
 
-def enter_find_elmeents():
+def enter_find_elemeents():
     find_elements_button = engine.find_element("/Canvas/Panel/FindElements")
     logger.debug(find_elements_button)
     screen_shot_click(find_elements_button)
@@ -808,7 +808,7 @@ def test_capture_and_mark():
 
 def test_reporter():
     print("test_reporter")
-    enter_find_elmeents()
+    enter_find_elemeents()
     time.sleep(2)
     reporter.add_start_scene_tag("Find_Scene")
     test_capture_and_mark()

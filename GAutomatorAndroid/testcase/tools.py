@@ -11,11 +11,11 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com'
 
 from config import Engine,EngineType
 
-from wpyscripts.tools.baisc_operater import engine
-from wpyscripts.tools.baisc_operater import device
-from wpyscripts.tools.baisc_operater import report
-from wpyscripts.tools.baisc_operater import screen_shot_click,screen_shot_click_pos
-from wpyscripts.tools.baisc_operater import screen_shot_click
+from wpyscripts.tools.basic_operator import engine
+from wpyscripts.tools.basic_operator import device
+from wpyscripts.tools.basic_operator import report
+from wpyscripts.tools.basic_operator import screen_shot_click,screen_shot_click_pos
+from wpyscripts.tools.basic_operator import screen_shot_click
 
 
 

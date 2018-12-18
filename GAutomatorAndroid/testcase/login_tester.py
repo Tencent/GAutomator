@@ -9,7 +9,7 @@ def tencent_login1(login_button, sleeptime=10):
     :return:
     """
     # 选择QQ登陆
-    qq_button = find_elment_wait(login_button, max_count=40, sleeptime=3)
+    qq_button = find_element_wait(login_button, max_count=40, sleeptime=3)
     if qq_button == None:
         logger.debug("Can't Find QQ Login Btn")
         report.screenshot()

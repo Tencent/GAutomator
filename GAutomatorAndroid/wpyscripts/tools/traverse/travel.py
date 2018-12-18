@@ -20,7 +20,7 @@ import traceback
 import wpyscripts.manager as manager
 from wpyscripts.tools.traverse.layerelem import TouchElem, ViewLayer
 from wpyscripts.tools.traverse.graph import Graph, dijkstra
-from wpyscripts.tools import baisc_operater as tools
+from wpyscripts.tools import basic_operator as tools
 from wpyscripts.tools.traverse import qqwx
 
 logger = manager.get_logger()
