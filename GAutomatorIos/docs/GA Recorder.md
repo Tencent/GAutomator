@@ -7,11 +7,11 @@ Support unity element locating and touching only for now.
 * Pycharm
 * Xcode 10
 * libimobiledevice(`brew install libimobiledevice`)
-* wt-wda(http://git.code.oa.com/gautomator2/wt-wda)
+* [wt-wda](../../wt-wda)
 
 ## Installation
-Make sure  wt-wda is able to start on your device. `iproxy` and `idevice_id -l` are installed in your PC.
-
+* Make sure  wt-wda is able to start on your device. `iproxy` and `idevice_id -l` are installed in your PC.
+* Download the pycharm plugin  package [GA Recorder](http://cdn.wetest.qq.com/com/c/wetest_plugin_pycharm.zip) 
 * Open PyCharm Preference , install the plugin from disk , select the zip and restart PyCharm.
 ![MacDown Screenshot](pic/plugin_install_steps.png)
 

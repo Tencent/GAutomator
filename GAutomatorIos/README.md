@@ -75,5 +75,7 @@ WebDriverAgent: https://github.com/facebook/WebDriverAgent
 
 openatx/facebook-wda: https://github.com/openatx/facebook-wda
 
+libimobiledevice: https://github.com/libimobiledevice/libimobiledevice
+
 
 
