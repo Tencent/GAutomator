@@ -31,7 +31,7 @@ RUN:
 
 0.make sure your game has integrated with [GAutomator SDK](../GAutomatorSdk/UnitySDK/compiled)
 
-1.connect you iPhone to Mac by USB and get your device udid(`idevice -l`)
+1.connect you iPhone to Mac by USB and get your device udid(`idevice_id -l`)
 
 2.build && run wt-wda(or WebDriverAgent) on the target device by xcodebuild(see [wt-wda](../wt-wda) for details
 
