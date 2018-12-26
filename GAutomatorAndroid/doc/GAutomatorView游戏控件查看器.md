@@ -1,6 +1,6 @@
 # GAutomatorView游戏控件查看器
 
-GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike 下载，GAutomatorView为绿色软件打开即用（**注：请勿将该软件放置在中文目录下**）。 GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器。GAutomator也提供了一款类似的，Unity游戏中控件查看器。
+GAutomatorView工具可在[此处](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip) 下载，GAutomatorView为绿色软件打开即用（**注：请勿将该软件放置在中文目录下**）。 GAutomator主要根据，Unity游戏中的GameObject的路径名称来编写逻辑。类似于UIAutomator需要有一个，控件查看器。GAutomator也提供了一款类似的，Unity游戏中控件查看器。
 
 GAutomatorView点击查找控件，目前仅支持NGUI和UGUI控件的查找。如果是3D物体，建议向开发询问物体对应的GameObject名称或者component名称，通过搜索的方式查找。
 
