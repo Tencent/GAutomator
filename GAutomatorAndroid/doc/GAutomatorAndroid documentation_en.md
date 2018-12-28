@@ -59,13 +59,13 @@ GAutomator(Game Automator) is an open source test automation framework for Unity
 **Windows Os and Software Requirements:**
 - Windows 7 (32/64 bit), Windows 8 or higher
 - python 2.7
-- Android SDK(or adb),Enable ADB setting on device and connect your android device using usb with your PC.
+- Android SDK(or adb),Enable ADB setting on device and connect your android device via usb with your PC.
 
 
 **Linux and Software Requirements:**
 - Ubuntu 14.04 LTS
 - python 2.7
-- Android SDK(or adb),Enable ADB setting on device and connect your android device using usb with your PC.
+- Android SDK(or adb),Enable ADB setting on device and connect your android device via usb with your PC.
 
 **Android**:
 Android 4.3 (API level 18) or higher.
