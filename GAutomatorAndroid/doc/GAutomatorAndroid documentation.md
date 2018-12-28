@@ -32,7 +32,7 @@ GAutomatorViewer can help you inspect the UI of an application in order to find 
 
 
 # 2 Getting started
-example:sample/sample.py, demo game apk:sample/wetest_demo.apk
+example:sample/sample.py, demo apk:[unity demo](https://cdn.wetest.qq.com/com/c/wetest_demo_unity.apk)
 
 ## 2.1 Simple Usage
 ```python
