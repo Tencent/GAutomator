@@ -11,9 +11,11 @@ __author__ = 'yifengcai'
 
 import sys
 import wpyscripts.manager as manager
+import six
+from functools import total_ordering
 
 logger = manager.get_logger()
-
+@total_ordering
 class Vertex(object):
     # node must implement "==" operator, "__hash__" and "str" operator
     
@@ -25,7 +27,10 @@ class Vertex(object):
 
     def clear(self):
         # Set distance to infinity
-        self.distance = sys.maxint
+        if six.PY3:
+            self.distance = sys.maxsize
+        else:
+            self.distance = sys.maxint
         # Mark unvisited        
         self.visited = False  
         # Predecessor
@@ -75,6 +80,15 @@ class Vertex(object):
 
     def __str__(self):
         return "Vertex (%s)" % str(self.id)
+
+    def __eq__(self, other):
+        return self.distance == other.distance
+
+    def __lt__(self, other):
+        return self.distance < other.distance
+
+    def __hash__(self):
+        return hash(str(self.id))
 
 
 class Graph(object):

@@ -7,9 +7,8 @@ import os
 import time
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
 print(sys.path)
-from tools import *
+from .tools import *
 from wpyscripts.common.utils import time_snap
-
 
 def scene_enter(button, *args, **kwargs):
     """

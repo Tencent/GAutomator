@@ -367,13 +367,13 @@ class GameEngineTest(unittest.TestCase):
 
     def test_register_game_callback(self):
         def _print_fun(v):
-            print "game call"
-            print "value = "+v
+            print("game call")
+            print("value = " + v)
             return "_print_fun call return value"
 
         def _print_fun_returnvalue(v):
-            print "game call return value"
-            print "value = "+v
+            print("game call return value")
+            print("value = " + v)
             return "_print_fun_returnvalue call return value"
 
         result = self.engine.register_game_callback("test", _print_fun)

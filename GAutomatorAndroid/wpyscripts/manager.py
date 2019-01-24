@@ -56,7 +56,6 @@ def get_device():
     if get_device.instance:
         return get_device.instance
 
-
     ui_device = uiauto.get_uiautomator()
     pkgname = os.environ.get("PKGNAME")
     launch_activity = os.environ.get("LAUNCHACTIVITY", None)
@@ -156,7 +155,6 @@ def save_sdk_version(version):
     """
     try:
         import urllib
-        import urllib2
         import socket
         import hashlib
         url = "http://wetest.qq.com/cloudapi/api_v2/gautomator"
@@ -165,7 +163,7 @@ def save_sdk_version(version):
         pkg = os.environ["PKGNAME"]
 
         # 只收集SDK版本情况，游戏包名MD5加密不可逆向
-        hash_pkg = hashlib.md5(pkg)
+        hash_pkg = hashlib.md5(pkg.encode("utf-8"))
         hash_pkg = hash_pkg.hexdigest()
         script_version = "3.0.0"
         version_info = ""
@@ -173,8 +171,13 @@ def save_sdk_version(version):
             version_info = str(version)
         values = {"pkg": hash_pkg, "ip": ip_address, "name": hostname, "scriptversion": script_version,
                   "sdkversion": version_info}
-        data = urllib.urlencode(values)
-        f = urllib2.urlopen(url, data)
-        print f.read()
+        if six.PY2:
+            import urllib2
+            data = urllib.urlencode(values)
+            f = urllib2.urlopen(url, data)
+        else:
+            data = urllib.parse.urlencode(values)
+            f = urllib.request.urlopen(url, data.encode("utf-8"))
+        print(f.read())
     except:
         traceback.print_exc()

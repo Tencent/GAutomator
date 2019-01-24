@@ -35,7 +35,7 @@ class Command(object):
     MODEL = (Method.GET, "model")
     FORWARD = (Method.POST, "forward")
     REPORT_ERROR=(Method.POST,"reporterror")
-
+    PROCDIED_REPORT = (Method.POST, "procdiedreport")
 
 
 class Executor(object):
@@ -142,6 +142,8 @@ class Executor(object):
     def report_error(self,message):
         return self.excute_platform(Command.REPORT_ERROR,{"errmsg":message})
 
+    def procdied_report(self, is_need_report):
+        return self.excute_platform(Command.PROCDIED_REPORT, {"isNeedReport": is_need_report})
 
 def get_platform_client():
     if get_platform_client.instance:

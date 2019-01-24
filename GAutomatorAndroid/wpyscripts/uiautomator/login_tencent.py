@@ -14,15 +14,11 @@ import traceback
 import uiautomator_manager as m
 import login_getter as getter
 import os
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+from wpyscripts.common.adb_process import *
 from wpyscripts.common.utils import time_snap
 
 logger = logging.getLogger("wetest")
-
 uiauto = m.get_uiautomator()
-
 
 def __click_by_step__(obj, step, number):
     if obj.exists:
@@ -32,7 +28,6 @@ def __click_by_step__(obj, step, number):
         for y in range(local_y, local_y + step * number, step):
             uiauto.click(local_x, y)
         return
-
 
 def _login_edit_box(account, pwd):
     logger.info("login edit box...")
@@ -54,13 +49,14 @@ def _login_edit_box(account, pwd):
                     logger.info(
                         "click the usr x point. local_x is " + str(local_x - i * local_step) + ". local_y is " + str(
                             local_y))
-                uiauto.wait.idle()
-                user_edit.set_text(account)
-                uiauto.wait.update()
-                # user
-                logger.info("src and dest content.")
-                logger.info(user_edit.get_text())
+             #  uiauto.wait.idle()
+                # user_edit.set_text(account)
+                excute_adb_process("shell input text " + account)
                 logger.info(account)
+                break
+            #   uiauto.wait.update()
+              # logger.info("src and dest content.")
+              # logger.info(user_edit.get_text())
             # pwd
             pwd_edit = logins[1]
             info = pwd_edit.info
@@ -71,10 +67,10 @@ def _login_edit_box(account, pwd):
                     "click the pwd x point. local_x is " + str(local_x - j * local_step) + ". local_y is " + str(
                         local_y))
             uiauto.wait.idle()
-            pwd_edit.set_text(pwd)
+            excute_adb_process("shell input text " + pwd)
+           # pwd_edit.set_text(pwd)
             logger.info("set pwd : " + pwd)
-            # login
-            uiauto.wait.idle()
+            time.sleep(1)
             login_button = logins[2]
             login_button.click.wait()
             logger.info("login_button.click()")
@@ -152,7 +148,6 @@ def _login_qq():
 
     except Exception as e:
         logger.info(e)
-
 
 def _login_wx():
     time.sleep(10)
@@ -246,7 +241,7 @@ def _prelogin_qq():
             logger.info("pre login qq")
             uiauto.wait.idle()
             uiauto(text=u'登 录', className=u'android.widget.Button').click()
-    except Exception, e:
+    except Exception as e:
             logger.info(e)
 
 def _prelogin_wechat():
@@ -260,9 +255,8 @@ def _prelogin_wechat():
             uiauto.wait.idle()
             uiauto(text=u'用微信号/QQ号/邮箱登录', className=u'android.widget.Button').click()
 
-    except Exception, e:
+    except Exception as e:
         logger.info(e)
-
 
 @time_snap(interval=9, times=19)
 def login_tencent(account, pwd, timeout=180):
@@ -301,5 +295,4 @@ def login_tencent(account, pwd, timeout=180):
 
 if __name__ == "__main__":
     #print get_login()
-    pass
-   # login_tencent("2952018575", "wemonster")
+    login_tencent("2952018575", "wemonster")

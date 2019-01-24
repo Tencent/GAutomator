@@ -18,8 +18,6 @@ from wpyscripts.tools.basic_operator import screen_shot_click,screen_shot_click_
 from wpyscripts.tools.basic_operator import screen_shot_click
 
 
-
-
 if EngineType == Engine.UE4:
     from wpyscripts.tools.ue_engine_api import *
 elif EngineType == Engine.Unity:

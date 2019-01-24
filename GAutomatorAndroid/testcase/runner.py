@@ -47,14 +47,14 @@ def run():
     """
     try:
       #  random_search_test()
-        import sample
-        sample.main()
+        from . import sample_case
+        sample_case.main()
         pass
     except Exception as e:
         traceback.print_exc()
         stack = traceback.format_exc()
         logger.error(stack)
-        report.report(False,"Game Test",e.message)
+        report.report(False,"Game Test",str(e))
     finally:
         report._report_total()
         report.screenshot()

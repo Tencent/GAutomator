@@ -8,7 +8,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 """
 
 __author__ = 'yifengcai'
-
+import six
 class TouchElem(object):
     def __init__(self, scene_name, element):
         self.scene_name = scene_name
@@ -41,7 +41,11 @@ class ViewLayer(object):
         self.sort_elems_by_name()
         
     def sort_elems_by_name(self):
-        self.touchelems.sort(cmp=_cmp_elem)
+        if six.PY2:
+            self.touchelems.sort(cmp=_cmp_elem)
+        else:
+            from functools import cmp_to_key
+            self.touchelems.sort(key=cmp_to_key(_cmp_elem))
         
     def add_element(self, touch_element):
         self.touchelems.append(touch_element)

@@ -22,6 +22,7 @@ from wpyscripts.tools.traverse.layerelem import TouchElem, ViewLayer
 from wpyscripts.tools.traverse.graph import Graph, dijkstra
 from wpyscripts.tools import basic_operator as tools
 from wpyscripts.tools.traverse import qqwx
+import six
 
 logger = manager.get_logger()
 engine = manager.get_engine()
@@ -51,7 +52,10 @@ def find_less_click_element_ex(elements):
     now I record all the elements that are least clicked and have same path, and choose random one
     '''
     global click_dict_ex
-    min_num = sys.maxint
+    if six.PY2:
+        min_num = sys.maxint
+    else :
+        min_num = sys.maxsize
     min_elements = []
     min_poses = []
     min_object_name = None
@@ -386,7 +390,7 @@ def explore(statfilename = "policy.log", forbid_names=None, mode=0, max_num=300,
                 qqwx.handle_qq_wx_package()
             elif not_in_game:
                 logger.info("not game package anymore, raise Exception")
-                raise Exception, "not game package anymore"
+                raise Exception( "not game package anymore")
             else:
                 # exit this layer
                 logger.info("not game package, back")

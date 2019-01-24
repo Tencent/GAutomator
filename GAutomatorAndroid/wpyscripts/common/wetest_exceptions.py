@@ -8,8 +8,9 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 """
 __author__ = 'minhuaxu wukenaihesos@gmail.com'
-
-from exceptions import RuntimeError
+import six
+if six.PY2:
+    from exceptions import RuntimeError
 
 
 class WeTestRuntimeError(RuntimeError):

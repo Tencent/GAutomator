@@ -31,8 +31,8 @@ except ImportError:  # above is available in py3+, below is py2.7
     import urllib2 as url_request
     import urlparse as parse
 
-from errorhandler import ErrorCode, ErrorHandler
-import utils
+from .errorhandler import ErrorCode, ErrorHandler
+from .utils import *
 
 LOGGER = logging.getLogger(__name__)
 
@@ -230,7 +230,7 @@ class RemoteConnection(object):
            its JSON payload.
         """
         assert path is not None and method is not None, 'Url Method not None'
-        data = utils.dump_json(params)
+        data = dump_json(params)
         path = string.Template(path).substitute(params)
         url = '{0}/{1}'.format(self._url, path)
         return self._request(method, url, body=data)
@@ -348,7 +348,7 @@ class RemoteConnection(object):
                 content_type = resp.getheader('Content-Type').split(';')
             if not any([x.startswith('image/png') for x in content_type]):
                 try:
-                    data = utils.load_json(body.strip())
+                    data = load_json(body.strip())
                 except ValueError:
                     if 199 < statuscode < 300:
                         status = ErrorCode.SUCCESS

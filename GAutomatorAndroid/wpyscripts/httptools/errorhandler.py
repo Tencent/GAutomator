@@ -9,7 +9,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 """
 __author__ = 'minhuaxu wukenaihesos@gmail.com'
 
-from exceptions import *
+from .exceptions import *
 
 
 class ErrorCode(object):

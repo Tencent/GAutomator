@@ -13,4 +13,4 @@ if __name__ == '__main__':
         time.sleep(0.3)
 
         tree=engine._get_dump_tree()
-        print tree
+        print(tree)

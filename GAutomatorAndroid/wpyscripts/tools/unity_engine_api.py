@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 __author__ = 'minhuaxu'
 
-from basic_operator import *
+from .basic_operator import *
 
 def get_random_choice_by_weight(elements_name):
     """

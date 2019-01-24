@@ -68,7 +68,8 @@ def screen_shot_click(element, sleeptime=2, exception=False):
         #device.ui_device.click(pos_x,pos_y)
         engine.click_position(pos_x, pos_y)
         logger.debug("screen_shot_click_pos x = {0},y = {1},name = {2}".format(pos_x, pos_y, element.object_name))
-    except:
+    except Exception as e:
+        logger.exception(e)
         logger.warn("screen_shot_click_pos x = {0},y = {1},name = {2} failed".format(pos_x, pos_y, element.object_name))
         if exception:
             raise

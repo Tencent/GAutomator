@@ -7,8 +7,7 @@ http://opensource.org/licenses/MIT
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 """
-__author__ = 'alexkan kanchuanqi@gmail.com,minhuaxu wukenaihesos@gmail.com'
-
+import six
 import json, socket, struct, time
 import threading
 import logging
@@ -37,7 +36,10 @@ class SocketClient(object):
         length = len(serialized)
         buff = struct.pack("i", length)
         self.socket.send(buff)
-        self.socket.sendall(serialized)
+        if six.PY3:
+            self.socket.sendall(bytes(serialized, encoding='utf-8'))
+        else:
+            self.socket.sendall(serialized)
 
     def close(self):
         try:
@@ -57,7 +59,10 @@ class SocketClient(object):
             recv_size = self.socket.recv_into(view[next_offset:], total - next_offset)
             next_offset += recv_size
         try:
-            deserialized = json.loads(view.tobytes())
+            if six.PY3:
+                deserialized = json.loads(str(view.tobytes(), encoding='utf-8'))
+            else:
+                deserialized = json.loads(view.tobytes())
             return deserialized
         except (TypeError, ValueError) as e:
             raise WeTestInvaildArg('Data received was not in JSON format')

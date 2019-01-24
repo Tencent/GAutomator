@@ -1,7 +1,9 @@
 <a name="1"></a>
-# 1 Introduction
+
+# 1 Introduction
 <a name="1.1"></a>
-- [1 Introduction](#1)
+
+- [1 Introduction](#1)
 	- [1.1 Introduction GAutomator](#1.1)
 	- [1.2 System Requirements](#1.2)
 	- [1.3 Quick start](#1.3)
@@ -52,7 +54,8 @@ GAutomator(Game Automator) is an open source test automation framework for Unity
 
 
 <a name="1.2"></a>
-## 1.2 System Requirements
+
+## 1.2 System Requirements
 **Windows Os and Software Requirements:**
 - Windows 7 (32/64 bit), Windows 8 or higher
 - python 2.7
@@ -68,14 +71,16 @@ GAutomator(Game Automator) is an open source test automation framework for Unity
 Android 4.3 (API level 18) or higher.
 
 <a name="1.3"></a>
-## 1.3 Quick start
+
+## 1.3 Quick start
 We recommend using pycharm as the IDE.GAutomator can be regarded as a project,pycharm can open it.
 <img src="image/pycharm_step1.png" alt="Drawing" width="300px" /><img src="image/pycharm_step2.png" alt="Drawing" width="300px" />
 
 You can create test script in the testcase directory, and edit you test.
 
 <a name="1.4"></a>
-## 1.4 GAutomator Viewer
+
+## 1.4 GAutomator Viewer
 
 GAutomatorViewer can help you inspect the UI of an application in order to find the layout hierarchy, and view the properties associated with the controls.[GAutomatorView](http://cdn.wetest.qq.com/com/c/GAutomatorView.zip),While designing your UI automation suite, this tool is very helpful as it exposes the GameObject name and other attributes of an GameObject, which is needed for writing scripts,[GAutomatorView Documentation](https://github.com/Tencent/GAutomator/blob/master/doc/GAutomatorView%E6%B8%B8%E6%88%8F%E6%8E%A7%E4%BB%B6%E6%9F%A5%E7%9C%8B%E5%99%A8.md "GAutomatorView").
 
@@ -83,15 +88,18 @@ GAutomatorViewer can help you inspect the UI of an application in order to find 
 
 
 <a name="2"></a>
-# 2 Getting started
+
+# 2 Getting started
 example:sample/sample.py, demo game apk:sample/wetest_demo.apk
 
 <a name="2.1"></a>
-## 2.1 Simple Usage
+
+## 2.1 Simple Usage
 ```python
 
 <a name="lib"></a>
-#import lib path,only use in this demo
+
+#import lib path,only use in this demo
 #import sys,os
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..\\")))
 
@@ -121,7 +129,8 @@ python sample.py
 *Note: Before running the script, make sure the wetest_demo game is launched, the mobile is connected to the computer and the developer option is turned on*
 
 <a name="2.2"></a>
-## 2.2 Example Detail
+
+## 2.2 Example Detail
 The wpyscripts.manager module provides all the functionality needed for automated testing, providing content related to engine, device, report.
 ```python
 import wpyscripts.manager as manager
@@ -161,7 +170,8 @@ device=manager.get_devcie()
 
 
 <a name="2.3"></a>
-## 2.3 Test on wetest cloud platform
+
+## 2.3 Test on wetest cloud platform
 GAutomator tester script can run on your pc and wetest cloud test platform. Wetest prepare a docker container for each mobile, run your script just like on a linux pc has one mobile(prepare python,adb).WeTest cloud test platform will find the compatibility issues, also record the test process, provide screenshot,mobile log,crash information and so on.
 When wetest cloud platform executes your test script, it execute the main.py. main.py contain install your application,clear your application data and qq wechat data,launch your application. After prepare the environment, start your test logic from testcase.runner run function.
 ```python
@@ -169,7 +179,7 @@ import traceback
 
 try:
     from sample.sample import *
-except Exception,e:
+except Exception as e:
     traceback.print_exc()
 
 def run():
@@ -178,7 +188,7 @@ def run():
     """
     try:
         test()
-    except Exception,e:
+    except Exception as e:
         traceback.print_exc()
 ```
 then run build.py,this script will generate a script zip run on the wetest platform.
@@ -191,7 +201,8 @@ start test step:
 <img src="image/step3.png" alt="Drawing" width="400px" />
 
 <a name="2.4"></a>
-## 2.4 Test on local PC
+
+## 2.4 Test on local PC
 **Note:When debug your test script(such as login function), you need to launch your application and go to the scene you want to test. For example, if you want to debug your buy test script, go to the game hall, and start to run your script**
 GAutomator can test multiple mobile on a PC.First you need to set the game package name, at the beginning of main.py,just like
 ```python
@@ -234,14 +245,16 @@ python main.py --qqname=2952020111 --qqpwd=wetestpwd --engineport=50032 --uiport
 ```
 
 <a name="3"></a>
-# 3 Locating Elements
+
+# 3 Locating Elements
 GAutomator has three way to find the GameObject。Example：sample/find_elements.py
 - *find_element*
 - *find_elements_path*
 - *find_elements_by_component*
 
 <a name="3.1"></a>
-## 3.1 find_element
+
+## 3.1 find_element
 *find_element* use the [GameObject.Find] method to find a GameObject by name.This function only returns active GameObjects. If no GameObject with name can be found, null is returned. If name contains a '/' character, it traverses the hierarchy like a path name. *We find a bug in same unity version, when you use the full path, it may return the inactive gameobject*
 ```python
 #import sys,os,time
@@ -300,7 +313,8 @@ python find_elements.py
 This scene has two gameobjects("/Canvas/Panel/Button"), this function can only return one gameobject. If the name you find is not existed in this scene, return None.
 
 <a name="3.2"></a>
-## 3.2 find_elements_path
+
+## 3.2 find_elements_path
 *find_elements_path* can find gameobjects by name,path,text or image name。But *find_elements_path* is a very time-consuming operation that requires careful use，has a certain impact on the performance of test data。*find_elements_path*： through the expression to find gameobjects, support find conditions:
 - gameobject path
 - gameobject index
@@ -311,7 +325,8 @@ This scene has two gameobjects("/Canvas/Panel/Button"), this function can only r
 
 
 <a name="3.2.1"></a>
-### 3.2.1 Find GameObject by path
+
+### 3.2.1 Find GameObject by path
 ```python
 def test_find_elements_by_name():
     elements = engine.find_elements_path("/Canvas/Panel/VerticalPanel/Item(Clone)")
@@ -355,7 +370,8 @@ _elements = engine.find_elements_path("/Canvas/Panel/*/Item(Clone)")
 
 
 <a name="3.2.2"></a>
-### 3.2.2 find gameobject by index
+
+### 3.2.2 find gameobject by index
 If you only want to select the "关卡2" gameobject. You can use *find_elements_path* find gameobjects by index。Find gameobject by index, expression as [num],num start from 0.
 ```python
 def test_find_elements_by_index():
@@ -381,7 +397,8 @@ python find_elements.py
 **Note: The index start from 0**。[] means the index of child gameobject, so root gameobject can't use [].
 
 <a name="3.2.3"></a>
-### 3.2.3 find gameobjects by image name
+
+### 3.2.3 find gameobjects by image name
 *find_elements_path* can find gameobjects by the component's image name.Expression is {img=imageName}，img is the name of image.
 ```python
 def test_find_elements_by_img():
@@ -419,7 +436,8 @@ img is the name of image，in Unity which components have image
 - NGUI，will try to compare UISprite、UITexture、Renderer component's image name
 
 <a name="3.2.3"></a>
-### 3.2.3 find gameobjects by text content
+
+### 3.2.3 find gameobjects by text content
 *find_elements_path* can find gameobjects by the component's text content. Expression is {txt=txtName}，txtName is the text content.
 ```python
 def test_find_elements_by_txt():
@@ -456,7 +474,8 @@ Button : GameObject /Canvas/Panel/VerticalPanel/Item(Clone) Instance = -11832,Bo
 - NGUI，will try to compare UILabel、UIInput and GUIText component's content
 
 <a name="3.3"></a>
-## 3.3 find gameobject by component name
+
+## 3.3 find gameobject by component name
 Find a list of all active loaded gameobjects which have the component. In fact, GAutomator use the unity function  
 GameObject.FindObjectsOfType(Type.GetType(name)) to find the gameobjects. In C# Type.getName get the type by the assembly-qualified name. So the example's component name is "UnityEngine.UI.Button,UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null". If you use "Button" as the component's name, the result is None.
 ```python
@@ -472,10 +491,12 @@ test_find_elements_by_component()
 ```
 
 <a name="3.4"></a>
-## 3.4 get gameobject position and bound
+
+## 3.4 get gameobject position and bound
 
 <a name="3.4.1"></a>
-### 3.4.1 get gameobject screen position and bound
+
+### 3.4.1 get gameobject screen position and bound
 *engine.get_element_bound(element)* can get the top lefe position of gameobject in the mobile screen, and the gameobject bound.
 ```python
 def test_click():
@@ -503,7 +524,8 @@ Button : GameObject /Canvas/Panel/Click Instance = 10652,Bound : point(535.0,60.
 
 
 <a name="3.4.2"></a>
-### 3.4.2 get gameobject position in the world
+
+### 3.4.2 get gameobject position in the world
 3D mobile game is more and more popluar, for 3D game such as king of glory, only screen coordinates can not meet the automated test.  In the automate test, we need know the position of self hero,enemy heros, so we can test such move,find enemy,attack.**example:sample/joystick_tester.py test_world_bounds()**
 ```python
 def test_world_bounds():
@@ -524,7 +546,8 @@ center = (5.03773808305e-05,0.1374322474,0.00151373702101) extents =(0.080762296
 Get the array of WorldBound which is the world space postion and bound of gameobjects. WorldBound used to store the position,bound.The center field is the center of the gameobject in the world space, the extents field is the extents of the gameobject box, this is always half of the size.Description:[http://docs.unity3d.com/ScriptReference/Bounds.html](http://docs.unity3d.com/ScriptReference/Bounds.html)
 
 <a name="4"></a>
-# 4 Interaction
+
+# 4 Interaction
 After find the gameobject and know the position of gameobject in the screen, you need the click the gameobject. Code example：sample/interaction.py
 ```python
 engine.click(button)
@@ -534,7 +557,8 @@ Interaction operation function according the screen space, send touch event to t
 <img src="image/interaction_mask.png" alt="Drawing" width="400px" />
 
 <a name="4.1"></a>
-## 4.1 Click
+
+## 4.1 Click
 *engine.click()* accept the instance of element or elementbound. If the parameter is the instance of element, get the elementbound by engine.get_element_bound, then according the position and bound get the center of gameobject, send touch down and up event to the application.
 ```python
 def test_click():
@@ -564,7 +588,8 @@ Autotest script will click three times,
 - `engine.click_position(600.0,100.0)`click the coordinate (600.0,100.0)
 
 <a name="4.2"></a>
-## 4.2 long press
+
+## 4.2 long press
 *engine.press() and engine.press_position* is similar to click function, more than a time parameter, indicating long press time (ms, milliseconds)
 ```python
 def test_press():
@@ -586,7 +611,8 @@ python interaction.py
 
 
 <a name="4.3"></a>
-## 4.3 swipe
+
+## 4.3 swipe
 *engine.swipe(start_element, end_element, steps=20, duration=1000) and engine.swipe_position(start_x,start_y,end_x,end_y,steps=20, duration=1000)*，perform a swipe from one element to another, or swipe from one coordinate to anthoer coordinate. duration can control the swipe time, and steps can control the smoothness and speed of swipe by specifying the number of steps.(more steps more performance impact)
 ```python
 def test_swipe():
@@ -620,7 +646,8 @@ if silder:
 ```
 
 <a name="4.4"></a>
-## 4.4 input set text
+
+## 4.4 input set text
 *engine.input(Element,txt)* sets the text in an editable field,after clearing the field's content.
 ```python
 def test_input():
@@ -638,7 +665,8 @@ After setting the text field from *Hello wpyscripts* change to *Run Wpy*.
 The setting gameobject must contain InputField(UGUI) or UIInput(NGUI)
 
 <a name="4.5"></a>
-## 4.5 handle popup box(get interactive gameobjects)
+
+## 4.5 handle popup box(get interactive gameobjects)
 All the interaction function just perform touch event to the screen. If you click the button under popup box, the  click event is invaild.As the picture shows:
 <img src="image/interaction_mask.png" alt="Drawing" width="400px" />
 In game，announcements,warning popup box may appear anywhere anytime, interrup the test.engine.get_touchable_elements() can return the list of interactive gameobjects in current scene.
@@ -670,7 +698,8 @@ The method return "Confirm" and "Cancel" button in above picture. The other gamo
 *`engine.get_touchable_elements()`* is time-consuming operation, will affect performance.
 
 <a name="4.6"></a>
-## 4.6 get text
+
+## 4.6 get text
 Reads the text property of the gameobject's component.For NGUI,UILable、UIInput、GUIText component have text property. If the gameobject your selected does not contain above components will throw exception. For UGUI,Text,GUIText component have text property。Example：interaction.py
 ```python
 def test_get_element_txt():
@@ -687,7 +716,8 @@ python interaction.py
 This script get the "Click" button gameobject's text context "Click".
 
 <a name="4.7"></a>
-## 4.7 get image name
+
+## 4.7 get image name
 Reads the image property of the gameobject's component.For NGUI,UITexture、UISprite、SpriteRenderer component have image name property. For UGUI,Image、RawImage、SpriteRenderer component have image name property.If the gameobject your selected does not contain above components will throw exception.Example：interaction.py
 ```python
 def test_get_element_image():
@@ -702,11 +732,13 @@ python interaction.py
 This script get the "Back" button gameobject's image name "back".
 
 <a name="5"></a>
-# 5 Device
+
+# 5 Device
 *engine.get_device()* get the instance of Device. Device provides access to state information about the device. You can also use this class to simulate user actions on the device, such as pressing Back. Example：sample/devices_tester.py
 
 <a name="5.1"></a>
-## 5.1 Display size and rotation
+
+## 5.1 Display size and rotation
 
 ```python
 def test_get_display_size():
@@ -726,7 +758,8 @@ test_get_display_size()
 <a name="5.2"></a>
 
 <a name="5.2"></a>
-## 5.2 get top package and Activity
+
+## 5.2 get top package and Activity
 ```python
 def test_get_top_package_activity():
     top_activity=device.get_top_package_activity()
@@ -746,7 +779,8 @@ package name = com.tencent.wetest.demo,activity = com.unity3d.player.UnityPlayer
 ```
 
 <a name="5.3"></a>
-## 5.3 press back
+
+## 5.3 press back
 Simulates a short press on the BACK button.
 
 ```python
@@ -762,7 +796,8 @@ python devices_tester.py
 
 
 <a name="6"></a>
-# 6 Cloud platform reporter
+
+# 6 Cloud platform reporter
 *engine.get_reporter()* get the instance of Reporter. Reporter provides features such as screenshot,mark,report error. These features can only use on wetest cloud testing platform, in your local pc is useless.
 ```python
 import sys, os, time
@@ -825,7 +860,7 @@ import traceback
 
 try:
     from sample.reporter_tester import *
-except Exception,e:
+except Exception as e:
     traceback.print_exc()
 
 def run():
@@ -834,7 +869,7 @@ def run():
     """
     try:
         test_reporter()
-    except Exception,e:
+    except Exception as e:
         traceback.print_exc()
         stack=traceback.format_exc()
         logger.debug(stack)
@@ -846,7 +881,8 @@ def run():
 <a name="6.1"></a>
 
 <a name="6.1"></a>
-## 6.1 screen shot and mark
+
+## 6.1 screen shot and mark
 ```python
 def screen_shot_click(element):
     logger.debug("screen_shot_click")
@@ -866,11 +902,13 @@ def screen_shot_click(element):
 <a name="6.2"></a>
 
 <a name="6.2"></a>
-## 6.2 screen shot
+
+## 6.2 screen shot
 *reporter.screenshot()*take a screenshot of current window，on wetest cloud testing platform show in the reporter, on local pc save it to screen directory.
 
 <a name="6.3"></a>
-## 6.3 report error
+
+## 6.3 report error
 GAutomator does not use the unittest as the underlying framework for testing, so there is no assertion that functional testing can not be done. report_error function can save the error information into _wetest_testcase_result.txt. Wetest cloud testing platform can also pares the error information and show in the reporter.
 
 ```python
@@ -882,14 +920,16 @@ report.report_error(u"report_test",u"Report test error 中文")
 
 
 <a name="7"></a>
-# 7 Custom function
+
+# 7 Custom function
 GAutomator can not integrate all the features, some features are not complete through a simple touch screen operation. Custom function, can use C# script in the game to finish self define function, and send to result to python client.
 This feature requires game developers and game testers to work together
 1. in game registered custom function
 2. automatic script, call the custom function
 
 <a name="7.1"></a>
-## 7.1 Register function in unity 
+
+## 7.1 Register function in unity 
 Unity game developers need to register the corresponding function to GAutomator SDK for script calls, such as the completion of hero displacement
 ```C#
 using UnityEngine;
@@ -922,11 +962,13 @@ public class CustomTester : MonoBehaviour {
 *CustomHandler.UnRegisterCallBack("test")*:remove a callback, according the callback name.
 
 <a name="7.2"></a>
-## 7.2 Call registered callback
+
+## 7.2 Call registered callback
 GAutomator can call the game process's registered callback function remotely, and get the return value. **example: sample/self_define_fun.py**
 
 <a name="7.2.1"></a>
-### 7.2.1 get list of registered callbacks
+
+### 7.2.1 get list of registered callbacks
 *engine.get_registered_handlers()* gets the list of registered callback names
 ```python
 def test_get_registered_handlers():
@@ -944,7 +986,8 @@ python self_define_fun.py
 running the test script, it will get the result "test".
 
 <a name="7.2.2"></a>
-### 7.2.2 call registerd callback function
+
+### 7.2.2 call registerd callback function
 *engine.call_registered_handler("test", "python call test")*: calls the registered callback function, according the registerd callback name, and pass the string parameters, get the string value return from the application process.
 ```python
 def test_call_registered_handler():
@@ -962,7 +1005,8 @@ Call the "test" callback function, pass parameter "python call test", and return
 
 
 <a name="7.2.3"></a>
-### 7.2.3 get all the public methods
+
+### 7.2.3 get all the public methods
 Returns all the public methods of the gameobject's special component. Return method contain function name,parameters,return value.In wetest_demo, "Sample" gameobject has a component ReflectionTest, we can get all the public methods.
 ```python
 def test_get_component_methods(self):
@@ -973,7 +1017,8 @@ def test_get_component_methods(self):
 save as sample/interaction.py, launch wetest_demo application, and run the script. It can print all the pubic methods.
 
 <a name="7.2.4"></a>
-### 7.2.4 invoke method
+
+### 7.2.4 invoke method
 Invoke the specified gameobject's specified component's public method, using the specified parameters.In wetest_demo, "Sample" gameobject has a component ReflectionTest, we can invoke the "TestReflection" method which has two integer parameters and one string parameter.example:
 ```python
 def test_call_component_method(self):
@@ -987,7 +1032,8 @@ def test_call_component_method(self):
 the test script will print "105", ReflectionTest.TestReflection return value.
 
 <a name="7.3"></a>
-### 7.3 get property value
+
+### 7.3 get property value
 Returns the property value of a specified gameobject's specified component. GAutomator will call toString method convert the value to string.
 ```python
 def test_get_component_field(self):
@@ -1004,7 +1050,8 @@ def test_get_component_field(self):
 save as sample/interaction.py, launch wetest_demo application, and run the script. It can print the text value of the "Sample/Text" gameobject's MainControl component
 
 <a name="7.4"></a>
-### 7.4 setting render camera
+
+### 7.4 setting render camera
 In Unity, an gameobject may be rendered by multi cameras at the same time. GAutomator will try to find the best camera, but sometimes may find the camera is not correct.Specifically, the rendering of the object size and location is not accurate, may be much larger than the actual length and width. GAutomatorView can show gameobject bound and position. If you find gameobject's bound or position is not right, you can set camera, and use GAutomatorView to check.engine.*set_camera(gameobject_name)*： set the camera's gameobject name
 ```C#
 engine.set_camera("CharModeCamera")

@@ -16,6 +16,8 @@ import time
 import re
 logger=logging.getLogger("wetest")
 
+
+#RETURN THE  PROCESS FILE, THE PROCESS MAY STILL RUNNING
 def excute_adb(cmd, serial=None):
     if serial:
         command = "adb -s {0} {1}".format(serial, cmd)
@@ -27,21 +29,27 @@ def excute_adb(cmd, serial=None):
 
 def forward(pc_port, mobile_port):
     cmd = "forward tcp:{0} tcp:{1}".format(pc_port, mobile_port)
-    excute_adb(cmd)
+    excute_adb_process(cmd)
 
+def remove_forward(pc_port):
+    cmd = "forward --remove tcp:{0} ".format(pc_port)
+    excute_adb_process(cmd)
 
-def excute_adb_process_daemon(cmd, shell=False, serial=None, sleep=3):
+def excute_adb_process_daemon(cmd, shell=False, serial=None, sleep=3 , needStdout=True):
     if serial:
         command = "adb -s {0} {1}".format(serial, cmd)
     else:
         command = "adb {0}".format(cmd)
     #print "daemon: {0}".format(command)
-    p = subprocess.Popen(command, shell=shell, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-
+    if needStdout is True:
+        p = subprocess.Popen(command, shell=shell, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+    else:
+        p = subprocess.Popen(command, shell=shell)
     time.sleep(sleep)
     return p
 
 
+#RETURN THE PROCESS STDOUT
 def excute_adb_process(cmd, serial=None):
     if serial:
         command = "adb -s {0} {1}".format(serial, cmd)
@@ -51,7 +59,7 @@ def excute_adb_process(cmd, serial=None):
     lines = p.stdout.readlines()
     ret = ""
     for line in lines:
-        ret += line + "\n"
+        ret += str(line) + "\n"
     return ret
 
 def kill_process_by_name(name):
@@ -80,11 +88,8 @@ def kill_process_by_name(name):
             logger.debug("kill process: {0}".format(file.readlines()))
             time.sleep(2)
 
-
-
 def kill_uiautomator():
     kill_process_by_name("uiautomator")
-
 
 class AdbTool(object):
     def __init__(self):
@@ -119,7 +124,7 @@ class AdbTool(object):
         lines = cmd.stdout.readlines()
         ret = ""
         for line in lines:
-            ret += line + "\n"
+            ret += str(line) + "\n"
         return ret
 
     def raw_cmd(self, *args):

@@ -52,8 +52,8 @@ def test_dump():
     xml = uiauto.dump(compressed=False)
     root = ET.fromstring(xml.encode('utf-8'))
     elements = root.findall(".//node[@clickable='true']")
-    print xml
-    print elements[0]
+    print(xml)
+    print(elements[0])
 
 # 判断当前界面是否是登录界面，如果是返回，如果不是返回[]
 def get_login():

@@ -611,6 +611,8 @@ class UnityEngine(GameEngine):
         """
         ret = self.socket.send_command(Commands.GET_UI_INTERACT_STATUS, params)
         elements = []
+        if ret is None:
+            return elements
         for i in range(0, len(ret["elements"])):
             node = ret["elements"][i]
             element = Element(node["name"], node["instanceid"])
@@ -764,51 +766,51 @@ class UnityEngine(GameEngine):
     #
     #     return self.swipe_position(start_x, start_y, end_x, end_y, steps, duration=duration)
     #
-    # def swipe_and_press(self, start_x, start_y, end_x, end_y, steps, duration, step_sleep=5):
-    #     """
-    #     滑动并在结束的地方一直按压
-    #     :param start_x: 起始位置x，绝对坐标
-    #     :param start_y: 起始位置y，绝对坐标
-    #     :param end_x: 结束位置x,绝对坐标
-    #     :param end_y:结束位置y，绝对坐标
-    #     :param steps: 滑动中间的步骤数，每一步的间隔为5ms，可以用于控制滑动速度和平滑度
-    #     :param step_sleep:每个步骤的间隔时长，单位毫秒
-    #     :param duration: 结束位置按压时间，单位是毫秒ms
-    #
-    #     :Usage:
-    #         >>>import wpyscripts.manager as manager
-    #         >>>engine=manager.get_engine()
-    #         >>>engine.swipe_and_press(start_x,start_y,end_x,end_y,50,10000,step_sleep=200)
-    #     :raise WeTestInvaildArg,WeTestRuntimeError
-    #     """
-    #     if steps <= 0:
-    #         reason = "steps = {0} is invaild, steps must more than 0".format(steps)
-    #         raise WeTestInvaildArg(reason)
-    #     start_x = int(start_x)
-    #     start_y = int(start_y)
-    #     end_x = int(end_x)
-    #     end_y = int(end_y)
-    #     actions = [{"x": start_x, "y": start_y, "sleeptime": 0, "type": TouchEvent.ACTION_DOWN}]
-    #
-    #     x_distance = (end_x - start_x) * 1.0 / steps
-    #     y_distance = (end_y - start_y) * 1.0 / steps
-    #     move_x, move_y = start_x, start_y
-    #
-    #     for i in range(steps - 1):
-    #         move_x += x_distance
-    #         move_y += y_distance
-    #         actions.append(
-    #             {"x": int(move_x), "y": int(move_y), "sleeptime": step_sleep, "type": TouchEvent.ACTION_MOVE})
-    #
-    #     move_x += x_distance
-    #     move_y += y_distance
-    #     actions.append(
-    #         {"x": int(move_x), "y": int(move_y), "sleeptime": duration, "type": TouchEvent.ACTION_MOVE})
-    #
-    #     actions.append({"x": int(end_x), "y": int(end_y), "sleeptime": 0, "type": TouchEvent.ACTION_UP})
-    #
-    #     self._inject_touch_actions(actions, timeout=60)
-    #     return True
+    def swipe_and_press(self, start_x, start_y, end_x, end_y, steps, duration, step_sleep=5):
+        """
+        滑动并在结束的地方一直按压
+        :param start_x: 起始位置x，绝对坐标
+        :param start_y: 起始位置y，绝对坐标
+        :param end_x: 结束位置x,绝对坐标
+        :param end_y:结束位置y，绝对坐标
+        :param steps: 滑动中间的步骤数，每一步的间隔为5ms，可以用于控制滑动速度和平滑度
+        :param step_sleep:每个步骤的间隔时长，单位毫秒
+        :param duration: 结束位置按压时间，单位是毫秒ms
+
+        :Usage:
+            >>>import wpyscripts.manager as manager
+            >>>engine=manager.get_engine()
+            >>>engine.swipe_and_press(start_x,start_y,end_x,end_y,50,10000,step_sleep=200)
+        :raise WeTestInvaildArg,WeTestRuntimeError
+        """
+        if steps <= 0:
+            reason = "steps = {0} is invaild, steps must more than 0".format(steps)
+            raise WeTestInvaildArg(reason)
+        start_x = int(start_x)
+        start_y = int(start_y)
+        end_x = int(end_x)
+        end_y = int(end_y)
+        actions = [{"x": start_x, "y": start_y, "sleeptime": 0, "type": TouchEvent.ACTION_DOWN}]
+
+        x_distance = (end_x - start_x) * 1.0 / steps
+        y_distance = (end_y - start_y) * 1.0 / steps
+        move_x, move_y = start_x, start_y
+
+        for i in range(steps - 1):
+            move_x += x_distance
+            move_y += y_distance
+            actions.append(
+                {"x": int(move_x), "y": int(move_y), "sleeptime": step_sleep, "type": TouchEvent.ACTION_MOVE})
+
+        move_x += x_distance
+        move_y += y_distance
+        actions.append(
+            {"x": int(move_x), "y": int(move_y), "sleeptime": duration, "type": TouchEvent.ACTION_MOVE})
+
+        actions.append({"x": int(end_x), "y": int(end_y), "sleeptime": 0, "type": TouchEvent.ACTION_UP})
+
+        self._inject_touch_actions(actions, timeout=60)
+        return True
 
     def input(self, locator, text):
         """

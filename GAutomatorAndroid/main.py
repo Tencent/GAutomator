@@ -40,7 +40,6 @@ from wpyscripts.common.wetest_exceptions import *
 
 local_package = os.environ.get("PKGNAME", TestInfo.PACKAGE)  # the package name you want to test
 
-
 def _prepare_environ():
     if os.environ.get("PLATFORM_IP", None) is None:
         """
@@ -63,7 +62,6 @@ def _prepare_environ():
             else:
                 os.environ["PKGNAME"] = local_package
 
-
 def _native_prepare():
     # clear qq/wechat/app data and launch the app
     device = manager.get_device()
@@ -72,8 +70,6 @@ def _native_prepare():
     device.launch_app(local_package)
     time.sleep(10)
     return True
-
-
 
 def _cloud_prepare():
     # test in cloud, just launch the app
@@ -120,7 +116,6 @@ def _prepare():
             except:
                 time.sleep(2)
     return False
-
 
 def _run():
     prepare = _prepare()
@@ -187,7 +182,7 @@ def main():
             os.environ["WECHATPWD"] = options.WECHATPWD
 
         _prepare_environ()
-    except getopt.error, msg:
+    except getopt.error as msg:
         print("for help use --help")
         return 2
 

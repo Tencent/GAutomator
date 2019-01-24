@@ -173,7 +173,7 @@ import traceback
 
 try:
     from sample.sample import *
-except Exception,e:
+except Exception as e:
     traceback.print_exc()
 
 def run():
@@ -182,7 +182,7 @@ def run():
     """
     try:
         test()
-    except Exception,e:
+    except Exception as e:
         traceback.print_exc()
 ```
 然后，运行scripts目录下的，build.py
@@ -582,7 +582,7 @@ import traceback
 
 try:
     from sample.reporter_tester import *
-except Exception,e:
+except Exception as e:
     traceback.print_exc()
 
 def run():
@@ -591,7 +591,7 @@ def run():
     """
     try:
         test_reporter()
-    except Exception,e:
+    except Exception as e:
         traceback.print_exc()
         stack=traceback.format_exc()
         logger.debug(stack)

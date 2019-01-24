@@ -24,7 +24,7 @@ from wpyscripts.common.adb_process import excute_adb
 from wpyscripts.common.wetest_exceptions import *
 
 import wpyscripts.common.platform_helper as platform
-
+import six
 
 logger = logging.getLogger("wetest")
 
@@ -90,11 +90,17 @@ class Reporter(object):
                         result=u"{0} ... ERROR\n".format(testcase_name)
                     else:
                         result=u"{0} ... ok\n".format(testcase_name)
-                    f.write(result.encode("utf-8"))
+                    if six.PY2:
+                        f.write(result.encode("utf-8"))
+                    else:
+                        f.write(result)
                 for testcase_name,message in self.errs:
                     if message:
                         result=u"{0}\nERROR: {1}\n{2}\n{3}\n\n".format(self.separator1,testcase_name,self.separator2,message)
-                        f.write(result.encode("utf-8"))
+                        if six.PY2:
+                            f.write(result.encode("utf-8"))
+                        else:
+                            f.write(result)
         except Exception as e:
             stack=traceback.format_exc()
             logger.error(stack)
@@ -122,7 +128,8 @@ class Reporter(object):
         test_case_name=u"{0} ({1})".format(test_case_name,calframe[1][3])
         if not result:
             stack="".join(traceback.format_stack())
-            stack=unicode(stack,"utf-8")
+            if six.PY2:
+                stack = unicode(stack,"utf-8")
             _message=u"{0}{1}\n".format(stack,message)
             message_log=u"\n{0}\nERROR: {1}\n{2}\n{3}".format(self.separator1,test_case_name,self.separator2,_message)
         else:
