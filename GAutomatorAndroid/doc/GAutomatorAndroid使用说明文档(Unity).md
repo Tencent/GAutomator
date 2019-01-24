@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <a name="GAutomatorAndroid"></a>
 
 ## GAutomatorAndroid Unity自动化测试教程 ##

@@ -31,7 +31,7 @@ RUN:
 
 0.make sure your game has integrated with [GAutomator SDK](../GAutomatorSdk/UnitySDK/compiled)
 
-1.connect you iPhone to Mac by USB and get your device udid(`idevice -l`)
+1.connect you iPhone to Mac by USB and get your device udid(`idevice_id -l`)
 
 2.build && run wt-wda(or WebDriverAgent) on the target device by xcodebuild(see [wt-wda](../wt-wda) for details
 
@@ -40,7 +40,7 @@ RUN:
 4.edit and run scripts with ga2 (See sample/IOSTestTutorial for details)
 
 ### Record and Playback
-We offer a recorder plugin for Pycharm. See (docs/GA Recorder.md)[docs/GA Recorder.md] for interfaces.
+We offer a recorder plugin for Pycharm. See [docs/GA Recorder.md](docs/GA%20Recorder.md) for interfaces.
 
 ## Sample
 ### iOS Sample:
@@ -74,6 +74,8 @@ RUN:
 WebDriverAgent: https://github.com/facebook/WebDriverAgent
 
 openatx/facebook-wda: https://github.com/openatx/facebook-wda
+
+libimobiledevice: https://github.com/libimobiledevice/libimobiledevice
 
 
 

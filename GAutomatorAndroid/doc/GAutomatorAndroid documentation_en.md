@@ -1,5 +1,3 @@
-<a name="1"></a>
-
 # 1 Introduction
 <a name="1.1"></a>
 
