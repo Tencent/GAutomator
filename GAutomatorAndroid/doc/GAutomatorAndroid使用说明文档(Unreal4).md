@@ -54,7 +54,7 @@
 <a name="1.2"></a>
 
 ## 1.2 环境
-**1 python**: python 2.7
+**1 python**: python 2.7/3.4+
 
 **2 adb**
 请确保，你的path环境变量里面设置了adb
