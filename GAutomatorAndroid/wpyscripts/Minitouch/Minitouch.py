@@ -104,7 +104,7 @@ class Minitouch(object):
         version = version.replace("\n", "")
         logger.info("get_version: {0}".format(version))
         if version not in ["15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "N"]:
-            logger.warn("not supported version")
+            logger.warning("not supported version")
             return ""
         return version
 

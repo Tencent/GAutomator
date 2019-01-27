@@ -218,10 +218,10 @@ GAutomatorAndroid目前支持Unity和UE4。GAutomator是非跨进程的，所以
 
 | Reporter API | 说明 |
 | ------| ------ |
-|[add_start_scene_tag\add_end_scene_tag](doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#63-打标签)|性能数据标签（仅支持wetest云端报告）|
+|[add_scene_tag](doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#63-打标签)|场景标签（仅支持wetest云端报告）|
 |[screenshot](doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#62-截图)|截图，保存在screenshot目录中，云端显示在报告中|
 |[capture_and_mark](doc/GAutomator%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#61-截图与操作过程标记)|截图并标记红点，主要可用于跟踪测试过程|
-|[report]()|断言，模拟单元测试的Assert|
+|[report]()|上报用例结果|
 
 ## 四 联系
 bug,需求或使用过程中的疑问均可直接发布在[Issues](https://github.com/Tencent/GAutomator/issues)，有专人负责回答。也可直接联系wetest助手（800024531）

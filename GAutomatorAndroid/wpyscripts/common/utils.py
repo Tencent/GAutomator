@@ -30,7 +30,7 @@ def screensnap_thread(report, stop, times, interval):
             stop.wait(interval)
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
 
 class time_snap(object):
@@ -50,7 +50,7 @@ class time_snap(object):
                 fn(*args, **kwargs)
             except:
                 stack = traceback.format_exc()
-                logger.warn(stack)
+                logger.warning(stack)
             finally:
                 stop.set()
 

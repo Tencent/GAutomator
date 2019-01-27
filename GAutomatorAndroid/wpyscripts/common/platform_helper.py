@@ -36,6 +36,7 @@ class Command(object):
     FORWARD = (Method.POST, "forward")
     REPORT_ERROR=(Method.POST,"reporterror")
     PROCDIED_REPORT = (Method.POST, "procdiedreport")
+    SCENE_CAPTURE_TAG = (Method.POST, "scene_capture_tag")
 
 
 class Executor(object):
@@ -110,18 +111,40 @@ class Executor(object):
     def launch_app(self, pkgname, activity="android.intent.category.LAUNCHER"):
         return self.excute_platform(Command.LAUNCH_APP, {"pkgName": pkgname, "activity": activity})
 
-    def take_screenshot(self):
-        return self.excute_platform(Command.CAPTURE)
+    def take_screenshot(self, sceneid=""):
+        (testid, deviceid) = self.__getTestDeviceId()
+        params = { "sceneid":sceneid}
+        if testid > 0 and deviceid > 0 :
+            params["testid"] = testid
+            params["deviceid"] = deviceid
+        return self.excute_platform(Command.CAPTURE,params)
 
-    def touch_capture(self, width, height, x, y, name="wetest"):
-        return self.excute_platform(Command.TOUCH_CAPTURE,
-                                    {"name": name, "width": width,
-                                     "height": height, "x": x, "y": y})
+    def __getTestDeviceId(self):
+        testid, deviceid = 0, 0
+        if ("TESTID" in os.environ):
+            testid = int(os.environ.get("TESTID"))
+        if ("DEVICEID" in os.environ):
+            deviceid = int(os.environ.get("DEVICEID"))
+        return (testid,deviceid)
 
     # def add_scene_tag(self, tag):
     #     return self.excute_platform(Command.SCENE_TAG, {"tagName": tag})
-    def reportCurScene(self,tag):
-        return self.excute_platform(Command.REPORT_SCENE,{"tagName": tag})
+    def touch_capture(self, width, height, x, y, name="wetest" , sceneid=""):
+        (testid, deviceid) = self.__getTestDeviceId()
+        params = {"name": name, "width": width,"height": height, "x": x, "y": y, "sceneid": sceneid}
+        if testid > 0 and deviceid > 0 :
+            params["testid"] = testid
+            params["deviceid"] = deviceid
+        return self.excute_platform(Command.TOUCH_CAPTURE,params)
+
+    def scene_capture_tag(self, scenename="", timestamp=0, sceneorder=1, scenetype=1 , sceneid=""):
+        (testid, deviceid) = self.__getTestDeviceId()
+        params = {"scenename": scenename, "timestamp": timestamp,"sceneid": sceneid,
+                                     "sceneorder": sceneorder, "scenetype": scenetype}
+        if testid > 0 and deviceid > 0:
+            params["testid"] = testid
+            params["deviceid"] = deviceid
+        return self.excute_platform(Command.SCENE_CAPTURE_TAG,params )
 
     def touch_screen(self, width, height, x, y):
         return self.excute_platform(Command.TOUCH, {"width": width, "height": height, "x": x, "y": y})

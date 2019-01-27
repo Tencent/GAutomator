@@ -50,7 +50,7 @@ class Vertex(object):
         if neighbor in self.adjacent:
             del self.adjacent[neighbor]
         else:
-            logger.warn("current vertex %s has no neighbor %s, can not delete it", self, neighbor)
+            logger.warning("current vertex %s has no neighbor %s, can not delete it", self, neighbor)
 
     def get_connections(self):
         return self.adjacent.keys()  
@@ -107,13 +107,13 @@ class Graph(object):
             self.vert_dict[node] = new_vertex
             return new_vertex
         else:
-            logger.warn("node %s already in graph, can not add it", node)
+            logger.warning("node %s already in graph, can not add it", node)
             return self.vert_dict[node]
 
     def del_vertex(self, node):
         v = self.get_vertex(node)
         if not v:
-            logger.warn("node %s not in graph, can not delete it", node)
+            logger.warning("node %s not in graph, can not delete it", node)
             return
         
         for i in self:
@@ -130,7 +130,7 @@ class Graph(object):
         if n in self.vert_dict:
             return self.vert_dict[n]
         else:
-            logger.warn("node %s not in graph, can not get it", n)
+            logger.warning("node %s not in graph, can not get it", n)
             return None
 
     def add_edge(self, frm, to, entry=None, cost=1):

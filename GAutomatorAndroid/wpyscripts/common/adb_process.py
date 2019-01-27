@@ -14,6 +14,7 @@ import logging
 import subprocess
 import time
 import re
+import six
 logger=logging.getLogger("wetest")
 
 
@@ -90,6 +91,38 @@ def kill_process_by_name(name):
 
 def kill_uiautomator():
     kill_process_by_name("uiautomator")
+
+def get_device_time():
+    device_time = None
+    try:
+        timeout = 3
+        start = time.time()
+        import subprocess
+        process = subprocess.Popen('adb shell date ', shell=True, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
+        while process.poll() is None:
+            time.sleep(0.2)
+            if (time.time() - start) > timeout:
+                os.kill(process.pid, 9)
+                return None
+        device_time_str = process.stdout.read().strip()
+        if six.PY3:
+            device_time_str = device_time_str.decode('utf-8')
+        logger.info(device_time_str)
+        # 转为时间数组
+        device_time_transed = device_time_str.split()
+        device_time_str = "" + device_time_transed[1] + " " + device_time_transed[2] + " " +  device_time_transed[3] + " " + device_time_transed[5]
+        print(device_time_str)
+        timeArray = time.strptime(device_time_str, '%b %d %H:%M:%S %Y')
+        # 转为时间戳
+        if six.PY3:
+            device_time = int(time.mktime(timeArray))
+        else:
+            device_time = long(time.mktime(timeArray))
+        logger.info("device time: " + str(device_time))
+    except Exception as e:
+        logger.exception(e)
+    return device_time
 
 class AdbTool(object):
     def __init__(self):

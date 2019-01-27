@@ -14,6 +14,7 @@ import traceback
 import random
 import sys
 import os
+import decorator
 
 import wpyscripts.manager as manager
 from wpyscripts.common.wetest_exceptions import *
@@ -70,7 +71,7 @@ def screen_shot_click(element, sleeptime=2, exception=False):
         logger.debug("screen_shot_click_pos x = {0},y = {1},name = {2}".format(pos_x, pos_y, element.object_name))
     except Exception as e:
         logger.exception(e)
-        logger.warn("screen_shot_click_pos x = {0},y = {1},name = {2} failed".format(pos_x, pos_y, element.object_name))
+        logger.warning("screen_shot_click_pos x = {0},y = {1},name = {2} failed".format(pos_x, pos_y, element.object_name))
         if exception:
             raise
 
@@ -114,7 +115,7 @@ def find_and_click(*objects):
             screen_shot_click(e, sleeptime=1)
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
 
 def get_condition_fun(*name):
@@ -222,7 +223,7 @@ def find_element_wait(name, max_count=10, sleeptime=3):
             element = engine.find_element(name)
         except WeTestRuntimeError as e:
             # 存在抛出异常的可能，比如说切换过程中，游戏可能并不在前台
-            logger.warn(e)
+            logger.warning(e)
             time.sleep(sleeptime)
         if element:
             return element
@@ -356,7 +357,7 @@ def press_relative_screen(x, y, time, name="Press"):
         engine.press_position(x, y, time)
     except:
         stack = traceback.format_exc()
-        logger.warn(stack)
+        logger.warning(stack)
 
 
 def screen_and_press(bound, time, name):
@@ -367,4 +368,22 @@ def screen_and_press(bound, time, name):
         engine.press_position(x, y, time)
     except:
         stack = traceback.format_exc()
-        logger.warn(stack)
+        logger.warning(stack)
+
+'''
+indicating the function as a testcase/scene function.
+The result of testcase will be shown in WeTest functional Test report.
+'''
+def report_wetest(func):
+    def wrapper(func, *args, **kwargs):
+        success = True
+        try:
+            report.add_scene_tag(func.__name__)
+            func(*args, **kwargs)
+        except Exception as e:
+            success = False
+            report.report(False, func.__name__, "")
+        finally:
+            if success:
+                report.report(True, func.__name__,"")
+    return decorator.decorator(wrapper, func)

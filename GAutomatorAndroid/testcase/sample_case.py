@@ -44,13 +44,14 @@ def set_scene_tag(tag, *args, **kwargs):
 
     def real_decorator(fun):
         def wrapped(*args, **kwargs):
-            report.add_scene_tag(tag+" start")
+            report.add_scene_tag(tag)
             try:
                 fun()
             except:
                 raise
             finally:
-                report.add_scene_tag(tag+" end")
+                pass
+                #report.add_scene_tag(tag+" end")
 
         return wrapped
 

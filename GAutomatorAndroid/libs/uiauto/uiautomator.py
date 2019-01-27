@@ -287,7 +287,7 @@ class Adb(object):
                 else:
                     filename = "wadb.exe" if os.name == 'nt' else "wadb"
                     adb_cmd = os.path.join(os.getcwd(), "../../wadb", filename)
-                    print ("The adb being used is " + str(adb_cmd))
+                    logger.info ("The adb being used is " + str(adb_cmd))
             self.__adb_cmd = adb_cmd
         return self.__adb_cmd
 
@@ -316,7 +316,7 @@ class Adb(object):
 
         '''adb command. return the subprocess.Popen object.'''
         cmd_line = [self.adb()] + self.adbHostPortOptions + list(args)
-        print (cmd_line)
+        logger.info (cmd_line)
         if os.name != "nt":
             cmd_line = [" ".join(cmd_line)]
         return subprocess.Popen(cmd_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -555,7 +555,7 @@ class AutomatorServer(object):
     def start(self, timeout=5):
         # levyzhang
         return
-        print ("Start the rpc server.")
+        logger.info ("Start the rpc server.")
         if True:  # self.sdk_version() < 18:
             files = self.push()
             cmd = list(itertools.chain(
@@ -591,8 +591,8 @@ class AutomatorServer(object):
     def stop(self):
         # levyzhang
         return
-        print("stop the rpc server.")
-        print(self.uiautomator_process)
+        logger.info("stop the rpc server.")
+        logger.info(self.uiautomator_process)
         '''Stop the rpc server.'''
         if self.uiautomator_process and self.uiautomator_process.poll() is None:
             res = None
@@ -718,7 +718,7 @@ class AutomatorDevice(object):
         '''dump device window and pull to local file.'''
         content = self.server.jsonrpc.dumpWindowHierarchy(compressed, None)
         if content is None:
-            print("uiauto dump content is none")
+            logger.info("uiauto dump content is none")
             return
         if filename:
             with open(filename, "wb") as f:

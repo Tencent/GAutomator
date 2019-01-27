@@ -100,7 +100,7 @@ def init_uiautomator():
     uiautomator_stub_path = os.path.abspath(
         os.path.join(file_path, "..","third","libs","uiAutomator","uiautomator-stub.jar"))
     adb=AdbTool()
-    print(adb.cmd_wait("push",uiautomator_stub_path,"/data/local/tmp"))
+    logger.debug(adb.cmd_wait("push",uiautomator_stub_path,"/data/local/tmp"))
 
     logger.debug("Start UIAutomator")
     uiautomator_process=adb.cmd("shell","uiautomator","runtest","uiautomator-stub.jar","-c","com.github.uiautomatorstub.Stub")

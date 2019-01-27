@@ -128,7 +128,7 @@ class AccountHandler(object):
                 self._try_login(account, password, package)
             except:
                 stack = traceback.format_exc()
-                logger.warn(stack)
+                logger.warning(stack)
 
 
 if __name__ == '__main__':

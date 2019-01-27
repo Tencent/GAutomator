@@ -122,7 +122,7 @@ def click_screen_center():
         width, height = display_size.width, display_size.height
         engine.click_position(width*0.5, height*0.5)
     else:
-        logger.warn("can not get display size, click screen corner")
+        logger.warning("can not get display size, click screen corner")
         click_screen_corner()
         
 def click_screen_corner():
@@ -177,7 +177,7 @@ def find_in_screen_elements(elements):
         if 0 <= pos["x"] <= width and 0 <= pos["y"] <= height:
             ret.append(elem)
         else:
-            logger.warn("element not in screen: %s", elem)
+            logger.warning("element not in screen: %s", elem)
     
     return ret
 
@@ -274,7 +274,7 @@ def go_through_graph_path(graph, path, forbid_names):
                 
                 graph.del_edge(path[i-1], path[i])
             else:
-                logger.warn("layer path[0] in real not equal to layer in memory, impossible?!")
+                logger.warning("layer path[0] in real not equal to layer in memory, impossible?!")
                 
             break
         else:
@@ -316,7 +316,7 @@ def go_through_graph_path(graph, path, forbid_names):
                 
                 graph.del_edge(path[-2], path[-1])
             else:
-                logger.warn("layer path[0] in real not equal to layer in memory, impossible?!")
+                logger.warning("layer path[0] in real not equal to layer in memory, impossible?!")
             
         else:
             logger.info("layer in real match memory, good")
@@ -330,7 +330,7 @@ def count_stat(cnt, clicked, seen, layercnt):
     
     if cnt in stat_dict:
         if stat_dict[cnt] != (clicked, seen, layercnt):
-            logger.warn("stat number in cnt %d differs", cnt)
+            logger.warning("stat number in cnt %d differs", cnt)
             
         return
     
@@ -409,7 +409,7 @@ def explore(statfilename = "policy.log", forbid_names=None, mode=0, max_num=300,
             elements=None
             stack=traceback.format_exc()
             not_in_game=True
-            logger.warn(stack)
+            logger.warning(stack)
             reporter.screenshot()
         
         # get elements timed out (0 fps)
@@ -558,7 +558,7 @@ def explore(statfilename = "policy.log", forbid_names=None, mode=0, max_num=300,
                     
                     # protect the code
                     if layer_2_unclick_cnt[layer] < 0:
-                        logger.warn("layer_2_unclick_cnt[layer] negative, must be wrong. %s", layer)
+                        logger.warning("layer_2_unclick_cnt[layer] negative, must be wrong. %s", layer)
                         layer_2_unclick_cnt[layer] = 0
                     
                 # delete TouchElem from unclick_element_2_layers

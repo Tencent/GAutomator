@@ -22,7 +22,7 @@ import inspect
 
 from wpyscripts.common.adb_process import excute_adb
 from wpyscripts.common.wetest_exceptions import *
-
+from wpyscripts.common.adb_process import *
 import wpyscripts.common.platform_helper as platform
 import six
 
@@ -34,29 +34,27 @@ class Reporter(object):
     separator1 = '=' * 70
     separator2 = '-' * 70
 
-
-
     def __init__(self):
         self.errs=[]
 
     def add_scene_tag(self,scene):
-        logger.warn("add_scene_tag unimplement,implemented in cloud mode")
+        logger.warning("add_scene_tag unimplement,implemented in cloud mode")
 
     def add_start_scene_tag(self, scene):
         """
-            云测时会在测试报告的数据上打上标签，便于区分。本地时不起作用
-        :param scene:标签名称
+            @deprecated
+        :param :
         :return:
         """
-        logger.warn("add_start_scene_tag unimplement,implemented in cloud mode")
+        logger.warning("add_start_scene_tag unimplement,implemented in cloud mode")
 
     def add_end_scene_tag(self, scene):
         """
-            云测时会在测试报告的数据上打上标签，便于区分。本地时不起作用。报告上会标记开始和结束的内容
-        :param scene:标签名称
+               @deprecated
+        :param 
         :return:
         """
-        logger.warn("add_end_scene_tag unimplement,implemented in cloud mode")
+        logger.warning("add_end_scene_tag unimplement,implemented in cloud mode")
 
     def capture_and_mark(self, x, y, locator_name=None):
         """
@@ -69,14 +67,14 @@ class Reporter(object):
         :param y:屏幕的y坐标
         :return:
         """
-        logger.warn("capture_and_mark unimplement,implemented in cloud mode")
+        logger.warning("capture_and_mark unimplement,implemented in cloud mode")
 
     def screenshot(self):
         """
         截图
         :return:
         """
-        logger.warn("capture_and_mark unimplement,implemented in cloud mode")
+        logger.warning("capture_and_mark unimplement,implemented in cloud mode")
 
     def _report_total(self):
         if not self.errs:
@@ -112,8 +110,7 @@ class Reporter(object):
             GAutomator还会加上调用堆栈
 
             注：test_case_name与message的编码方式应该一致，都是ascii或者utf-8.如果包含中文需要用UTF-8编码
-        :param result:报告的内容是否有误,True,False
-        :param test_case_name:报告错误的名称（尽可能简短）
+        :param result:报告的内容是否有误,True,False 
         :param message:具体的信息。
 
         :Usage:
@@ -127,7 +124,7 @@ class Reporter(object):
         calframe=inspect.getouterframes(curframe,2)
         test_case_name=u"{0} ({1})".format(test_case_name,calframe[1][3])
         if not result:
-            stack="".join(traceback.format_stack())
+            stack="".join(traceback.format_exc())
             if six.PY2:
                 stack = unicode(stack,"utf-8")
             _message=u"{0}{1}\n".format(stack,message)
@@ -137,8 +134,6 @@ class Reporter(object):
             message_log=u"\n{0} ... ok".format(test_case_name)
 
         self.errs.append((test_case_name,_message))
-        logger.warn(message_log)
-
 
 
 class CloudReporter(Reporter):
@@ -158,12 +153,22 @@ class CloudReporter(Reporter):
             return False
 
     def add_scene_tag(self,scene):
-        self.platform_client.reportCurScene(scene)
+        try:
+            self.scene_tag = scene
+            if os.environ.get("PLATFORM_IP") is not None:
+                device_time = get_device_time()
+                if device_time == None:
+                    device_time = int(time.time())
+                logger.info("reportCurScene by platform :" + scene)
+                self.platform_client.scene_capture_tag(scenename=scene, sceneid=scene,
+                                                                        timestamp=device_time)
+        except Exception as e:
+            logger.exception(e)
 
     def add_start_scene_tag(self, scene):
         """
-            云测时会在测试报告的数据上打上标签，便于区分。本地时不起作用
-        :param scene:标签名称
+            @deprecated
+        :param 
         :return:
         """
         if scene and isinstance(scene, str):
@@ -182,15 +187,15 @@ class CloudReporter(Reporter):
 
     def add_end_scene_tag(self, scene):
         """
-            云测时会在测试报告的数据上打上标签，便于区分。本地时不起作用。报告上会标记开始和结束的内容
-        :param scene:标签名称
+            @deprecated
+        :param scene:
         :return:
         """
         if scene and isinstance(scene, str):
             if self.scene_tag != scene:
                 reason = "no start tag {0},you can not add a end scene tag".format(scene)
                 raise SceneTagError(reason)
-            result = self.add_scene_tag(scene+"start")
+            result = self.add_scene_tag(scene+"end")
             if result:
                 self.scene_tag = None
                 return True
@@ -221,7 +226,7 @@ class CloudReporter(Reporter):
         try:
             self.image_id += 1
             width, height = self._get_display_size()
-            response = self.platform_client.touch_capture(width, height, x, y, locator_name)
+            response = self.platform_client.touch_capture(width, height, x, y, locator_name,sceneid=self.scene_tag)
             if response:
                 return response
         except:
@@ -235,7 +240,7 @@ class CloudReporter(Reporter):
         """
         try:
             self.image_id += 1
-            response = self.platform_client.take_screenshot()
+            response = self.platform_client.take_screenshot(sceneid=self.scene_tag)
             if response:
                 return response
         except:

@@ -50,7 +50,7 @@ class RPCReceiveThread(threading.Thread):
     def _handle(self, command):
         if command["status"] != 0:
             message = "Error code: " + str(self._recv_result['status']) + " msg: " + self._recv_result['data']
-            logger.warn(message)
+            logger.warning(message)
             return
 
         if command["cmd"] == Commands.PRC_SET_METHOD:
@@ -69,9 +69,9 @@ class RPCReceiveThread(threading.Thread):
                     response['status'] = 1
                 self._send_callback_result(response)
             else:
-                logger.warn("Unknow PRC method = {0}".format(result['name']))
+                logger.warning("Unknow PRC method = {0}".format(result['name']))
         else:
-            logger.warn("Unknow command = {0}".format(command["cmd"]))
+            logger.warning("Unknow command = {0}".format(command["cmd"]))
 
     def get_result(self, timeout=10):
         self._event.wait(timeout)

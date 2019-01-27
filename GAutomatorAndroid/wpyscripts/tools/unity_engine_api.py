@@ -22,7 +22,7 @@ def get_random_choice_by_weight(elements_name):
                 elements.append(name)
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
     def random_choice_by_weight(update=False):
         name = random.choice(elements)

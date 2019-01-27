@@ -37,7 +37,6 @@ from config import Account,TestInfo
 import wpyscripts.manager as manager
 from wpyscripts.common.wetest_exceptions import *
 
-
 local_package = os.environ.get("PKGNAME", TestInfo.PACKAGE)  # the package name you want to test
 
 def _prepare_environ():
@@ -88,7 +87,6 @@ def _cloud_prepare():
         logger.error(stack)
         logger.error("Launch app failure")
         return False
-
 
 def _prepare():
     #clear qq,wechat and game datax on device to make sure a stable test environment, and then launch the game.

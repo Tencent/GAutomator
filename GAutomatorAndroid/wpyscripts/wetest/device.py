@@ -90,7 +90,7 @@ def exception_call_super(fn):
         try:
             return fn(*args, **kwargs)
         except (WeTestRuntimeError, ConnectionException):
-            logger.warn("call cloud function {0} error".format(fn.__name__))
+            logger.warning("call cloud function {0} error".format(fn.__name__))
             return getattr(super(CloudDevice, args[0]), fn.__name__)(*args[1:], **kwargs)
 
     return wrap_function
@@ -139,7 +139,7 @@ class Device(object):
             return DisplaySize(self.ui_device.info["displayWidth"], self.ui_device.info["displayHeight"])
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
         result = self.adb.cmd_wait("shell", "dumpsys", "window", "displays")
 
@@ -166,10 +166,10 @@ class Device(object):
             return TopActivity("", self.ui_device.info["currentPackageName"])
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
     def _is_package_live(self, package=None):
-        logger.warn("_is_package_live unimplement")
+        logger.warning("_is_package_live unimplement")
 
     def back(self):
         """
@@ -186,7 +186,6 @@ class Device(object):
             self.ui_device.press("back")
         except Exception as e:
             raise UIAutomatorError(e.message)
-
 
     def touchDown(self,contactId,x,y,consider_rotation=True):
         """
@@ -283,7 +282,7 @@ class Device(object):
                 logger.debug(content)
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
         logger.debug("adb shell pm clear com.tencent.mm")
         try:
@@ -293,7 +292,7 @@ class Device(object):
                 logger.debug(content)
         except:
             stack = traceback.format_exc()
-            logger.warn(stack)
+            logger.warning(stack)
 
     def _clear_user_info(self, package):
         if package == None:
@@ -500,8 +499,11 @@ class CloudDevice(Device):
 
         if len(package_name) >= 128:
             raise WeTestInvaildArg("Error,Package name {0} length more than 128")
-
+        platform.get_platform_client().procdied_report(False)
+        time.sleep(3)
         self.clear_data(package_name)
+        time.sleep(3)
+        platform.get_platform_client().procdied_report(True)
 
 
 class NativeDevice(Device):

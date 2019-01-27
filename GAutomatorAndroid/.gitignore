@@ -1,0 +1,7 @@
+_wetest_testcase_result.txt
+.idea
+runTest.sh
+*.cache
+*.pytest_cache
+*__pycache__
+*.pyc

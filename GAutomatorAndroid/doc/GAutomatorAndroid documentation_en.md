@@ -821,7 +821,7 @@ def screen_shot_click(element):
     engine.click_position(pos_x, pos_y)
 
 
-def enter_find_elemeents():
+def enter_find_elements():
     find_elements_button = engine.find_element("/Canvas/Panel/FindElements")
     logger.debug(find_elements_button)
     screen_shot_click(find_elements_button)
@@ -841,18 +841,17 @@ def test_capture_and_mark():
 
 def test_reporter():
     print("test_reporter")
-    enter_find_elemeents()
+    enter_find_elements()
     time.sleep(2)
-    reporter.add_start_scene_tag("Find_Scene")
+    reporter.add_scene_tag("Find_Scene")
     test_capture_and_mark()
-    reporter.add_end_scene_tag("Find_Scene")
     time.sleep(2)
     back_main()
 	reporter.screenshot()
 
 ```
 
-set the *test_reporter()* function in runner.py.Updateload the test script to wetest cloud testing platform, the test script can run on multi mobile phones
+Edit the *test_reporter()* function in runner.py. Upload the test script to WeTest cloud testing platform, the script could be run on multi mobile devices.
 ```python
 import traceback
 
@@ -874,9 +873,6 @@ def run():
 ```
 
 <img src="image/reporter_screen.png" alt="Drawing" width="600px" />
-<img src="image/reporter_perform.png" alt="Drawing" width="600px" />
-
-<a name="6.1"></a>
 
 <a name="6.1"></a>
 
@@ -897,24 +893,28 @@ def screen_shot_click(element):
 
 <img src="image/screen_mark.jpg" alt="Drawing" width="400px" />
 
-<a name="6.2"></a>
 
 <a name="6.2"></a>
 
 ## 6.2 screen shot
-*reporter.screenshot()*take a screenshot of current window，on wetest cloud testing platform show in the reporter, on local pc save it to screen directory.
+*reporter.screenshot()*. Take a screenshot of current window which will be shown in wetest cloud testing platform  reporter, or saved on local pc.
 
 <a name="6.3"></a>
 
-## 6.3 report error
-GAutomator does not use the unittest as the underlying framework for testing, so there is no assertion that functional testing can not be done. report_error function can save the error information into _wetest_testcase_result.txt. Wetest cloud testing platform can also pares the error information and show in the reporter.
+## 6.3 add scene tag
+*reporter.add_scene_tag(tag)* is used to add a tag indicating current test scene. The screenshots and performance data will be divided by the scene tag in WeTest cloud report.
+<img src="image/scene_tag.png" alt="Drawing" width="600px" />
+
+<a name="6.4"></a>
+## 6.4 report testcase
+GAutomator does not use the unittest as the underlying framework for testing, so there is no assertion that functional testing can not be done. The report function is used to save the error information into _wetest_testcase_result.txt.When submitting a functional test , Wetest cloud testing platform will pares the error information and show them in the reporter.
 
 ```python
-report.report_error("testcase","content")
-report.report_error(u"report_test",u"Report test error 中文")
+report.report(True, "testcase1")
+report.report(False, u"testcase2",u"Report test error 中文")
 ```
 
-*reporter.report_error(name,message)* In the process of interface call, it will be output in the log. At the end of the run of the script, runner.run calls _report_total () to output all the results to _wetest_testcase_result.txt. The GAutomator adds the call stack in addition to the output message and test_case_name. The name of the name is not repeated as much as possible. Name and message incoming encoding needs to be consistent, if there is a Chinese case must use UTF-8 encoding format.
+*reporter.report(result,test_case_name, message="")* is used to record the result of a testcase. At the end of  script, runner.run calls _report_total () to output all the results to _wetest_testcase_result.txt. The GAutomator adds the call stack in addition to the output message and test_case_name. Name and message encoding needs to be consistent, if there is a Chinese case, use UTF-8 encoding format.
 
 
 <a name="7"></a>
