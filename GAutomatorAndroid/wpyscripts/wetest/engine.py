@@ -13,7 +13,7 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com, alexkan kanchuanqi@gmail.com'
 import re
 import logging
 import threading
-from wpyscripts.common.adb_process import AdbTool
+from wpyscripts.common.adb_process import *
 from wpyscripts.wetest.element import Element
 from wpyscripts.common.protocol import Commands, TouchEvent
 from wpyscripts.common.socket_client import SocketClient
@@ -22,7 +22,7 @@ from wpyscripts.common.wetest_exceptions import *
 
 logger = logging.getLogger("wetest")
 
-
+unity_sdk_port = "27019"
 class VersionInfo(object):
     """
     Attributes:
@@ -125,13 +125,26 @@ class GameEngine(object):
         :raise:
             WeTestRuntimeError
         """
-        ret = self.socket.send_command(Commands.GET_VERSION, 1)
+        ret = self.send_command_with_retry(Commands.GET_VERSION, 1)
         engine = ret.get("engine", None)
         sdk_version = ret.get("sdkVersion", None)
         engine_version = ret.get("engineVersion", None)
         ui_type = ret.get("sdkUIType", None)
         version = VersionInfo(engine_version, engine, sdk_version, ui_type)
         return version
+
+    def send_command_with_retry(self,command, param):
+        for i in range(0,3):
+            try:
+                ret = self.socket.send_command(command, param)
+                return ret
+            except Exception as e:
+                ret = excute_adb_process("forward --list")
+                logger.info("adb forward --list : " + str(ret))
+                AdbTool().forward(self.port, unity_sdk_port)
+                ret = excute_adb_process("forward --list")
+                logger.info("after reforward : adb forward --list : " + str(ret))
+                time.sleep(2)
 
     def find_element(self, name):
         """
@@ -150,7 +163,7 @@ class GameEngine(object):
         :rtype: Element
         :raise:
         """
-        ret = self.socket.send_command(Commands.FIND_ELEMENTS, [name])
+        ret = self.send_command_with_retry(Commands.FIND_ELEMENTS, [name])
         if ret:
             ret = ret[0]
             if ret["instance"] == -1:
@@ -281,7 +294,7 @@ class GameEngine(object):
             长按动作
         :param x: 150 在屏幕x=150的位置进行点击
         :param y: 200 在屏幕y=200的位置进行点击
-        :param press_time:按压时间，单位为毫秒
+        :param press_time:按压时间，单位为毫秒 5ms/steps
 
         :Usage:
             >>>import wpyscripts.manager as manager
@@ -596,7 +609,7 @@ class UnityEngine(GameEngine):
 
     def _get_elements_bound(self,elements):
         send_params=[e.instance for e in elements]
-        ret = self.socket.send_command(Commands.GET_ELEMENTS_BOUND, send_params)
+        ret = self.send_command_with_retry(Commands.GET_ELEMENTS_BOUND, send_params)
         return ret
 
 
@@ -609,7 +622,7 @@ class UnityEngine(GameEngine):
             [({"object_name":"/Canvas/Panel/Button","Instance":4257741},{"x":250,"y":300}),.....]
         :raise WeTestRuntimeError
         """
-        ret = self.socket.send_command(Commands.GET_UI_INTERACT_STATUS, params)
+        ret = self.send_command_with_retry(Commands.GET_UI_INTERACT_STATUS, params)
         elements = []
         if ret is None:
             return elements
@@ -633,7 +646,7 @@ class UnityEngine(GameEngine):
             [({"object_name":"/Canvas/Panel/Button","Instance":4257741},{"x":250,"y":300}),.....]
         :raise WeTestRuntimeError
         """
-        ret = self.socket.send_command(Commands.GET_UI_INTERACT_STATUS, params)
+        ret = self.send_command_with_retry(Commands.GET_UI_INTERACT_STATUS, params)
         elements = []
         for i in range(0, len(ret["elements"])):
             node = ret["elements"][i]
@@ -650,7 +663,7 @@ class UnityEngine(GameEngine):
         :param actions:
         :return:
         """
-        ret = self.socket.send_command(Commands.HANDLE_TOUCH_EVENTS, actions, timeout)
+        ret = self.send_command_with_retry(Commands.HANDLE_TOUCH_EVENTS, actions, timeout)
         return ret
 
     # def click_position(self, x, y):
@@ -827,7 +840,7 @@ class UnityEngine(GameEngine):
         :raise WeTestInvaildArg,WeTestRuntimeError
         """
         if locator and isinstance(locator, Element):
-            result = self.socket.send_command(Commands.SET_INPUT_TEXT, {"instance": locator.instance, "content": text})
+            result = self.send_command_with_retry(Commands.SET_INPUT_TEXT, {"instance": locator.instance, "content": text})
             return result
         else:
             reason = "Input locator = {0},text = {1},vaild argument is Element or ElementBound".format(locator, text)
@@ -857,7 +870,7 @@ class UnityEngine(GameEngine):
             raise WeTestInvaildArg("Invaild Instance,search node is error")
 
         req = [e.instance for e in elements]
-        ret = self.socket.send_command(Commands.GET_ELEMENT_WORLD_BOUND, req)
+        ret = self.send_command_with_retry(Commands.GET_ELEMENT_WORLD_BOUND, req)
 
         world_bounds = []
         for res in ret:
@@ -891,7 +904,7 @@ class UnityEngine(GameEngine):
         if element is None or component is None or attribute is None:
             raise WeTestInvaildArg("Invaild Instance")
 
-        ret = self.socket.send_command(Commands.GET_OBJECT_FIELD,
+        ret = self.send_command_with_retry(Commands.GET_OBJECT_FIELD,
                                        {"instance": element.instance, "comopentName": component,
                                         "attributeName": attribute})
 
@@ -917,7 +930,7 @@ class UnityEngine(GameEngine):
         if element is None or component is None:
             raise WeTestInvaildArg("Invaild Instance")
 
-        ret = self.socket.send_command(Commands.GET_COMPONENT_METHODS,
+        ret = self.send_command_with_retry(Commands.GET_COMPONENT_METHODS,
                                        {"instance": element.instance, "comopentName": component})
         return ret
 
@@ -1010,7 +1023,7 @@ class UnRealEngine(GameEngine):
 
     def _get_elements_bound(self,elements):
         send_params=[e.object_name for e in elements]
-        ret = self.socket.send_command(Commands.GET_ELEMENTS_BOUND, send_params)
+        ret = self.send_command_with_retry(Commands.GET_ELEMENTS_BOUND, send_params)
         return ret
 
 

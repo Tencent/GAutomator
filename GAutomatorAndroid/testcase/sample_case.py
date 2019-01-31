@@ -80,6 +80,9 @@ def test_find_elements():
     for index in range(1,6):
         name="level{0}Btn".format(index)
         e=engine.find_element(name)
+        time.sleep(1)
+        if e:
+            logger.info("find element :" + str(e))
         screen_shot_click(e)
 
     report.screenshot()
@@ -116,7 +119,8 @@ def test_joystick():
 
 def main():
   #  test()
-    test_joystick()
+#    test_joystick()
+    time.sleep(5)
     test_find_elements()
 
 if __name__ == '__main__':

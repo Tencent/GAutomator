@@ -6,14 +6,6 @@ GAutomatorAndroid, designed just like android uiautomator, also includes ui auto
 <img src="doc/image/1.gif" alt="SGame" width="400px" /><img src="doc/image/2.gif" alt="Drawing" width="400px" />
 
 ## 1 System Requirements
-**Windows Os and Software Requirements:**
-- Windows 7 (32/64 bit), Windows 8 or higher
-- python 2.7/3.4+
-- Android SDK(or adb),Enable ADB setting on device and connect your android device using usb with your PC.
-
-
-**Linux and Software Requirements:**
-- Ubuntu 14.04 LTS
 - python 2.7/3.4+
 - Android SDK(or adb),Enable ADB setting on device and connect your android device using usb with your PC.
 
@@ -127,9 +119,9 @@ GAutomatoraAndroid的设计理念与使用方式,类似于Android的UIAutomator�
 <img src="doc/image/1.gif" alt="SGame" width="400px" />  <img src="doc/image/2.gif" alt="Drawing" width="400px" />
 
 ## 一 运行环境要求
-window平台下运行，linux可运行脚本（GAutomator）。
+window/linux可运行脚本（GAutomator）。
 
-- python 2.7版本
+- python 2.7/3.4+
 - 环境变量中包含有adb
 
 工程中已包含所有的库，打开即可编写测试用例，写完即可运行（考虑到国内公司网络限制较多，python库的安装非常麻烦）。

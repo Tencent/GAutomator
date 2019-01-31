@@ -130,7 +130,6 @@ class SocketClient(object):
 host = 'localhost'
 port = 27018
 
-
 def get_socket_client():
     if get_socket_client.instance:
         return get_socket_client.instance

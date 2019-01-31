@@ -89,7 +89,6 @@ def init_uiautomator_with_dialoghandler():
     forward(_uiautomator_port, _device_port)
    # os.system("adb shell ps")
 
-
 def init_uiautomator():
     """
         初始化uiautomator

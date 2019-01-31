@@ -32,7 +32,7 @@ _local_mode = None
 
 _local_engine_port = os.environ.get("LOCAL_ENGINE_PORT", "53001")  # 本地模式时与engine forward的端口号
 
-_unity_sdk_port = "27019"
+
 _uiautomator_port = "19008"
 
 _engine_address = None
@@ -95,11 +95,11 @@ def get_engine(engine_type=EngineType, port=None):
         return get_engine.instance
     local_port = None
     if env:
-        result = _platform_forward(int(_unity_sdk_port))
+        result = _platform_forward(int(unity_sdk_port))
         local_port = result
     else:
         local_engine_port = os.environ.get("LOCAL_ENGINE_PORT", "53001")  # 本地模式时与engine forward的端口号
-        res = adb.forward(local_engine_port, _unity_sdk_port)
+        res = adb.forward(local_engine_port, unity_sdk_port)
         logger.info(res)
         local_port = int(local_engine_port)
     logger.info("host: {0} port: {1}".format(hostip, local_port))
@@ -108,13 +108,11 @@ def get_engine(engine_type=EngineType, port=None):
     if engine_type == "unity":
         get_engine.instance = UnityEngine(hostip, local_port,ui_device)
     elif engine_type == "ue4":
-
         get_engine.instance=UnRealEngine(hostip,local_port,ui_device)
     else:
         raise ValueError("No {0} engine type".format(engine_type))
     return get_engine.instance
 get_engine.instance = None
-
 
 def get_reporter():
     """
