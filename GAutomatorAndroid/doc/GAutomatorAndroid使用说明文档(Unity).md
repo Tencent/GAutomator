@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <a name="GAutomatorAndroid"></a>
 
 ## GAutomatorAndroid Unity自动化测试教程 ##
@@ -110,13 +110,13 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 
 # 2 Getting Started
 示例代码：sample/Unity/sample.py,示例apk游戏:sampel/wetest_demo_unity.apk
+
 <a name="2.1"></a>
 
 ## 2.1 Simple Usage
 已经安装好python及依赖库后，可以使用pycharm（请下社区版，社区版免费）直接打开工程，你可以下面的代码开始我们的测试
 
 ```python
-<a name="lib"></a>
 
 #import lib path,only use in this demo
 #import sys,os
