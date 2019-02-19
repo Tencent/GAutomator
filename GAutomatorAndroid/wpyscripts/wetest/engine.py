@@ -144,6 +144,7 @@ class GameEngine(object):
                 AdbTool().forward(self.port, unity_sdk_port)
                 ret = excute_adb_process("forward --list")
                 logger.info("after reforward : adb forward --list : " + str(ret))
+                self.socket = SocketClient(self.address, self.port)
                 time.sleep(2)
 
     def find_element(self, name):
