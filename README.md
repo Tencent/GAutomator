@@ -40,7 +40,7 @@ GAutomator是一个针对手游的UI自动化测试框架。设计理念与使�
 2. 编写Android或者iOS的python自动化脚本实现游戏交互（参照[GAutomatorAndroid](GAutomatorAndroid)以及[GAutomatorIOS](GAutomatorIos)中的说明）
 
 ## GAutomatorAndroid
-针对android游戏的Pychon测试工程。（目前支持Unity与UE4引擎的交互）
+针对android游戏的Python测试工程。（目前支持Unity与UE4引擎的交互）
 
 ## GAutomatorIos
 针对iOS游戏的Python库。（目前支持Unity引擎交互）
