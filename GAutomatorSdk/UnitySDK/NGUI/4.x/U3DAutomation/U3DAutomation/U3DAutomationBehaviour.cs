@@ -31,7 +31,7 @@ namespace WeTest.U3DAutomation
 
         void Start()
         {
-            if (Application.platform != RuntimePlatform.Android&& Application.platform!=RuntimePlatform.IPhonePlayer) // 只支持ios与Android平台
+            if (Application.platform != RuntimePlatform.Android && Application.platform!=RuntimePlatform.IPhonePlayer) // 只支持ios与Android平台
             {
                 Debug.Log("WTSDK can not running, platform is neither Android nor iOS.");
                 return;
@@ -65,7 +65,7 @@ namespace WeTest.U3DAutomation
         void Update()
         {
 
-            if (Application.platform != RuntimePlatform.Android || Application.platform != RuntimePlatform.IPhonePlayer)
+            if (Application.platform != RuntimePlatform.Android && Application.platform != RuntimePlatform.IPhonePlayer)
             {
                 return;
             }

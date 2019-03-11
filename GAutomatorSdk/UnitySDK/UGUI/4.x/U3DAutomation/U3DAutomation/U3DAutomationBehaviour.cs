@@ -61,7 +61,6 @@ namespace WeTest.U3DAutomation
 
         void SubUpdate()
         {
-  
             Dynamic.ThirdManager.HandleEvent();
 
             //每帧检测
@@ -70,8 +69,7 @@ namespace WeTest.U3DAutomation
 
         void Update()
         {
-
-            if (Application.platform != RuntimePlatform.Android || Application.platform != RuntimePlatform.IPhonePlayer) 
+            if (Application.platform != RuntimePlatform.Android && Application.platform != RuntimePlatform.IPhonePlayer) 
             {
                 return;
             }

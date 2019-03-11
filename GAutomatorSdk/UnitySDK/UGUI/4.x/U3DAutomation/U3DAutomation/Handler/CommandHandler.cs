@@ -132,6 +132,7 @@ namespace WeTest.U3DAutomation
         {
             try
             {
+                Logger.d("InjectTouchEvent");
                 List<TouchEvent> events = TouchEventHandler.INSTANCE.GetTouchEvents();
 
                 if (events != null)
@@ -238,7 +239,6 @@ namespace WeTest.U3DAutomation
         /// </summary>
         public void HandleEvent()
         {
-            
             InjectTouchEvent();
 
             if (RecordMode)
