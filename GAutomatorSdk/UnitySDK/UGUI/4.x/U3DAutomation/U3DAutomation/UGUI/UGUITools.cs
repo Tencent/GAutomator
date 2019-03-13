@@ -166,6 +166,17 @@ namespace WeTest.U3DAutomation
                 return null;
             }
             Rectangle rc = new Rectangle();
+
+            /* 
+            float[] xx = { vectors[0].x, vectors[1].x, vectors[2].x };
+            float[] yy = { vectors[0].y, vectors[1].y, vectors[2].y };
+
+            rc.x = Mathf.Min(xx);
+            rc.y = Screen.height - Mathf.Max(xx);
+            rc.width = Mathf.Max(xx) - Mathf.Min(xx);
+            rc.height = Mathf.Max(yy) - Mathf.Min(yy);
+            */
+
             rc.x = vectors[1].x;
             rc.y = Screen.height - vectors[1].y;
             rc.width = vectors[3].x - vectors[0].x;

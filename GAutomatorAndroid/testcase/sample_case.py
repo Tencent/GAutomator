@@ -120,8 +120,14 @@ def test_joystick():
 def main():
   #  test()
 #    test_joystick()
-    time.sleep(5)
-    test_find_elements()
+    e = engine.find_element("FindElements")
+    print(e)
+    screen_shot_click(e)
+    elems = engine.find_elements_path("/Canvas/Panel/VerticalPanel[0]")
+    print(elems)
+
+    time.sleep(3)
+ #   test_find_elements()
 
 if __name__ == '__main__':
     main()

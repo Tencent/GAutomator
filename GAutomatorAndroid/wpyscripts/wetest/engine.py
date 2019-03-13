@@ -109,7 +109,7 @@ class GameEngine(object):
         self.port = port
         self.sdk_version = None
         self.socket = SocketClient(self.address, self.port)
-        self.ui_device=uiauto_interface
+        self.ui_device = uiauto_interface
 
     def get_sdk_version(self):
         """ 获取引擎集成的SDK的版本信息
@@ -133,10 +133,10 @@ class GameEngine(object):
         version = VersionInfo(engine_version, engine, sdk_version, ui_type)
         return version
 
-    def send_command_with_retry(self,command, param):
+    def send_command_with_retry(self,command, param , timeout=20):
         for i in range(0,3):
             try:
-                ret = self.socket.send_command(command, param)
+                ret = self.socket.send_command(command, param,timeout)
                 return ret
             except Exception as e:
                 ret = excute_adb_process("forward --list")
@@ -287,7 +287,10 @@ class GameEngine(object):
         x = int(x)
         y = int(y)
         logger.debug("click ({0},{1})".format(x, y))
-        self.ui_device.click(x, y)
+        cmd = "shell input tap " + str(x) + " " + str(y)
+        logger.info(cmd)
+        excute_adb_process(cmd)
+     #   self.ui_device.click(x, y)
         return True
 
     def press_position(self, x, y, press_time):
@@ -295,7 +298,7 @@ class GameEngine(object):
             长按动作
         :param x: 150 在屏幕x=150的位置进行点击
         :param y: 200 在屏幕y=200的位置进行点击
-        :param press_time:按压时间，单位为毫秒 5ms/steps
+        :param press_time:按压时间，单位为毫秒
 
         :Usage:
             >>>import wpyscripts.manager as manager
@@ -305,8 +308,10 @@ class GameEngine(object):
         """
         x = int(x)
         y = int(y)
-
-        self.ui_device.swipe(x, y, x + 1, y + 1, press_time / 5)
+        cmd = "shell input swipe " + str(x) + " " + str(y) + " " +  str(x+1) + " " +  str(y+1) + " " +  str(press_time)
+        logger.info(cmd)
+        excute_adb_process(cmd)
+     #   self.ui_device.swipe(x, y, x + 1, y + 1, press_time / 5)
         return True
 
     def swipe_position(self, start_x, start_y, end_x, end_y, duration=1000):
@@ -332,7 +337,10 @@ class GameEngine(object):
         end_y = int(end_y)
 
         logger.debug("Swipe from ({0},{1}) -> ({2},{3})".format(start_x, start_y, end_x, end_y))
-        self.ui_device.swipe(start_x, start_y, end_x, end_y, duration / 5)
+        cmd = "shell input swipe " + str(start_x) + " " + str(start_y) + " " +  str(end_x) + " " +  str(end_y) + " " +  str(duration)
+        logger.info(cmd)
+        excute_adb_process(cmd)
+     #   self.ui_device.swipe(start_x, start_y, end_x, end_y, duration / 5)
         return True
 
     def swipe(self, start_element, end_element, duration=1000):
@@ -667,26 +675,26 @@ class UnityEngine(GameEngine):
         ret = self.send_command_with_retry(Commands.HANDLE_TOUCH_EVENTS, actions, timeout)
         return ret
 
-    # def click_position(self, x, y):
-    #     """
-    #         在屏幕的某个位置进行点击
-    #     :param x: 150 在屏幕x=150的位置进行点击
-    #     :param y: 200 在屏幕y=200的位置进行点击
-    #
-    #     :Usage:
-    #         >>>import wpyscripts.manager as manager
-    #         >>>engine=manager.get_engine()
-    #         >>>engine.click_position(100,300)
-    #
-    #     :raise WeTestRuntimeError
-    #     """
-    #     x = int(x)
-    #     y = int(y)
-    #     actions = [{"x": x, "y": y, "sleeptime": 50, "type": TouchEvent.ACTION_DOWN},
-    #                {"x": x, "y": y, "sleeptime": 0, "type": TouchEvent.ACTION_UP}]
-    #     logger.debug("click {0}".format(actions))
-    #     self._inject_touch_actions(actions)
-    #     return True
+    def click_position_by_engine(self, x, y):
+        """
+            在屏幕的某个位置进行点击
+        :param x: 150 在屏幕x=150的位置进行点击
+        :param y: 200 在屏幕y=200的位置进行点击
+
+        :Usage:
+            >>>import wpyscripts.manager as manager
+            >>>engine=manager.get_engine()
+            >>>engine.click_position_by_engine(100,300)
+
+        :raise WeTestRuntimeError
+        """
+        x = int(x)
+        y = int(y)
+        actions = [{"x": x, "y": y, "sleeptime": 50, "type": TouchEvent.ACTION_DOWN},
+                   {"x": x, "y": y, "sleeptime": 0, "type": TouchEvent.ACTION_UP}]
+        logger.debug("click {0}".format(actions))
+        self._inject_touch_actions(actions)
+        return True
     #
     # def swipe_position(self, start_x, start_y, end_x, end_y, steps, duration=1000):
     #     """

@@ -145,7 +145,9 @@ class AdbTool(object):
                     raise EnvironmentError(
                         "Adb not found in $ANDROID_HOME path: %s." % os.environ["ANDROID_HOME"])
 
-            self.__adb_cmd = adb_cmd
+            # self.__adb_cmd = adb_cmd
+            if not self.__adb_cmd:
+                self.__adb_cmd = "adb"
         return self.__adb_cmd
 
     def cmd(self, *args, **kwargs):

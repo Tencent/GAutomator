@@ -41,10 +41,15 @@ def _login_edit_box(account, pwd):
             user_edit = logins[0]
             info = user_edit.info
             local_y = (info['bounds']['top'] + info['bounds']['bottom']) / 2
-            while None == re.search(account, user_edit.get_text(), re.IGNORECASE):
+            user_edit.clear_text()
+            user_tmp = user_edit.get_text()
+            if len(user_tmp) > 0 and "QQ" not in user_tmp and u"用户名" not in user_tmp and u"手机号" not in user_tmp and "/" not in user_tmp:
                 # click the x point
                 for i in range(0, local_range):
-                    uiauto.wait.idle()
+                    package_name = uiauto.info["currentPackageName"]
+                    if package_name != None and package_name != "com.tencent.mm" and package_name != "com.tencent.mobileqq":
+                        logger.info("break login_edit_box because package not in tencent...  " + package_name)
+                        return
                     uiauto.click(local_x - i * local_step, local_y)
                     logger.info(
                         "click the usr x point. local_x is " + str(local_x - i * local_step) + ". local_y is " + str(
@@ -53,7 +58,7 @@ def _login_edit_box(account, pwd):
                 # user_edit.set_text(account)
                 excute_adb_process("shell input text " + account)
                 logger.info(account)
-                break
+
             #   uiauto.wait.update()
               # logger.info("src and dest content.")
               # logger.info(user_edit.get_text())
