@@ -56,8 +56,8 @@ def _login_edit_box(account, pwd):
                             local_y))
              #  uiauto.wait.idle()
                 # user_edit.set_text(account)
-                excute_adb_process("shell input text " + account)
-                logger.info(account)
+            excute_adb_process("shell input text " + account)
+            logger.info(account)
 
             #   uiauto.wait.update()
               # logger.info("src and dest content.")
