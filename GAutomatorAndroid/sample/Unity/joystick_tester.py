@@ -100,3 +100,9 @@ def test_world_bounds():
     person = engine.find_element("/3rd Person Controller/Bip001/Bip001 Pelvis")
     world_bound = engine.get_element_world_bound(person)
     logger.debug(world_bound[0])
+
+
+
+if __name__ == "__main__":
+    test_swipe_and_press()
+    pass

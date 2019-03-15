@@ -260,11 +260,7 @@ def wait_for_scene(name, max_count=20, sleeptime=2):
 
 
 def find_less_click_element(elements):
-    """
-        一直等待，直到某个节点消失
-    :param elements:
-    :return:
-    """
+
     global click_dict
     min_num = 1000
     min_element = None
