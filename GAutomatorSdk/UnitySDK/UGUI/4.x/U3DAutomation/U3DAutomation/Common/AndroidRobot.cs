@@ -15,25 +15,33 @@ namespace WeTest.U3DAutomation
         ACTION_MOVE = 2
     }
 
+
     class MobileScreen
     {
         public int width { get; set; }
         public int height { get; set; }
+        public float x { get; set; }
+        public float y { get; set; }
 
         public MobileScreen()
         {
             width = 0;
             height = 0;
+            x = 0;
+            y = 0;
         }
 
-        public MobileScreen( int w, int h )
+        public MobileScreen(int w, int h, float x, float y)
         {
             width = w;
             height = h;
+            this.x = x;
+            this.y = y;
         }
     }
 
-	class AndroidRobot
+
+    class AndroidRobot
 	{
         private static AndroidRobot instance = new AndroidRobot();
 
@@ -85,6 +93,7 @@ namespace WeTest.U3DAutomation
         }
 
 
+
         public static MobileScreen getAndroidMScreen()
         {
             Logger.v("getAndroidMScreen, begin");
@@ -96,27 +105,31 @@ namespace WeTest.U3DAutomation
 
             int width = -1;
             int height = -1;
+            float x = 0;
+            float y = 0;
             bool bMScreen = false;
             try
             {
                 width = u3dautomation.CallStatic<int>("GetWidth");
                 height = u3dautomation.CallStatic<int>("GetHeight");
+                x = u3dautomation.CallStatic<float>("GetX");
+                y = u3dautomation.CallStatic<float>("GetY");
                 bMScreen = true;
             }
             catch (System.Exception ex)
             {
-            	Logger.e(ex.ToString());
+                Logger.e(ex.ToString());
             }
 
-            if ( bMScreen )
+            if (bMScreen)
             {
-                mscreen = new MobileScreen(width, height);
+                mscreen = new MobileScreen(width, height, x, y);
             }
 
-            Logger.d("getAndroidMScreen: width=" + width + ", height=" + height);
-          
+            Logger.d("getAndroidMScreen:   width=" + width + ", height=" + height + "x=" + x + ", y=" + y);
+
             return mscreen;
         }
 
-	}
+    }
 }

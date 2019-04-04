@@ -133,6 +133,15 @@ namespace WeTest.U3DAutomation
 
                 if (events != null)
                 {
+                    float offsetx = 0, offsety = 0, scalex = 0, scaley = 0;
+                    if (CoordinateTool.GetCurrenScreenParam(ref offsetx, ref offsety, ref scalex, ref scaley))
+                    {
+                        for (int i = 0; i < events.Count; ++i)
+                        {
+                            events[i].x -= offsetx;
+                            events[i].y -= offsety;
+                        }
+                    }
                     for (int i = 0; i < events.Count; ++i)
                     {
                         TouchEvent touchEvent=events[i];

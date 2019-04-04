@@ -10,12 +10,14 @@ namespace WeTest.U3DAutomation
 	{
         private static MobileScreen physicalscreen = null;
 
-        public static bool GetCurrenScreenScale(ref float scalex, ref float scaley)
+        public static bool GetCurrenScreenParam(ref float offsetx, ref float offsety, ref float scalex, ref float scaley)
         {
             //Logger.d("getCurrenScreenScale");
             if (RuntimePlatform.IPhonePlayer == Application.platform){
                 scalex = 1;
                 scaley = 1;
+                offsetx = 0;
+                offsety = 0;
                 return true;
             }
             if (physicalscreen == null)
@@ -26,7 +28,7 @@ namespace WeTest.U3DAutomation
                 Logger.d("Screen.width=" + Screen.width + ", Screen.height=" + Screen.height);
                 if (physicalscreen != null)
                 {
-                    Logger.d("physicalscreen.width=" + physicalscreen.width + " , physicalscreen.height=" + physicalscreen.height);
+                    Logger.d("physicalscreen.width=" + physicalscreen.width + " , physicalscreen.height=" + physicalscreen.height + "physicalscreen.x=" + physicalscreen.x + " , physicalscreen.y=" + physicalscreen.y);
                 }
             }
             if (physicalscreen == null)
@@ -63,9 +65,10 @@ namespace WeTest.U3DAutomation
             Logger.v("realphysicalwidth=" + realphysicalwidth + ", realphysicalheight=" + realphysicalheight);
             Logger.v("Screen.width=" + Screen.width + ", Screen.height=" + Screen.height);
             Logger.v("sx=" + sx + ", sy=" + sy);
-
             scalex = sx;
             scaley = sy;
+            offsetx = physicalscreen.x;
+            offsety = physicalscreen.y;
             return true;
         }
 
@@ -73,15 +76,15 @@ namespace WeTest.U3DAutomation
         public static Point ConvertMobile2Unity(Point pt)
         {
             if (pt == null) return null;
-            float scalex = 0, scaley = 0;
+            float scalex = 0, scaley = 0, offsetx = 0, offsety = 0;
             Point ptNew = new Point(CoordinateType.UnityScreen);
-            if (GetCurrenScreenScale(ref scalex, ref scaley))
+            if (GetCurrenScreenParam(ref offsetx, ref offsety,ref scalex, ref scaley))
             {
-                ptNew.X = pt.X / scalex;
-                ptNew.Y = Screen.height - pt.Y / scaley;
+                ptNew.X = (pt.X - offsetx) / scalex;
+                ptNew.Y = Screen.height - (pt.Y - offsety) / scaley;
 
                 Logger.d("point(" + pt.X + "," + pt.Y + ") => (" + ptNew.X + "," + ptNew.Y + ")");
-               
+
             }
             return ptNew;
         }
@@ -89,19 +92,18 @@ namespace WeTest.U3DAutomation
         public static Point ConvertUnity2Mobile(Vector2 pt)
         {
             Point point = new Point();
-            float y = Screen.height - pt.y;
-            float scalex = 0, scaley = 0;
-            if (GetCurrenScreenScale(ref scalex, ref scaley))
+            float scalex = 0, scaley = 0, offsetx = 0, offsety = 0;
+            if (GetCurrenScreenParam( ref offsetx, ref offsety, ref scalex, ref scaley))
             {
-                point.X = pt.x * scalex;
-                point.Y = y * scaley;
+                point.X = pt.x * scalex + offsetx;
+                point.Y = (Screen.height - pt.y) * scaley + offsety;
 
                 Logger.v("ConvertUnity2Mobile from point =(" + pt.x + ", " + pt.y + ") ==> ( " + point.X + ", " + point.Y + ")");
             }
             else
             {
                 point.X = pt.x;
-                point.Y = y;
+                point.Y = pt.y;
             }
             return point;
         }
@@ -109,12 +111,11 @@ namespace WeTest.U3DAutomation
         public static Rectangle ConvertUnity2Mobile(Rectangle rect)
         {
             Rectangle r = new Rectangle();
-            float y = Screen.height - rect.y;
-            float scalex = 0, scaley = 0;
-            if (GetCurrenScreenScale(ref scalex, ref scaley))
+            float scalex = 0, scaley = 0, offsetx = 0, offsety = 0;
+            if (GetCurrenScreenParam( ref offsetx, ref offsety, ref scalex, ref scaley))
             {
-                r.x = rect.x * scalex;
-                r.y = y * scaley;
+                r.x = rect.x * scalex + offsetx;
+                r.y = (Screen.height - rect.y) * scaley + offsety;
                 r.width = rect.width * scalex;
                 r.height = rect.height * scaley;
             }
@@ -124,6 +125,7 @@ namespace WeTest.U3DAutomation
             }
             return r;
         }
+
 
         public static Vector2 ConvertPoint2Vector(Point pt)
         {

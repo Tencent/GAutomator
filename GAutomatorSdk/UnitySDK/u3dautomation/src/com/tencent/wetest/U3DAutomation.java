@@ -32,15 +32,20 @@ public class U3DAutomation {
 	protected static class MScreen {
 		public int width = 0;
 		public int height = 0;
-
+		public float x = 0;
+		public float y = 0;
 		MScreen() {
 			width = 0;
 			height = 0;
+			x = 0;
+			y = 0;
 		}
 
-		MScreen(int w, int h) {
+		MScreen(int w, int h, float x, float y) {
 			width = w;
 			height = h;
+			this.x = x;
+			this.y = y;
 		}
 	}
 
@@ -305,7 +310,7 @@ public class U3DAutomation {
 			}
 
 			playerActivity = (Activity) objcurrentActivity;
-
+			
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);
 		}
@@ -323,7 +328,7 @@ public class U3DAutomation {
 					.equals("com.unity3d.player.UnityPlayer")) {
 				return obj;
 			} else {
-				//继承扩展的时候
+				//缁ф壙鎵╁睍鐨勬椂鍊�
 				Log.d(TAG, "Activity obj name= "+obj.getClass().getCanonicalName());
 				
 				Field[] fields = obj.getClass().getDeclaredFields();
@@ -395,11 +400,15 @@ public class U3DAutomation {
 	 */
 	private static MScreen getMscreen() {
 		SurfaceView surfaceView_=getSurfaceView();
+		int[] rootViewLocation = new int[2];
+		surfaceView_.getLocationOnScreen(rootViewLocation);
 		if(surfaceView_!=null){
 			try {
+				float x = rootViewLocation[0];
+				float y = rootViewLocation[1];
 				int height = surfaceView_.getHeight();
 				int width = surfaceView_.getWidth();
-				mscreen = new MScreen(width, height);
+				mscreen = new MScreen(width, height,x,y);
 				return mscreen;
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage());
@@ -437,10 +446,12 @@ public class U3DAutomation {
 		Log.d(TAG, "View class name = " + view.getClass().getCanonicalName());
 		int width = view.getWidth();
 		int height = view.getHeight();
+		float x = view.getX();
+		float y = view.getY();
 
-		Log.d(TAG, "width=" + width + ", height=" + height);
+		Log.d(TAG, "width=" + width + ", height=" + height + ", x=" + x + ", y=" + y);
 
-		mscreen = new MScreen(width, height);
+		mscreen = new MScreen(width, height, x , y);
 
 		return mscreen;
 	}
@@ -449,7 +460,7 @@ public class U3DAutomation {
 		Log.i(TAG, "GetWidth( )");
 		MScreen msc = null;
 		try {
-			msc = getMscreen(); //方式1
+			msc = getMscreen(); //鏂瑰紡1
 			return msc.width;
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(),e);
@@ -465,6 +476,30 @@ public class U3DAutomation {
 		try {
 			msc = getMscreen();
 			return msc.height;
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(),e);
+		}
+		return -1;
+	}
+	
+	public static float GetX() {
+		Log.i(TAG, "GetX( )");
+		MScreen msc = null;
+		try {
+			msc = getMscreen(); //鏂瑰紡1
+			return msc.x;
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(),e);
+		}
+		return -1;
+	}
+	
+	public static float GetY() {
+		Log.i(TAG, "GetY( )");
+		MScreen msc = null;
+		try {
+			msc = getMscreen(); //鏂瑰紡1
+			return msc.y;
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(),e);
 		}
