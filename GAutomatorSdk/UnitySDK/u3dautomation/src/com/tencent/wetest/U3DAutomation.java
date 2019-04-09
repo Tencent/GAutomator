@@ -323,13 +323,14 @@ public class U3DAutomation {
 		if (obj == null) {
 			return null;
 		}
+		
 		try {
 			if (obj.getClass().getCanonicalName()
 					.equals("com.unity3d.player.UnityPlayer")) {
 				return obj;
 			} else {
 				//缁ф壙鎵╁睍鐨勬椂鍊�
-				Log.d(TAG, "Activity obj name= "+obj.getClass().getCanonicalName());
+				Log.i(TAG, "Activity obj name= "+obj.getClass().getCanonicalName());
 				
 				Field[] fields = obj.getClass().getDeclaredFields();
 
@@ -363,7 +364,7 @@ public class U3DAutomation {
 		if (surfaceView == null) {
 			Object activity = getUnityPlayerActivity();
 			if (activity == null) {
-				Log.d(TAG, "not find com.unity3d.player.UnityPlayer");
+				Log.e(TAG, "not find com.unity3d.player.UnityPlayer");
 				return null;
 			}
 			
@@ -371,9 +372,9 @@ public class U3DAutomation {
 
 			for (int i = 0; i < fields.length; ++i) {
 				Field f = fields[i];
-				Log.d(TAG, "field type = " + f.getType());
+				Log.i(TAG, "field type = " + f.getType());
 				if (f.getType() == SurfaceView.class) {
-					Log.d(TAG, "find SurfaceView");
+					Log.i(TAG, "find SurfaceView");
 					f.setAccessible(true);
 					try {
 						surfaceView = (SurfaceView) f.get(activity);
@@ -388,7 +389,6 @@ public class U3DAutomation {
 		}
 		return surfaceView;
 	}
-
 	
 	/**
 	 * @brief 
@@ -399,11 +399,11 @@ public class U3DAutomation {
 	 * @return
 	 */
 	private static MScreen getMscreen() {
-		SurfaceView surfaceView_=getSurfaceView();
-		int[] rootViewLocation = new int[2];
-		surfaceView_.getLocationOnScreen(rootViewLocation);
+		SurfaceView surfaceView_ = getSurfaceView();
 		if(surfaceView_!=null){
 			try {
+				int[] rootViewLocation = new int[2];
+				surfaceView_.getLocationOnScreen(rootViewLocation);
 				float x = rootViewLocation[0];
 				float y = rootViewLocation[1];
 				int height = surfaceView_.getHeight();
@@ -446,8 +446,10 @@ public class U3DAutomation {
 		Log.d(TAG, "View class name = " + view.getClass().getCanonicalName());
 		int width = view.getWidth();
 		int height = view.getHeight();
-		float x = view.getX();
-		float y = view.getY();
+		int[] rootViewLocation = new int[2];
+		view.getLocationOnScreen(rootViewLocation);
+		float x = rootViewLocation[0];
+		float y = rootViewLocation[1];
 
 		Log.d(TAG, "width=" + width + ", height=" + height + ", x=" + x + ", y=" + y);
 
