@@ -15,8 +15,8 @@ Support unity element locating and touching only for now.
 * Open PyCharm Preference , install the plugin from disk , select the zip and restart PyCharm.
 ![MacDown Screenshot](pic/plugin_install_steps.png)
 
-* on Mac OS X, find the plugin path according to your IDE version (e.g. ~/Library/Application\ Support/PyCharmCEXXXXXX/wetest_plugin_pycharm/), run the following commands :
-`cp $(which iproxy ) ~/Library/Application\ Support/PyCharmCEXXXXXX/wetest_plugin_pycharm/`
+* on Mac OS X, find the plugin path according to your IDE version (e.g. ~/Library/Application\ Support/PyCharmCEXXXXXX/wetest_plugin_pycharm/), run the following commands :    
+`cp $(which iproxy ) ~/Library/Application\ Support/PyCharmCEXXXXXX/wetest_plugin_pycharm/`   
 `cp $(which idevice_id ) ~/Library/Application\ Support/PyCharmCEXXXXXX/wetest_plugin_pycharm/`
 
 
