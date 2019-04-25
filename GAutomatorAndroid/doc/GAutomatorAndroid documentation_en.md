@@ -253,7 +253,7 @@ GAutomator has three way to find the GameObject。Example：sample/find_elements
 <a name="3.1"></a>
 
 ## 3.1 find_element
-*find_element* use the [GameObject.Find] method to find a GameObject by name.This function only returns active GameObjects. If no GameObject with name can be found, null is returned. If name contains a '/' character, it traverses the hierarchy like a path name. *We find a bug in same unity version, when you use the full path, it may return the inactive gameobject*
+*find_element* use the [GameObject.Find] method to find a GameObject by name.This function only returns active GameObjects. If no GameObject with name can be found, an exception would be thrown. If name contains a '/' character, it traverses the hierarchy like a path name. *We find a bug in same unity version, when you use the full path, it may return the inactive gameobject*
 ```python
 #import sys,os,time
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..\\")))
@@ -308,7 +308,7 @@ python find_elements.py
   </GameObject>
 </GameObject>
 ```
-This scene has two gameobjects("/Canvas/Panel/Button"), this function can only return one gameobject. If the name you find is not existed in this scene, return None.
+This scene has two gameobjects("/Canvas/Panel/Button"), this function can only return one gameobject. If the name you find is not existed in this scene, an exception would be thrown.
 
 <a name="3.2"></a>
 

@@ -296,7 +296,7 @@ engine模块提供了三种GameObject的查找方式。示例：sample/Unity/fin
 <a name="3.1"></a>
 
 ## 3.1 find_element
-*find_element*通过Unity的GameObject.Find()方法查找游戏中的的gameobject。*find_element*通过GameObject的名称查找对象，名字中可以包含'/'代表GameObject树中的一层。这方法只返回当前激活(active)的gameobject。
+*find_element*通过Unity的GameObject.Find()方法查找游戏中的的gameobject。*find_element*通过GameObject的名称查找对象，名字中可以包含'/'代表GameObject树中的一层。这方法只返回当前激活(active)的gameobject。查找失败时会抛出异常。
 当界面上有两个一模一样路径的gameobject时，只返回其中的一个。代码示例：
 ```python
 #import sys,os,time

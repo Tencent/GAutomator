@@ -138,6 +138,8 @@ class GameEngine(object):
             try:
                 ret = self.socket.send_command(command, param,timeout)
                 return ret
+            except WeTestRuntimeError as e:
+                raise e
             except Exception as e:
                 ret = excute_adb_process("forward --list")
                 logger.info("adb forward --list : " + str(ret))
