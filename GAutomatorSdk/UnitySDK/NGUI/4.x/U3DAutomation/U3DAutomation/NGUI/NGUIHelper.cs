@@ -139,7 +139,7 @@ namespace WeTest.U3DAutomation
             if(rc==null)
                 return null;
 
-            Logger.v("GetBound gameobject =" + obj.name + "  rc.x=" + rc.x + ", rc.y=" + rc.y + ", wight = " + rc.width + ", height=" + rc.height);
+            Logger.d("GetBound gameobject =" + obj.name + "  rc.x=" + rc.x + ", rc.y=" + rc.y + ", wight = " + rc.width + ", height=" + rc.height);
 
             //坐标缩放
             float offsetx = 0, offsety = 0, scalex = 0, scaley = 0;
@@ -160,7 +160,7 @@ namespace WeTest.U3DAutomation
 
 
             }
-            Logger.v("GetBound() after scale : rc.x=" + rc.x + ", rc.y=" + rc.y + ", wight = " + rc.width + ", height=" + rc.height);
+            Logger.d("GetBound() after scale : rc.x=" + rc.x + ", rc.y=" + rc.y + ", wight = " + rc.width + ", height=" + rc.height);
 
             return rc;
         }

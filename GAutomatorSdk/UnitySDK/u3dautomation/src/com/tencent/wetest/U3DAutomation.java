@@ -323,20 +323,18 @@ public class U3DAutomation {
 		if (obj == null) {
 			return null;
 		}
-		
 		try {
 			if (obj.getClass().getCanonicalName()
 					.equals("com.unity3d.player.UnityPlayer")) {
 				return obj;
 			} else {
-				//缁ф壙鎵╁睍鐨勬椂鍊�
 				Log.i(TAG, "Activity obj name= "+obj.getClass().getCanonicalName());
 				
 				Field[] fields = obj.getClass().getDeclaredFields();
 
 				for (int i = 0; i < fields.length; ++i) {
 					Field f = fields[i];
-					Log.d(TAG, "field type = " + f.getType());
+					Log.i(TAG, "field type = " + f.getType());
 					if (f.getType().getCanonicalName()
 							.equals("com.unity3d.player.UnityPlayer")) {
 						Object activity;
@@ -352,6 +350,7 @@ public class U3DAutomation {
 
 					}
 				}
+				
 			}
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);
@@ -359,6 +358,7 @@ public class U3DAutomation {
 
 		return null;
 	}
+	
 	
 	private static SurfaceView getSurfaceView(){
 		if (surfaceView == null) {
@@ -433,7 +433,7 @@ public class U3DAutomation {
 	private static MScreen GetMResolution() {
 		Log.i(TAG, "GetMResolution Enter");
 
-		Activity obj = (Activity) getUnityPlayerActivity();
+		Activity obj = (Activity) GetPlayerActivity();
 		if (obj == null) {
 			Log.e(TAG, "GetContext: get activity is null");
 			return null;
@@ -459,7 +459,7 @@ public class U3DAutomation {
 	}
 
 	public static int GetWidth() {
-		Log.i(TAG, "GetWidth( )");
+		Log.i(TAG, "GetWidth()");
 		MScreen msc = null;
 		try {
 			msc = getMscreen(); //鏂瑰紡1
@@ -485,7 +485,7 @@ public class U3DAutomation {
 	}
 	
 	public static float GetX() {
-		Log.i(TAG, "GetX( )");
+		Log.i(TAG, "GetX()");
 		MScreen msc = null;
 		try {
 			msc = getMscreen(); //鏂瑰紡1
@@ -497,7 +497,7 @@ public class U3DAutomation {
 	}
 	
 	public static float GetY() {
-		Log.i(TAG, "GetY( )");
+		Log.i(TAG, "GetY()");
 		MScreen msc = null;
 		try {
 			msc = getMscreen(); //鏂瑰紡1

@@ -134,7 +134,7 @@ namespace WeTest.U3DAutomation
             elem.SetAttribute("components", GetObjectType(t.gameObject));
             elem.SetAttribute("id", t.gameObject.GetInstanceID().ToString());
 
-            //Logger.d("t.gameObject.name=" + t.gameObject.name.ToString() + ", t.gameObject.GetType()=" + t.gameObject.GetType().FullName.ToString());
+            Logger.d("t.gameObject.name=" + t.gameObject.name.ToString() + ", t.gameObject.GetType()=" + t.gameObject.GetType().FullName.ToString());
 
             string str = helper.GetText(t.gameObject);
 
