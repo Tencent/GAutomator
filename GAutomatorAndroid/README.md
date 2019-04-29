@@ -1,5 +1,5 @@
 # GAutomatorAndroid
-[![Wetest](https://img.shields.io/badge/wetest-2.8.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+[![Wetest](https://img.shields.io/badge/wetest-2.8.1-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomatorAndroid, designed just like android uiautomator, also includes ui automator functions. GAutomator interacts with engine elements such as GameObject(GameObjects are the fundamental objects in Unity that represent characters, props and scenery) .
 
@@ -112,7 +112,7 @@ For more information about contributing issues or pull requests, [Issues](https:
 
 
 # GAutomatorAndroid
-[![Wetest](https://img.shields.io/badge/wetest-2.8.0-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
+[![Wetest](https://img.shields.io/badge/wetest-2.8.1-green.svg)](wetest.qq.com)  [![license](https://img.shields.io/badge/license-mit-red.svg)](https://github.com/Tencent/tinker/blob/master/LICENSE)
 
 GAutomatoraAndroid的设计理念与使用方式,类似于Android的UIAutomator。GAutomator以引擎中的元素为操作对象（如Unity中的GameObject），通过操作GameObject实现UI自动化测试。基于GameObject的方式，不存在手机分辨率适配的问题，一份脚本能够运行在不同手机之上.基于GameObject的另外一个优点为鲁棒性较强，游戏的UI界面经常发生变化，GameObject变化频率相对较低。
 

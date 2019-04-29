@@ -24,8 +24,6 @@ namespace WeTest.U3DAutomation
             #endif
         }
 
-
-
         public static void v(string format,params object[] args)
         {
             #if WETEST_U3D_VERBOSE_MODE

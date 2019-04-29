@@ -505,6 +505,13 @@ class CloudDevice(Device):
         time.sleep(3)
         platform.get_platform_client().procdied_report(True)
 
+    def get_current_package(self):
+        pkg = self.ui_device.info["currentPackageName"]
+        if pkg is None:
+            time.sleep(10)
+            return self.ui_device.info["currentPackageName"]
+        return pkg
+
 
 class NativeDevice(Device):
     """

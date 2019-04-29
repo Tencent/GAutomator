@@ -289,7 +289,7 @@ namespace WeTest.U3DAutomation
         /// <param name="command"></param>
         protected void handleGetElements(Command command)
         {
-            Logger.d("handleGetElements +"+command.recvObj);
+            Logger.d("handleGetElements " + command.recvObj);
             List<string> elementNames = JsonParser.Deserialization<List<string>>(command);
             List<ElementInfo> elements = new List<ElementInfo>();
             foreach (string s in elementNames)
@@ -604,6 +604,7 @@ namespace WeTest.U3DAutomation
                 command.status = ResponseStatus.UN_KNOW_ERROR;
                 command.sendObj = ex.Message + " " + ex.StackTrace;
             }
+            Logger.d("scene :" + command.sendObj);
             CommandDispatcher.SendCommand(command);
         }
 

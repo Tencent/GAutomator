@@ -57,7 +57,7 @@ def _login_edit_box(account, pwd):
              #  uiauto.wait.idle()
                 # user_edit.set_text(account)
             excute_adb_process("shell input text " + account)
-            logger.info(account)
+            logger.info("accont:" + account)
 
             #   uiauto.wait.update()
               # logger.info("src and dest content.")
@@ -106,8 +106,14 @@ def _afterlogin():
                 uiauto.click(x, y)
                 logger.info(str(x) + ", " + str(y))
     if uiauto(text=u'马上绑定',className=u'android.widget.Button').exists:
-        uiauto(text=u'关闭', className=u'android.widget.TextView').click()
-        logger.info("click 关闭")
+        logger.info("处理马上绑定页面 ..")
+        if uiauto(text=u'关闭', className=u'android.widget.TextView').exists:
+            uiauto(text=u'关闭', className=u'android.widget.TextView').click()
+        elif uiauto(resourceId=u'com.tencent.mobileqq:id/ivTitleBtnLeft', className=u'android.widget.TextView').exists:
+            uiauto(resourceId=u'com.tencent.mobileqq:id/ivTitleBtnLeft', className=u'android.widget.TextView').click()
+        else:
+            logger.info("处理马上绑定页面失败")
+
 
 def _login_qq():
     # qq
@@ -241,12 +247,12 @@ def _login_wx():
 def _prelogin_qq():
     logger.info("tryp to prelogin qq")
     try:
-        if uiauto(text=u'登 录', className=u'android.widget.Button').exists and uiauto(text=u'新用户', className=u'android.widget.Button').exists and not uiauto(className=u'android.widget.EditText').exists:
+        if uiauto(textMatches=u'登(\\s)?录', className=u'android.widget.Button').exists and uiauto(text=u'新用户', className=u'android.widget.Button').exists and not uiauto(className=u'android.widget.EditText').exists:
             logger.info("pre login qq")
             uiauto.wait.idle()
-            uiauto(text=u'登 录', className=u'android.widget.Button').click()
+            uiauto(textMatches=u'登(\\s)?录', className=u'android.widget.Button').click()
     except Exception as e:
-            logger.info(e)
+            logger.exception(e)
 
 def _prelogin_wechat():
     logger.info("tryp to prelogin wechat")
@@ -316,4 +322,4 @@ def login_tencent(account, pwd, timeout=180):
 
 if __name__ == "__main__":
     #print get_login()
-    login_tencent("2952018575", "wemonster")
+    login_tencent("2952018575", "1234")

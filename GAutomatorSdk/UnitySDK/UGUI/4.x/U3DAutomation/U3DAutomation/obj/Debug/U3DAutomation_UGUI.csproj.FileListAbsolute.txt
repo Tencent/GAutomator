@@ -38,6 +38,6 @@ D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\bi
 D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\UnityEditor.dll
 D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\UnityEngine.dll
 D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\bin\Debug\UnityEngine.UI.dll
-D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation_UGUI.csprojResolveAssemblyReference.cache
 D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation.dll
 D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation.pdb
+D:\git\GAutomator\GAutomatorSdk\UnitySDK\UGUI\4.x\U3DAutomation\U3DAutomation\obj\Debug\U3DAutomation_UGUI.csprojResolveAssemblyReference.cache

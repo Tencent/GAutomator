@@ -221,6 +221,7 @@ namespace WeTest.U3DAutomation
         }
         private static void Send(Socket handler, String data)
         {
+            Logger.d("send :" + data);
             byte[] byteData = Encoding.UTF8.GetBytes(data);
             byte[] sendByteData = new byte[byteData.Length + 4];
             byte[] lengthByte = BitConverter.GetBytes(byteData.Length);

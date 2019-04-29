@@ -97,11 +97,19 @@ def get_login():
             return user_pass
         login_uiauto = password.down(className=u'android.widget.Button',  textMatches=u'.*((?<!用手机号)登).*')
         if login_uiauto == None or not login_uiauto.exists:
+            login_uiauto = password.down(className=u'android.widget.ImageView',  descriptionMatches=u'.*((?<!用手机号)登).*')
+        if login_uiauto == None or not login_uiauto.exists:
             login_uiauto = password.right(className=u'android.widget.Button', textMatches=u'.*((?<!用手机号)登).*')
+        if login_uiauto == None or not login_uiauto.exists:
+            login_uiauto = password.down(className=u'android.widget.Button', textMatches=u'.*((?<!用手机号)登).*')
         if login_uiauto == None or not login_uiauto.exists:
             login_uiauto = password.down(className=u'android.widget.Button')
         if login_uiauto == None or not login_uiauto.exists:
-            login_uiauto = password.right(className=u'android.widget.Button')
+            login_uiauto = password.right(className=u'android.widget.ImageView', descriptionMatches=u'.*((?<!用手机号)登).*')
+        if login_uiauto == None or not login_uiauto.exists:
+            login_uiauto = password.down(className=u'android.widget.ImageView', descriptionMatches=u'.*((?<!用手机号)登).*')
+        if login_uiauto == None or not login_uiauto.exists:
+            login_uiauto = password.down(className=u'android.widget.ImageView', textMatches=u'.*((?<!用手机号)登).*')
         if not login_uiauto.exists:
             return user_pass
         user_pass.append(user_uiauto)
