@@ -22,6 +22,9 @@ class Reporter():
     def screenshot_with_mark( self, width, height, x, y, locator_name="point"):
         try:
             self.image_id += 1
+            if 0<x<1 and 0<y<1:
+                x=int(x*width)
+                y=int(y*height)
             response = self.platform_client.touch_capture(width, height, x, y, locator_name)
             if response:
                 return response
