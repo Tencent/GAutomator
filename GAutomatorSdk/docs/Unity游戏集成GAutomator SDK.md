@@ -1,4 +1,4 @@
-GAutomator SDK Unity是专门给予Unity游戏引擎开发的组件感知、组件操作和崩溃异常捕获组件，能够感知和查询引擎的组件信息，比提供对应的操作。Unity SDK支持Android/IOS平台。GAutomator SDK Unity分为NGUI和UGUI版本，请根据自己的游戏[下载对应的版本](../GAutomatorSdk/UnitySDK/compiled)。SDK文件包括（iOS只需要U3DAutomation.dll）
+GAutomator SDK Unity是专门给予Unity游戏引擎开发的组件感知、组件操作和崩溃异常捕获组件，能够感知和查询引擎的组件信息，比提供对应的操作。Unity SDK支持Android/IOS平台。GAutomator SDK Unity分为NGUI和UGUI版本，请根据自己的游戏[下载对应的版本](../UnitySDK/compiled)。SDK文件包括（iOS只需要U3DAutomation.dll）
 
 ```
 - libcrashmonitor.so
