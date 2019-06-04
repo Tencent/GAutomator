@@ -13,10 +13,10 @@ class WdaManager(object):
     __instance=None
     sessionMap={}
 
-    def __init__(self,wdaport , wdahost="127.0.0.1"):
+    def __init__(self,wdaport):
         self.__wdaport = wdaport
-        self.wda_client = wda.Client('http://%s:%s' %(wdahost,str(self.__wdaport)))
-        self._cur_wda_session=None #self.wda_client.session(None)
+        self.wda_client = wda.Client('http://localhost:%s' % str(self.__wdaport))
+        self._cur_wda_session=None#self.wda_client.session(None)
 
     def get_port(self):
         return self.__wdaport
@@ -55,6 +55,7 @@ class WdaManager(object):
             session.close()
         else:
             logger.error("bundleid:" + bundleid + "s not in session map")
+
 
 #
 # class WdaManager(object):

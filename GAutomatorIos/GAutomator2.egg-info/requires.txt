@@ -1,0 +1,4 @@
+requests
+enum34
+urllib3
+six

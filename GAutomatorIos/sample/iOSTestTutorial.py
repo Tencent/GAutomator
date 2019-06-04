@@ -17,7 +17,6 @@ TEST_PKG_NAME = "com.tencent.wetest.demo.ngui"
 udid = "8b281ff151d795bfc81212e45068dea12b91b706"
 
 
-
 '''
 a sample to get device.engine instance 
 '''
