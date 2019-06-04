@@ -13,7 +13,6 @@ import traceback
 import time
 import threading
 import logging
-import wpyscripts.manager as manager
 
 logger = logging.getLogger("wetest")
 
@@ -33,25 +32,19 @@ def screensnap_thread(report, stop, times, interval):
             logger.warning(stack)
 
 
-class time_snap(object):
-    def __init__(self, interval=10, times=30):
-        self.times = times
-        self.interval = interval
-        self.report = manager.get_reporter()
-        self.snap_thread = None
+def retry_if_fail(retry_times = 3, total_seconds = 60 ):
+    def wrapper(func):
+        def inner_wrapper(*args, **kwargs):
+            ret = func(*args, **kwargs)
+            for i in range(0,retry_times):
+                if not ret:
+                    logger.error("retry_if_fail detect failing, wait and retry...")
+                    time.sleep(total_seconds/retry_times)
+                    ret = func(*args, **kwargs)
+                else:
+                    return ret
+            if not ret:
+                logger.error("still fail after retry")
+        return inner_wrapper
 
-    def __call__(self, fn):
-        def wrapped(*args, **kwargs):
-            stop = threading.Event()
-            try:
-                self.snap_thread = threading.Thread(target=screensnap_thread,
-                                                    args=(self.report, stop, self.times, self.interval))
-                self.snap_thread.start()
-                fn(*args, **kwargs)
-            except:
-                stack = traceback.format_exc()
-                logger.warning(stack)
-            finally:
-                stop.set()
-
-        return wrapped
+    return wrapper

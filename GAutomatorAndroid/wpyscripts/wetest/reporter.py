@@ -259,24 +259,18 @@ class NativeReporter(Reporter):
 
     def screenshot(self):
         name = time.time()
-        cap = "adb shell /system/bin/screencap -p /data/local/tmp/{0}.png".format(name)
-        pull = "adb pull /data/local/tmp/{0}.png {1}/{0}.png".format(name,self.targetpath)
-        clear = "adb shell rm /data/local/tmp/{0}.png".format(name)
-        os.system(cap)
-        os.system(pull)
-        os.system(clear)
+        excute_adb_process("shell /system/bin/screencap -p /data/local/tmp/{0}.png".format(name))
+        excute_adb_process("pull /data/local/tmp/{0}.png {1}/{0}.png".format(name, self.targetpath))
+        excute_adb_process("shell rm /data/local/tmp/{0}.png".format(name))
         logger.debug('capture screen and save to file:{0}'.format(name))
 
     def capture_and_mark(self, x, y, locator_name="point"):
         locator_name = locator_name if locator_name else "point"
         locator_name = self._escape_path(locator_name)
 
-        cap = "adb shell /system/bin/screencap -p /data/local/tmp/{0}.png".format(locator_name)
-        pull = "adb pull /data/local/tmp/{0}.png {1}/{0}.png".format(locator_name,self.targetpath)
-        clear = "adb shell rm /data/local/tmp/{0}.png".format(locator_name)
-        os.system(cap)
-        os.system(pull)
-        os.system(clear)
+        excute_adb_process("shell /system/bin/screencap -p /data/local/tmp/{0}.png".format(locator_name))
+        excute_adb_process("pull /data/local/tmp/{0}.png {1}/{0}.png".format(locator_name,self.targetpath))
+        excute_adb_process("shell rm /data/local/tmp/{0}.png".format(locator_name))
         logger.debug('capture screen and save to file:{0}'.format(locator_name))
         return locator_name
 

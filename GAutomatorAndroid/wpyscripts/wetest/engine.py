@@ -108,7 +108,14 @@ class GameEngine(object):
         self.address = address
         self.port = port
         self.sdk_version = None
-        self.socket = SocketClient(self.address, self.port)
+        for i in range(0, 3):
+            try :
+                self.socket = SocketClient(self.address, self.port)
+                break
+            except Exception as e:
+                logger.error(e)
+                time.sleep(20)
+                ret = forward(self.port, unity_sdk_port)  # with retry...
         self.ui_device = uiauto_interface
 
     def get_sdk_version(self):
@@ -134,18 +141,20 @@ class GameEngine(object):
         return version
 
     def send_command_with_retry(self,command, param , timeout=20):
-        for i in range(0,3):
+        for i in range(0,2):
             try:
                 ret = self.socket.send_command(command, param,timeout)
                 return ret
             except Exception as e:
                 ret = excute_adb_process("forward --list")
-                logger.info("adb forward --list : " + str(ret))
-                AdbTool().forward(self.port, unity_sdk_port)
-                ret = excute_adb_process("forward --list")
-                logger.info("after reforward : adb forward --list : " + str(ret))
-                self.socket = SocketClient(self.address, self.port)
-                time.sleep(2)
+                logger.info("adb forward list : " + str(ret))
+                ret = forward(self.port, unity_sdk_port)# with retry...
+                logger.info("after reforward list : " + str(ret))
+                try:
+                    self.socket = SocketClient(self.address, self.port)
+                except Exception as e :
+                    logger.exception(e)
+                time.sleep(5)
 
     def find_element(self, name):
         """
@@ -492,8 +501,10 @@ class UnityEngine(GameEngine):
         if nodeInfos is None:
             raise WeTestInvaildArg("Error path")
 
-        ret = self.socket.send_command(Commands.FIND_ELEMENT_PATH, nodeInfos)
+        ret = self.send_command_with_retry(Commands.FIND_ELEMENT_PATH, nodeInfos)
         elements = []
+        if ret is None:
+            return []
         for e in ret:
             element = Element(e["name"], e["instance"])
             elements.append(element)
@@ -513,6 +524,8 @@ class UnityEngine(GameEngine):
         """
         ret = self.socket.send_command(Commands.FIND_ELEMENTS_COMPONENT, [name])
         elements = []
+        if ret is None:
+            return []
         for e in ret:
             element = Element(e["name"], e["instance"])
             elements.append(element)
@@ -535,7 +548,7 @@ class UnityEngine(GameEngine):
         """
         if element is None:
             raise WeTestInvaildArg("Invalid Instance")
-        ret = self.socket.send_command(Commands.GET_ELEMENT_TEXT, element.instance)
+        ret = self.send_command_with_retry(Commands.GET_ELEMENT_TEXT, element.instance)
         return ret
 
     def get_element_image(self, element):
@@ -556,7 +569,7 @@ class UnityEngine(GameEngine):
         """
         if element is None:
             raise WeTestInvaildArg("Invalid Instance")
-        ret = self.socket.send_command(Commands.GET_ELEMENT_IMAGE, element.instance)
+        ret = self.send_command_with_retry(Commands.GET_ELEMENT_IMAGE, element.instance)
         return ret
 
     def get_registered_handlers(self):
@@ -569,7 +582,7 @@ class UnityEngine(GameEngine):
         :return: []注册的自定义函数名称序列
         :raise WeTestInvaildArg,WeTestRuntimeError
         """
-        ret = self.socket.send_command(Commands.GET_REGISTERED_HANDLERS)
+        ret = self.send_command_with_retry(Commands.GET_REGISTERED_HANDLERS)
         return ret
 
     def call_registered_handler(self, name, args):
@@ -582,7 +595,7 @@ class UnityEngine(GameEngine):
             自定义注册函数的返回值
         :raise WeTestInvaildArg,WeTestRuntimeError
         """
-        ret = self.socket.send_command(Commands.CALL_REGISTER_HANDLER, {"name": name, "args": args})
+        ret = self.send_command_with_retry(Commands.CALL_REGISTER_HANDLER, {"name": name, "args": args})
         return ret
 
     def get_element_bound(self, element):
@@ -962,7 +975,7 @@ class UnityEngine(GameEngine):
         if element is None or component is None or method is None:
             raise WeTestInvaildArg("Invaild Instance")
 
-        ret = self.socket.send_command(Commands.CALL_COMPONENT_MOTHOD,
+        ret = self.send_command_with_retry(Commands.CALL_COMPONENT_MOTHOD,
                                        {"instance": element.instance, "comopentName": component,
                                         "methodName": method, "parameters": params})
         return ret
@@ -975,10 +988,10 @@ class UnityEngine(GameEngine):
         :return:
         """
         logger.debug("push c# test script : {0}".format(path))
-        result = AdbTool().cmd_wait("push", path, "/data/local/tmp/gametestlib.dll")
+        result = excute_adb_process("push", path, "/data/local/tmp/gametestlib.dll")
         logger.debug("push result : {0}".format(result))
 
-        ret = self.socket.send_command(Commands.LOAD_TEST_LIB)
+        ret = self.send_command_with_retry(Commands.LOAD_TEST_LIB)
         return ret
 
     def register_game_callback(self, name, func):
@@ -1051,5 +1064,5 @@ class UnRealEngine(GameEngine):
         """
         if element is None:
             raise WeTestInvaildArg("Invalid Instance")
-        ret = self.socket.send_command(Commands.GET_ELEMENT_TEXT, element.object_name)
+        ret = self.send_command_with_retry(Commands.GET_ELEMENT_TEXT, element.object_name)
         return ret

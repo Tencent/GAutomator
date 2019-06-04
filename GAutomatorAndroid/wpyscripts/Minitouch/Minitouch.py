@@ -6,6 +6,7 @@ import traceback
 import atexit
 from wpyscripts.common.adb_process import *
 from wpyscripts.common.coordinate_transfer import *
+from wpyscripts.common.utils import retry_if_fail
 import logging
 import threading
 import six
@@ -30,22 +31,14 @@ REMOVE_FORWARD = "forward --remove tcp:{0}".format(FORWARD_PORT)
 
 
 class Minitouch(object):
-    def __init__(self):
-        #port = os.environ.get("IMAGE_ENCODER_PORT")
-        self.touch_cmd_queue = Queue()
-      #  self.screen_address = os.environ.get("PLATFORM_IP", "127.0.0.1")
-        self.screen_address="127.0.0.1"
-        abi=self._get_abi()
-        file_path = os.path.split(os.path.realpath(__file__))[0]
-        minitouch_path = os.path.abspath(
-            os.path.join(file_path,"minitouch_lib","libs",abi,"minitouch"))
-        excute_adb_process(PUSH_MINITOUCH.format(minitouch_path))
-        excute_adb_process(CHMOD_MINITOUCH)
-        self.sub_process = excute_adb_process_daemon(LAUNCH_MINITOUCH,shell=True,needStdout=False)
+
+    @retry_if_fail()
+    def reinit(self): #reforward and relaunch minitouch connector
+        self.sub_process = excute_adb_process_daemon(LAUNCH_MINITOUCH, shell=True, needStdout=False)
         excute_adb_process(FORWARD)
         atexit.register(self.cleanup)
         try:
-         #   self.socketClient = SocketClient(self.screen_address, FORWARD_PORT)
+            #   self.socketClient = SocketClient(self.screen_address, FORWARD_PORT)
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -56,46 +49,68 @@ class Minitouch(object):
             (maxContacts, maxX, maxY, maxPressure) = map(int, m.groups())
             self._MinitouchStream__screenWidth = maxX
             self._MinitouchStream__screenHeight = maxY
-        except:
-            traceback.print_exc()
+        except :
             self.socket.close()
-          #  self.socketClient.close()
+            #  self.socketClient.close()
             self.sub_process.kill()
             excute_adb_process(REMOVE_FORWARD)
-#            self.image_uploader = ImageUpload(self.testid, self.deviceid)
-        def MinitouchSend():
-            try:
-                while True:
-                    cmd = self.touch_cmd_queue.get()
-                    if not cmd:
-                        continue
-                    elif cmd[-1] != '\n':
-                        cmd += '\n'
-                    if six.PY2:
-                        self.socket.send(cmd)
-                    else:
-                        self.socket.send(bytes(cmd, 'UTF-8'))
-            except:
-                traceback.print_exc()
-            finally:
-                self.socket.close()
-                excute_adb_process(REMOVE_FORWARD)
+            return None
 
-        threadSend = threading.Thread(target=MinitouchSend)
+        #            self.image_uploader = ImageUpload(self.testid, self.deviceid)
+        threadSend = threading.Thread(target=self.MinitouchSend)
         threadSend.setDaemon(True)
         threadSend.start()
+        return True
+
+    def MinitouchSend(self):
+        cmd = None
+        try:
+            while True:
+                cmd = self.touch_cmd_queue.get()
+                if not cmd:
+                    continue
+                elif cmd[-1] != '\n':
+                    cmd += '\n'
+                if six.PY2:
+                    self.socket.send(cmd)
+                else:
+                    self.socket.send(bytes(cmd, 'UTF-8'))
+        except :
+            if cmd:#restore cmd queue
+                new_queue = Queue()
+                new_queue.put(cmd)
+                while(not self.touch_cmd_queue.empty()) :
+                    new_queue.put(self.touch_cmd_queue.get_nowait())
+                self.touch_cmd_queue = new_queue
+            self.reinit()
+
+    def __init__(self):
+        #port = os.environ.get("IMAGE_ENCODER_PORT")
+        self.touch_cmd_queue = Queue()
+      #  self.screen_address = os.environ.get("PLATFORM_IP", "127.0.0.1")
+        self.screen_address="127.0.0.1"
+        abi=self._get_abi()
+        file_path = os.path.split(os.path.realpath(__file__))[0]
+        minitouch_path = os.path.abspath(os.path.join(file_path,"minitouch_lib","libs",abi,"minitouch"))
+        excute_adb_process(PUSH_MINITOUCH.format(minitouch_path))
+        excute_adb_process(CHMOD_MINITOUCH)
+        self.reinit()
 
     def cleanup(self):
+        logger.info("kill minitouch...")
         kill_process_by_name("minitouch")
+        self.socket.close()
+        excute_adb_process(REMOVE_FORWARD)
 
-
+    @retry_if_fail()
     def _get_abi(self):
         file = excute_adb("shell getprop ro.product.cpu.abi")
-        abi=file.read().strip()
+        abi = file.read().strip()
         file.close()
         logger.info("_get_abi: {0}".format(abi))
         return abi
 
+    @retry_if_fail()
     def _get_version(self):
         file = excute_adb("shell getprop ro.build.version.sdk")
         version = file.read()
@@ -157,8 +172,6 @@ class Minitouch(object):
         if  self.sub_process:
             self.sub_process.kill()
             excute_adb_process(REMOVE_FORWARD)
-
-
 
 def get_minitouch(width=360, height=640):
     if get_minitouch.instance:

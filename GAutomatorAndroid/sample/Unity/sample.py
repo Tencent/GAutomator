@@ -16,7 +16,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..","..")))
 
 from testcase.tools import *
-from wpyscripts.common.utils import time_snap
+from wpyscripts.manager import time_snap
 
 
 def scene_enter(button, *args, **kwargs):

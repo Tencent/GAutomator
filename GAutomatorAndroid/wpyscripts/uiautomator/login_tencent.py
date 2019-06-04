@@ -268,6 +268,7 @@ def _prelogin_wechat():
     except Exception as e:
         logger.info(e)
 
+@retry_if_fail()
 def get_current_pkgname():
     package_name = None
     def reconnectUiautomator():
