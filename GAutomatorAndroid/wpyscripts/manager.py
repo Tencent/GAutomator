@@ -22,6 +22,7 @@ from wpyscripts.common.wetest_exceptions import *
 import wpyscripts.common.adb_process as adb
 import wpyscripts.common.platform_helper as platform
 from config import Engine,EngineType
+from wpyscripts.common.utils import screensnap_thread
 import wpyscripts.uiautomator.uiautomator_manager as uiauto
 
 env = os.environ.get("PLATFORM_IP")
@@ -99,7 +100,7 @@ def get_engine(engine_type=EngineType, port=None):
         local_port = result
     else:
         local_engine_port = os.environ.get("LOCAL_ENGINE_PORT", "53001")  # 本地模式时与engine forward的端口号
-        res = adb.forward(local_engine_port, unity_sdk_port)
+        res = forward(local_engine_port, unity_sdk_port)
         logger.info(res)
         local_port = int(local_engine_port)
     logger.info("host: {0} port: {1}".format(hostip, local_port))
@@ -143,6 +144,30 @@ def get_testcase_logger():
         return logging.getLogger('testcase')
     else:
         return logging.getLogger('testcase')
+
+
+class time_snap(object):
+    def __init__(self, interval=10, times=30):
+        self.times = times
+        self.interval = interval
+        self.report = get_reporter()
+        self.snap_thread = None
+
+    def __call__(self, fn):
+        def wrapped(*args, **kwargs):
+            stop = threading.Event()
+            try:
+                self.snap_thread = threading.Thread(target=screensnap_thread,
+                                                    args=(self.report, stop, self.times, self.interval))
+                self.snap_thread.start()
+                fn(*args, **kwargs)
+            except:
+                stack = traceback.format_exc()
+                logger.warning(stack)
+            finally:
+                stop.set()
+
+        return wrapped
 
 
 def save_sdk_version(version):

@@ -18,9 +18,8 @@ __author__ = 'minhuaxu wukenaihesos@gmail.com'
 import re
 import traceback
 import os
-import logging
 
-
+from wpyscripts.common.utils import retry_if_fail
 from wpyscripts.common.wetest_exceptions import (WeTestRuntimeError, UIAutomatorError, WeTestInvaildArg, LoginError)
 from wpyscripts.httptools.exceptions import ConnectionException
 import wpyscripts.common.platform_helper as platform
@@ -32,7 +31,6 @@ from functools import wraps
 from config import Account
 
 logger = logging.getLogger("wetest")
-
 
 class DisplaySize(object):
     """
@@ -56,7 +54,6 @@ class DisplaySize(object):
 
     def __str__(self):
         return "width = {0},height = {1}".format(self.width, self.height)
-
 
 class TopActivity(object):
     """
@@ -102,15 +99,16 @@ class Device(object):
     def __init__(self, serial, package, ui_device):
         super(Device, self).__init__()
         self.serial = serial
-        self.minitoucher=Minitouch.get_minitouch()
+        self.minitoucher = Minitouch.get_minitouch()
         self.package = package
         self.ui_device = ui_device
-        self._adb = AdbTool()  # serial, os.environ.get("PLATFORM_IP", "127.0.0.1")
+        #self._adb = AdbTool()  # serial, os.environ.get("PLATFORM_IP", "127.0.0.1")
 
-    @property
-    def adb(self):
-        return self._adb
+    # @property
+    # def adb(self):
+    #     return self._adb
 
+    @retry_if_fail()
     def get_rotation(self):
         """
             get mobile current rotation
@@ -121,9 +119,13 @@ class Device(object):
             upsidedown/u: rotation=180, displayRotation=2
         :return: 0,1,2,3
         """
-        rotation = self.ui_device.info["displayRotation"]
-        return rotation
+        try:
+            return  self.ui_device.info["displayRotation"]
+        except Exception as e :
+            logger.exception(e)
+        return None
 
+    @retry_if_fail()
     def get_display_size(self):
         """
             Get mobile screen resolution
@@ -137,11 +139,10 @@ class Device(object):
         """
         try:
             return DisplaySize(self.ui_device.info["displayWidth"], self.ui_device.info["displayHeight"])
-        except:
-            stack = traceback.format_exc()
-            logger.warning(stack)
+        except Exception as e:
+            logger.exception(e)
 
-        result = self.adb.cmd_wait("shell", "dumpsys", "window", "displays")
+        result = excute_adb_process("shell dumpsys window displays")
 
         if result:
             pattern = re.compile(r'cur=(\d+)x(\d+)')
@@ -149,7 +150,9 @@ class Device(object):
             if match:
                 dispaly_size = DisplaySize(int(match.group(1)), int(match.group(2)))
                 return dispaly_size
+        return None
 
+    @retry_if_fail()
     def get_top_package_activity(self):
         """
             get the current foreground activity
@@ -164,13 +167,14 @@ class Device(object):
 
         try:
             return TopActivity("", self.ui_device.info["currentPackageName"])
-        except:
-            stack = traceback.format_exc()
-            logger.warning(stack)
+        except Exception as e:
+            logger.exception(e)
+            return None
 
     def _is_package_live(self, package=None):
         logger.warning("_is_package_live unimplement")
 
+    @retry_if_fail()
     def back(self):
         """
             Click back button
@@ -184,8 +188,9 @@ class Device(object):
         """
         try:
             self.ui_device.press("back")
+            return True
         except Exception as e:
-            raise UIAutomatorError(e.message)
+            logger.exception(e)
 
     def touchDown(self,contactId,x,y,consider_rotation=True):
         """
@@ -236,13 +241,14 @@ class Device(object):
              """
         self.minitoucher.touchUp(contact=contactId)
 
+    @retry_if_fail()
     def launch_app(self, package, activity="android.intent.category.LAUNCHER"):
         """
         启动游戏，游戏启动后返回。返回启动后的Pid和拉起时间，device实例会保存Pid的值
         :param package:
         :return:(234,2341)分别代表打起后的pid和拉起时间
         """
-        result = self.adb.cmd_wait("shell", "monkey", "-p", package, "-c", activity, "1")
+        result = excute_adb_process("shell monkey -p " + package +  " -c " + activity + " 1")
         if result:
             content = result
             logger.debug(content)
@@ -259,6 +265,7 @@ class Device(object):
                     pid = int(pid)
                     return pid, 0
                 line = result.readline()
+        return None
 
     def clear_data(self, package=None):
         """
@@ -268,7 +275,7 @@ class Device(object):
         """
         if package is None:
             raise WeTestInvaildArg("Error,No app packagename")
-        result = self.adb.cmd_wait("shell", "pm", "clear", package)
+        result = excute_adb_process("shell pm clear " +  package)
         if result:
             content = result
             logger.debug(content)
@@ -276,7 +283,7 @@ class Device(object):
     def _clear_qq_account(self):
         logger.debug("adb shell pm clear com.tencent.mobileqq")
         try:
-            result = self.adb.cmd_wait("shell", "pm", "clear", "com.tencent.mobileqq")
+            result = excute_adb_process("shell pm clear com.tencent.mobileqq")
             if result:
                 content = result
                 logger.debug(content)
@@ -286,7 +293,7 @@ class Device(object):
 
         logger.debug("adb shell pm clear com.tencent.mm")
         try:
-            result = self.adb.cmd_wait("shell", "pm", "clear", "com.tencent.mm")
+            result = excute_adb_process("shell pm clear com.tencent.mm")
             if result:
                 content = result
                 logger.debug(content)
@@ -298,9 +305,9 @@ class Device(object):
         if package == None:
             raise WeTestInvaildArg("Package Name can't be none")
         logger.debug("adb shell pm clear {0}".format(package))
-        result = excute_adb("shell pm clear {0}".format(package))
+        result = excute_adb_process("shell pm clear {0}".format(package))
         if result:
-            content = result.read()
+            content = result
             logger.debug(content)
 
     def excute_adb(self, cmd):
@@ -317,8 +324,13 @@ class Device(object):
         """
         return excute_adb(cmd)
 
+    @retry_if_fail()
     def get_current_package(self):
-        return self.ui_device.info["currentPackageName"]
+        try:
+            return self.ui_device.info["currentPackageName"]
+        except Exception as e:
+            logger.error(e)
+            return None
 
     def login_qq_wechat_wait(self, timeout=180):
         """
@@ -414,6 +426,8 @@ class CloudDevice(Device):
         self.height = response["height"]
         return DisplaySize(response["width"], response["height"])
 
+
+    @exception_call_super
     def get_top_package_activity(self):
         """
             获取当前手机的顶层的Activity名称和package名称

@@ -15,6 +15,7 @@ import subprocess
 import time
 import re
 import six
+from .utils import retry_if_fail
 logger=logging.getLogger("wetest")
 
 
@@ -28,9 +29,11 @@ def excute_adb(cmd, serial=None):
     return file
 
 
+@retry_if_fail()
 def forward(pc_port, mobile_port):
     cmd = "forward tcp:{0} tcp:{1}".format(pc_port, mobile_port)
     excute_adb_process(cmd)
+    return excute_adb_process("forward --list")
 
 def remove_forward(pc_port):
     cmd = "forward --remove tcp:{0} ".format(pc_port)
@@ -51,16 +54,26 @@ def excute_adb_process_daemon(cmd, shell=False, serial=None, sleep=3 , needStdou
 
 
 #RETURN THE PROCESS STDOUT
+
+
 def excute_adb_process(cmd, serial=None):
     if serial:
         command = "adb -s {0} {1}".format(serial, cmd)
     else:
         command = "adb {0}".format(cmd)
-    p = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-    lines = p.stdout.readlines()
+
     ret = ""
-    for line in lines:
-        ret += str(line) + "\n"
+    for i in range(0,3):
+        p = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        lines = p.stdout.readlines()
+        ret = ""
+        for line in lines:
+            ret += str(line) + "\n"
+        if "no devices/emulators found" in ret or "device offline" in ret:
+            logger.error("rety in excute_adb_process")
+            time.sleep(20)
+        else:
+            return ret
     return ret
 
 def kill_process_by_name(name):
@@ -124,79 +137,79 @@ def get_device_time():
         logger.exception(e)
     return device_time
 
-class AdbTool(object):
-    def __init__(self):
-        self.__adb_cmd = None
-
-    def adb(self):
-        if self.__adb_cmd is None:
-            import distutils
-            if "spawn" not in dir(distutils):
-                import distutils.spawn
-            adb_cmd = distutils.spawn.find_executable("adb")
-            if adb_cmd:
-                adb_cmd = os.path.realpath(adb_cmd)
-
-            if not adb_cmd and "ANDROID_HOME" in os.environ:
-                # 尝试通过ANDROID_HOME环境变量查找
-                filename = "adb.exe" if os.name == 'nt' else "adb"
-                adb_cmd = os.path.join(os.environ["ANDROID_HOME"], "platform-tools", filename)
-                if not os.path.exists(adb_cmd):
-                    raise EnvironmentError(
-                        "Adb not found in $ANDROID_HOME path: %s." % os.environ["ANDROID_HOME"])
-
-            # self.__adb_cmd = adb_cmd
-            if not self.__adb_cmd:
-                self.__adb_cmd = "adb"
-        return self.__adb_cmd
-
-    def cmd(self, *args, **kwargs):
-        '''adb command, add -s serial by default. return the subprocess.Popen object.'''
-        return self.raw_cmd(*args)
-
-    def cmd_wait(self, *args):
-        cmd = self.raw_cmd(*args)
-        lines = cmd.stdout.readlines()
-        ret = ""
-        for line in lines:
-            ret += str(line) + "\n"
-        return ret
-
-    def raw_cmd(self, *args):
-
-        '''adb command. return the subprocess.Popen object.'''
-        cmd_line = [self.adb()] + list(args)
-        if os.name != "nt":
-            cmd_line = [" ".join(cmd_line)]
-        return subprocess.Popen(cmd_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    def devices(self):
-        '''get a dict of attached devices. key is the device serial, value is device name.'''
-        out = self.raw_cmd("devices").communicate()[0].decode("utf-8")
-        match = "List of devices attached"
-        index = out.find(match)
-        if index < 0:
-            raise EnvironmentError("adb is not working.")
-        return dict([s.split("\t") for s in out[index + len(match):].strip().splitlines() if s.strip()])
-
-    def forward(self, local_port, device_port):
-
-        '''adb port forward. return 0 if success, else non-zero.'''
-        return self.cmd("forward", "tcp:{0}".format(local_port), "tcp:{0}".format(device_port)).wait()
-
-    def forward_list(self):
-        '''list all forward socket connections.'''
-
-        version = self.version()
-        if int(version[1]) <= 1 and int(version[2]) <= 0 and int(version[3]) < 31:
-            raise EnvironmentError("Low adb version.")
-        lines = self.raw_cmd("forward", "--list").communicate()[0].decode("utf-8").strip().splitlines()
-        return [line.strip().split() for line in lines]
-
-    def version(self):
-        '''adb version'''
-        match = re.search(r"(\d+)\.(\d+)\.(\d+)", self.raw_cmd("version").communicate()[0].decode("utf-8"))
-        return [match.group(i) for i in range(4)]
+# class AdbTool(object):
+#     def __init__(self):
+#         self.__adb_cmd = None
+#
+#     def adb(self):
+#         if self.__adb_cmd is None:
+#             import distutils
+#             if "spawn" not in dir(distutils):
+#                 import distutils.spawn
+#             adb_cmd = distutils.spawn.find_executable("adb")
+#             if adb_cmd:
+#                 adb_cmd = os.path.realpath(adb_cmd)
+#
+#             if not adb_cmd and "ANDROID_HOME" in os.environ:
+#                 # 尝试通过ANDROID_HOME环境变量查找
+#                 filename = "adb.exe" if os.name == 'nt' else "adb"
+#                 adb_cmd = os.path.join(os.environ["ANDROID_HOME"], "platform-tools", filename)
+#                 if not os.path.exists(adb_cmd):
+#                     raise EnvironmentError(
+#                         "Adb not found in $ANDROID_HOME path: %s." % os.environ["ANDROID_HOME"])
+#
+#             # self.__adb_cmd = adb_cmd
+#             if not self.__adb_cmd:
+#                 self.__adb_cmd = "adb"
+#         return self.__adb_cmd
+#
+#     def cmd(self, *args, **kwargs):
+#         '''adb command, add -s serial by default. return the subprocess.Popen object.'''
+#         return self.raw_cmd(*args)
+#
+#     def cmd_wait(self, *args):
+#         cmd = self.raw_cmd(*args)
+#         lines = cmd.stdout.readlines()
+#         ret = ""
+#         for line in lines:
+#             ret += str(line) + "\n"
+#         return ret
+#
+#     def raw_cmd(self, *args):
+#
+#         '''adb command. return the subprocess.Popen object.'''
+#         cmd_line = [self.adb()] + list(args)
+#         if os.name != "nt":
+#             cmd_line = [" ".join(cmd_line)]
+#         return subprocess.Popen(cmd_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#
+#     def devices(self):
+#         '''get a dict of attached devices. key is the device serial, value is device name.'''
+#         out = self.raw_cmd("devices").communicate()[0].decode("utf-8")
+#         match = "List of devices attached"
+#         index = out.find(match)
+#         if index < 0:
+#             raise EnvironmentError("adb is not working.")
+#         return dict([s.split("\t") for s in out[index + len(match):].strip().splitlines() if s.strip()])
+#
+#     def forward(self, local_port, device_port):
+#
+#         '''adb port forward. return 0 if success, else non-zero.'''
+#         return self.cmd("forward", "tcp:{0}".format(local_port), "tcp:{0}".format(device_port)).wait()
+#
+#     def forward_list(self):
+#         '''list all forward socket connections.'''
+#
+#         version = self.version()
+#         if int(version[1]) <= 1 and int(version[2]) <= 0 and int(version[3]) < 31:
+#             raise EnvironmentError("Low adb version.")
+#         lines = self.raw_cmd("forward", "--list").communicate()[0].decode("utf-8").strip().splitlines()
+#         return [line.strip().split() for line in lines]
+#
+#     def version(self):
+#         '''adb version'''
+#         match = re.search(r"(\d+)\.(\d+)\.(\d+)", self.raw_cmd("version").communicate()[0].decode("utf-8"))
+#         return [match.group(i) for i in range(4)]
 
 
 if __name__ == "__main__":

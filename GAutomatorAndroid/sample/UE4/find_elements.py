@@ -52,6 +52,8 @@ def test_find_element():
 
 
 def main():
+    version = engine.get_sdk_version()
+    print(version)
     enter_find_elements()
     time.sleep(4)
     test_find_element()

@@ -44,9 +44,16 @@ def screen_shot_click(element, sleeptime=2, exception=False):
         return
     if isinstance(element, str):
         try:
+            element_locator = element
             element = engine.find_element(element)
+            if element is None:
+                logger.error( "{0} can't find".format(element_locator))
+                if exception:
+                    raise WeTestRuntimeError
+                else:
+                    return False
         except WeTestRuntimeError as e:
-            message = "{0} can't find".format(element)
+            message = "(exception) {0} can't find".format(element)
             logger.error(message)
             if exception:
                 raise
