@@ -84,7 +84,7 @@ GAutomatorView工具可在http://wetest.qq.com/cloud/index.php/phone/blrooike下
 <a name="2"></a>
 
 # 2 Getting Started
-示例代码：sample/UE4/sample.py,示例apk游戏:sampel/UE4/wetest_demo_ue4.apk
+示例代码：sample/UE4/sample.py,示例apk游戏:https://cdn.wetest.qq.com/com/c/wetest_demo_ue4.apk
 <a name="2.1"></a>
 
 ## 2.1 Simple Usage
