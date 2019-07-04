@@ -74,3 +74,6 @@ public class WeTestManager : MonoBehaviour {
     }
 }
 ```
+2、不想用crashmonitor
+CrashReport/CrashMonitor中的CLOSE_MONITOR改成true后，重新编译新的dll。
+
