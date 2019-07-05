@@ -106,7 +106,7 @@ def init_uiautomator():
     remove_forward(_uiautomator_port)
     forward(_uiautomator_port,_device_port)
     logger.debug("Start UIAutomator")
-    uiautomator_process=excute_adb_process_daemon("shell uiautomator runtest uiautomator-stub.jar -c com.github.uiautomatorstub.Stub")
+    uiautomator_process = excute_adb_process_daemon("shell uiautomator runtest uiautomator-stub.jar -c com.github.uiautomatorstub.Stub", shell=True )
     time.sleep(2)
 
 
