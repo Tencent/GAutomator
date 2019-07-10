@@ -98,7 +98,8 @@ namespace WeTest.U3DAutomation
 
         void OnDestroy()
         {
-            Logger.d("Destory Wetest sdk");
+            Logger.d("Destroy Wetest sdk");
+            CommandDispatcher.CloseServerSocket();
         }
 
         void OnGUI()
@@ -110,5 +111,6 @@ namespace WeTest.U3DAutomation
             }
 
         }
+
     }
 }

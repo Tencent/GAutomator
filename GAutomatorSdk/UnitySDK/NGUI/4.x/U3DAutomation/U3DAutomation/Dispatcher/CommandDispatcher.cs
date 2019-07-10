@@ -26,6 +26,13 @@ namespace WeTest.U3DAutomation
         private static Queue<Command> commandQueue = new Queue<Command>();//接收队列
         private static BlockQueue<Command> sendQueue = new BlockQueue<Command>();//发送队列
 
+
+      
+        public static void CloseServerSocket()
+        {
+            CloseSocket(serverSocket);
+        }
+
         private static bool Create(int port, int blocklog)
         {
             IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
@@ -37,6 +44,7 @@ namespace WeTest.U3DAutomation
                 serverSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true); ;
                 serverSocket.Bind(ipEndPoint);
                 serverSocket.Listen(blocklog);
+        
                 Logger.d("Server Start");
                 serverSocket.BeginAccept(new AsyncCallback(Accept), serverSocket);
                 return true;

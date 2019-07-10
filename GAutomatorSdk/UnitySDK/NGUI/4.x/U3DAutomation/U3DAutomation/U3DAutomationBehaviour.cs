@@ -22,7 +22,7 @@ namespace WeTest.U3DAutomation
         {
             Dynamic.ThirdManager.INSTANCE.Initialize();
 
-            Dynamic.ThirdManager.Start();
+             Dynamic.ThirdManager.Start();
 
             //Dynamic.ThirdManager.getAndroidMScreen();
 
@@ -105,6 +105,12 @@ namespace WeTest.U3DAutomation
                 survive++;
             }
 
+        }
+
+        private void OnApplicationQuit()
+        {
+            Logger.d("OnApplicationQuit close server socket...");
+            CommandDispatcher.CloseServerSocket();
         }
     }
 }

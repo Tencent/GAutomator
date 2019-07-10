@@ -140,7 +140,7 @@ class GameEngine(object):
         version = VersionInfo(engine_version, engine, sdk_version, ui_type)
         return version
 
-    def send_command_with_retry(self,command, param , timeout=20):
+    def send_command_with_retry(self,command, param=None , timeout=20):
         for i in range(0,2):
             try:
                 ret = self.socket.send_command(command, param,timeout)
