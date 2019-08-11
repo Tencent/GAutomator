@@ -409,22 +409,22 @@ class CloudDevice(Device):
         self.timeout = 3000
         self.platform_client = platform.get_platform_client()
 
-    @exception_call_super
-    def get_display_size(self):
-        """
-            返回屏幕长宽
-        :Usage:
-            device=manage.get_device()
-            display=device.get_display_size()
-        :return:
-            a instance of DisplaySize
-        :rtype: DisplaySize
-        :raise: WeTestPlatormError
-        """
-        response = self.platform_client.get_display_size()
-        self.width = response["width"]
-        self.height = response["height"]
-        return DisplaySize(response["width"], response["height"])
+#     @exception_call_super
+#     def get_display_size(self):
+#         """
+#             返回屏幕长宽
+#         :Usage:
+#             device=manage.get_device()
+#             display=device.get_display_size()
+#         :return:
+#             a instance of DisplaySize
+#         :rtype: DisplaySize
+#         :raise: WeTestPlatormError
+#         """
+#         response = self.platform_client.get_display_size()
+#         self.width = response["width"]
+#         self.height = response["height"]
+#         return DisplaySize(response["width"], response["height"])
 
 
     @exception_call_super
@@ -475,19 +475,19 @@ class CloudDevice(Device):
         response = self.platform_client.launch_app(package_name, launcher)
         return response
 
-    @exception_call_super
-    def get_rotation(self):
-        """
-            get mobile current rotation
-            orienting the devie to left/right or natural.
-            left/l:       rotation=90 , displayRotation=1
-            right/r:      rotation=270, displayRotation=3
-            natural/n:    rotation=0  , displayRotation=0
-            upsidedown/u: rotation=180, displayRotation=2
-        :return: 0,1,2,3
-        """
-        response = self.platform_client.get_rotation()
-        return response["rotation"]
+#     @exception_call_super
+#     def get_rotation(self):
+#         """
+#             get mobile current rotation
+#             orienting the devie to left/right or natural.
+#             left/l:       rotation=90 , displayRotation=1
+#             right/r:      rotation=270, displayRotation=3
+#             natural/n:    rotation=0  , displayRotation=0
+#             upsidedown/u: rotation=180, displayRotation=2
+#         :return: 0,1,2,3
+#         """
+#         response = self.platform_client.get_rotation()
+#         return response["rotation"]
 
     @exception_call_super
     def clear_data(self, package=None):
