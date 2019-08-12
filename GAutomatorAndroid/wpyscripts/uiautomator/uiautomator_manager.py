@@ -26,7 +26,7 @@ _uiautomator_port = os.environ.get("UIAUTOMATOR_PORT","19008")
 def restartPlatformDialogHandler():
     try:
         kill_uiautomator()
-        time.sleep(4)  # wait for platform to relaunch uiautomator
+        time.sleep(8)  # wait for platform to relaunch uiautomator
         get_uiautomator().setdialogtextpattern(
             u'(^(完成|关闭|好|好的|确定|确认|安装|下次再说|暂不删除)$|(.*(?<!不|否)(忽略|允(\s)?许|同意)|继续|稍后|暂不|下一步).*)')
         get_uiautomator().setdialogtextgrouppattern(

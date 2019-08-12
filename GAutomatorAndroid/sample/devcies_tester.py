@@ -36,14 +36,15 @@ def test_get_top_package_activity():
 def test_back():
     device.back()
 
-def test_multitouch():
-    device.touchDown(0,pt[0],pt[1])
-    device.touchDown(1, pt2_start[0], pt2_start[1])
-    device.touchMove(0, pt[0]+50,pt[1]+50)
-    device.touchMove(1, pt2_end[0], pt2_end[1])
-    time.sleep(5)
-    device.touchUp(0)
-    device.touchUp(1)
+# def test_multitouch():
+#     device.touchDown(0,pt[0],pt[1])
+#     device.touchDown(1, pt2_start[0], pt2_start[1])
+#     device.touchMove(0, pt[0]+50,pt[1]+50)
+#     device.touchMove(1, pt2_end[0], pt2_end[1])
+#     time.sleep(5)
+#     device.touchUp(0)
+#     device.touchUp(1)
 
 
 test_get_display_size()
+test_get_top_package_activity()

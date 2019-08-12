@@ -75,7 +75,7 @@ def exception_call_super(fn):
     """
         Decorate function
 
-        CloudDevice call function use wetest platorm http service,when raise exception,try to call parent class method
+        CloudDevice call function use wetest platorm http service,if that raise a exception,try to call parent class method
         很多方法请求平台时，有可能出现问题。请求平台出现问题时，可以直接尝试使用本地方法。
         CloudDevice调用失败时，直接调用Device里面相同名称的方法
     :param fn:
@@ -120,7 +120,8 @@ class Device(object):
         :return: 0,1,2,3
         """
         try:
-            return  self.ui_device.info["displayRotation"]
+            rotation =  self.ui_device.info["displayRotation"]
+            return rotation
         except Exception as e :
             logger.exception(e)
         return None
@@ -166,6 +167,16 @@ class Device(object):
         """
 
         try:
+            result = excute_adb("shell dumpsys window windows")
+            if result:
+                pattern = re.compile(r'mCurrentFocus=.*\s(.*)/(.*?)}?\s')
+                line = result.readline()
+                while line:
+                    match = pattern.search(line)
+                    if match:
+                        top_activity = TopActivity(match.group(2), match.group(1))
+                        return top_activity
+                    line = result.readline()
             return TopActivity("", self.ui_device.info["currentPackageName"])
         except Exception as e:
             logger.exception(e)
@@ -427,19 +438,19 @@ class CloudDevice(Device):
 #         return DisplaySize(response["width"], response["height"])
 
 
-    @exception_call_super
-    def get_top_package_activity(self):
-        """
-            获取当前手机的顶层的Activity名称和package名称
-        :Usage:
-            device=manage.get_device()
-            activity=device.get_top_package_activity()
-        :return:
-            a instance of TopActivity
-        :rtype: TopActivity
-        :raise: WeTestPlatormError
-        """
-        return TopActivity("", self.ui_device.info["currentPackageName"])
+    # @exception_call_super
+    # def get_top_package_activity(self):
+    #     """
+    #         获取当前手机的顶层的Activity名称和package名称
+    #     :Usage:
+    #         device=manage.get_device()
+    #         activity=device.get_top_package_activity()
+    #     :return:
+    #         a instance of TopActivity
+    #     :rtype: TopActivity
+    #     :raise: WeTestPlatormError
+    #     """
+    #     return TopActivity("", self.ui_device.info["currentPackageName"])
 
     def launch_app(self, package=None, activity=None):
         """

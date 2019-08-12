@@ -37,7 +37,7 @@ def retry_if_fail(retry_times = 3, total_seconds = 60 ):
         def inner_wrapper(*args, **kwargs):
             ret = func(*args, **kwargs)
             for i in range(0,retry_times):
-                if not ret:
+                if not ret and ret != 0:
                     logger.error("retry_if_fail detect failing, wait and retry...")
                     time.sleep(total_seconds/retry_times)
                     ret = func(*args, **kwargs)
