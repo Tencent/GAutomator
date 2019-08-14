@@ -936,8 +936,8 @@ def casename():
 *reporter.report(result,test_case_name, message="")* is used to record the result of a testcase. At the end of  script, runner.run calls _report_total () to output all the results to _wetest_testcase_result.txt. The GAutomator adds the call stack in addition to the output message and test_case_name. Name and message encoding needs to be consistent, if there is a Chinese case, use UTF-8 encoding format.
 *@report_wetest* is a function decorator indicating the function as a case by calling report.report internal.
 
-A sample integrating pytest is int testcase/test_pytestsample.py.
-To use pytest (which means the entry is not main.py ), you have to write a runTest.sh to run it on wetest platform(see 2.3 for more details).
+A sample integrating pytest is in testcase/test_pytestsample.py.
+To use pytest (which means the entry is not main.py ), you have to write a *runTest.sh*(see 2.3 for more details).
 
 ```shell
 #!/bin/bash
