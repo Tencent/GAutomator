@@ -37,7 +37,8 @@
 - [6 Cloud platform reporter](#6)
 	- [6.1 screen shot and mark](#6.1)
 	- [6.2 screen shot](#6.2)
-	- [6.3 report error](#6.3)
+	- [6.3 add scenetag](#6.3)
+	- [6.4 report testcase](#6.4)
 - [7 Custom function](#7)
 	- [7.1 Register function in unity ](#7.1)
 	- [7.2 Call registered callback](#7.2)
@@ -200,7 +201,7 @@ In some special cases, if you want to control the test flow yourself(instead of 
 echo "runTest.sh start..."
 echo "start my flow..."
 # do not cd to subpathes here!!!
-python testcase/my_entry.py 1>upload.dir/stanrd.txt 2>upload.dir/out.txt
+PYTHONPATH=. python testcase/my_entry.py 1>upload.dir/stanrd.txt 2>upload.dir/out.txt
 echo "runTest.sh end..."
 ```
 
@@ -919,6 +920,7 @@ def screen_shot_click(element):
 <img src="image/scene_tag.png" alt="Drawing" width="600px" />
 
 <a name="6.4"></a>
+
 ## 6.4 report testcase
 GAutomator does not use the unittest as the underlying framework for testing, so there is no assertion that functional testing can not be done. The report function is used to save the error information into _wetest_testcase_result.txt.When submitting a functional test , Wetest cloud testing platform will pares the error information and show them in the reporter.
 
@@ -942,7 +944,7 @@ To use pytest (which means the entry is not main.py ), you have to write a *runT
 ```shell
 #!/bin/bash
 echo "runTest.sh start..."
-python testcase/test_pytestsample.py 1>upload.dir/stanrd.txt 2>upload.dir/out.txt
+PYTHONPATH=. python testcase/test_pytestsample.py 1>upload.dir/stanrd.txt 2>upload.dir/out.txt
 
 ```
 
