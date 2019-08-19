@@ -988,7 +988,7 @@ class UnityEngine(GameEngine):
         :return:
         """
         logger.debug("push c# test script : {0}".format(path))
-        result = excute_adb_process("push", path, "/data/local/tmp/gametestlib.dll")
+        result = excute_adb_process("push "+ path+ " /data/local/tmp/gametestlib.dll")
         logger.debug("push result : {0}".format(result))
 
         ret = self.send_command_with_retry(Commands.LOAD_TEST_LIB)
