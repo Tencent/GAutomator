@@ -1,7 +1,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "VersionInfo.h"
+//修改versionInfo路径
+#include "../../Public/VersionInfo.h"
 #include "Runtime/Launch/Resources/Version.h"
 
 namespace WeTestU3DAutomation
@@ -31,6 +32,15 @@ namespace WeTestU3DAutomation
 
 		static const ::int32 PRC_SET_METHOD = 118;//注册python端的方法
 		static const ::int32 RPC_METHOD = 119;//游戏内的接口可调用，python端的方法
+
+		static const ::int32 GET_CHARACTER_SWIP = 120;//游戏内的接口可调用，python端的方法
+		static const ::int32 SET_CHANGEROTATOR = 121;//修改人物转向
+		static const ::int32 GET_SCALE = 122;//获取inputscal
+		static const ::int32 GET_BOUND = 123;//获得地图尺寸
+		static const ::int32 SET_LOCATION = 124;//设置人物位置
+		static const ::int32 GET_ROTATOR = 125;//获取人物偏移量
+		static const ::int32 SET_CHARACTER = 126;//设置人物转移
+
 
 		///////////////////////////////////////////////
 		static const ::int32 HANDLE_TOUCH_EVENTS = 200;//发送down;move;up
@@ -118,6 +128,26 @@ namespace WeTestU3DAutomation
 		FString ToJson();
 	};
 
+	struct FCharacterPos
+	{
+		static int64 flag;//记录障碍物标志位
+		int64 instance;
+		float x;
+		float y;
+		float z;
+
+		FString ToJson();
+	};
+
+	struct FBound
+	{
+		float x;
+		float y;
+		float z;
+
+		FString ToJson();
+	};
+
 	struct FBoundInfo
 	{
 		int64 instance;
@@ -129,7 +159,7 @@ namespace WeTestU3DAutomation
 		float y;
 		FString path;
 
-		FBoundInfo():existed(true), visible(true),path(""),width(0.0f),height(0.0f),x(0.0f),y(0.0f)
+		FBoundInfo():visible(true),existed(true),width(0.0f),height(0.0f),x(0.0f),y(0.0f), path("")
 		{
 		};
 
