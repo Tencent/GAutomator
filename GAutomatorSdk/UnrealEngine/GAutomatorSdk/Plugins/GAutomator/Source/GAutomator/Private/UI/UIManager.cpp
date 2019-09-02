@@ -13,7 +13,9 @@
 #include "TextBlock.h"
 #include "RichTextBlock.h"
 #include "MultiLineEditableTextBox.h"
+#include "Handler/CommandHandler.h"
 #include "MultiLineEditableText.h"
+#include <ctime> 
 #ifdef __ANDROID__
 #include "Android/AndroidWindow.h"
 #endif
@@ -149,6 +151,8 @@ namespace WeTestU3DAutomation
 
 		return false;
 	}
+
+
 
 	FString GetUWidgetLabelText(const UWidget* Widget)
 	{
@@ -362,6 +366,351 @@ namespace WeTestU3DAutomation
 		}
 
 		return ContainPosWidget;
+	}
+
+
+	//设置定时器进行碰撞检测
+	bool TimeEvent::SetTimerCheck(FCommand& command,const FString& str,const FString& frontDistance,const FString& sideDistance)
+	{
+		UInputSettings * Settings = const_cast <UInputSettings *>(GetDefault < UInputSettings >());
+		TArray<FInputAxisKeyMapping> AxisMap;
+		Settings->GetAxisMappingByName(FName("Turn"), AxisMap);
+		if (str == "0")
+		{
+			for (int i = 0; i < AxisMap.Num(); i++)
+			{
+				if (AxisMap[i].Key == "A" || AxisMap[i].Key == "D" || AxisMap[i].Key == "Gamepad_LeftX")
+				{
+					Settings->RemoveAxisMapping(AxisMap[i]);
+					scales.Add(AxisMap[i].Scale);
+					AxisMap[i].Scale = 0.0f;
+					Settings->AddAxisMapping(AxisMap[i]);
+				}
+			}
+		}
+		Settings->SaveKeyMappings();
+
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* UserWidget = *Itr;
+
+			if (UserWidget == nullptr) {
+				continue;
+			}
+
+			world = Itr->GetWorld();
+
+			character = world->GetFirstPlayerController()->GetCharacter();
+
+			//character->EnableInput(NULL);
+
+			if (world)
+			{
+				/*FCheckHit checkHit(World);
+				if (checkHit.Initialize())
+				{
+					return true;
+				}*/
+				FTimerDelegate del;
+				FString out = str;
+				int32 out2 = FCString::Atoi(*frontDistance);
+				int32 out3 = FCString::Atoi(*sideDistance);
+				del.BindLambda([this,&command,out,out2,out3]() {TraceLine(command,out,out2,out3); });
+				world->GetTimerManager().SetTimer(*checkHit, del, 0.2f, str == "0" ? true : false);
+				return true;
+			}
+		}
+		return false;
+		
+	}
+
+	static TArray<FCharacterPos> characterposs;
+
+	//开启射线检测
+	void TimeEvent::TraceLine(FCommand& command, FString str,int32 frontDistance,int32 sideDistance)
+	{
+		UWorld* worldTemp = nullptr;
+		APlayerController* characterControll = nullptr;
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* UserWidget = *Itr;
+
+			if (UserWidget == nullptr) {
+				continue;
+			}
+
+			worldTemp = Itr->GetWorld();
+
+			character = Itr->GetWorld()->GetFirstPlayerController()->GetCharacter();
+
+			characterControll = Itr->GetWorld()->GetFirstPlayerController();
+
+			break;
+		}
+		FHitResult Hit,Hit2;
+		UE_LOG(GALog, Log,TEXT("Timer Start"));
+		FVector vectorStart = character->GetActorLocation();
+		vectorStart.Z = 0.0f;
+		FVector actorRotator = character->GetActorForwardVector();
+		FVector actorRotator2 = actorRotator;
+		float tempaxis = actorRotator2.X;
+		actorRotator2.X = actorRotator2.Y;
+		actorRotator2.Y = tempaxis;
+		if (actorRotator2.X > 0)
+		{
+			actorRotator2.Y *= -1;
+		}
+		else
+		{
+			actorRotator2.X *= -1;
+		}
+		//修改正向射线检测距离，单位cm
+		FVector vectorEnd = vectorStart + actorRotator * frontDistance;
+		//修改侧向射线检测距离，单位cm
+		FVector vectorEnd2 = vectorStart + actorRotator2 * sideDistance;
+		vectorEnd.Z = character->GetDefaultHalfHeight() * 2;
+		vectorEnd2.Z = character->GetDefaultHalfHeight() * 2;
+		DrawDebugLine(worldTemp, vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd, FColor(255, 0, 0), false, 0, 0, 10);
+		DrawDebugLine(worldTemp, vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd2, FColor(255, 0, 0), false, 0, 0, 10);
+		FCollisionObjectQueryParams checkTrace(ECollisionChannel::ECC_WorldStatic);
+		checkTrace.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
+		worldTemp->LineTraceSingleByObjectType(Hit, vectorStart + FVector(0.0f, 0.0f, 25.0f)
+			, vectorEnd, FCollisionObjectQueryParams(checkTrace));
+		worldTemp->LineTraceSingleByObjectType(Hit2, vectorStart + FVector(0.0f, 0.0f, 25.0f)
+			, vectorEnd2, FCollisionObjectQueryParams(checkTrace));
+		AActor* actor = Hit.GetActor();
+		AActor* actor2 = Hit2.GetActor();
+		if (actor2==nullptr&&str=="0")
+		{
+			if (FCharacterPos::flag == 0)
+			{
+				FCharacterPos characterpos;
+				characterpos.instance = 0;
+				characterpos.x = character->GetActorLocation().X;
+				characterpos.y = character->GetActorLocation().Y;
+				characterpos.z = character->GetActorLocation().Z;
+				FCharacterPos characterpos2;
+				characterpos2 = characterpos;
+				characterpos2.instance = 1;
+				characterposs.Push(characterpos);
+				characterposs.Push(characterpos2);	
+				FCharacterPos::flag = 1;
+			}
+			else
+			{
+				characterposs.Last().x = character->GetActorLocation().X;
+				characterposs.Last().y = character->GetActorLocation().Y;
+				characterposs.Last().z = character->GetActorLocation().Z;
+			}
+		}
+		else
+		{
+			FCharacterPos::flag = 0;
+		}
+		if (actor)
+		{
+			worldTemp->GetTimerManager().ClearTimer(*checkHit);
+			checkHit = nullptr;
+			UE_LOG(GALog, Log, TEXT("Disable monitor"));
+			character->DisableInput(NULL);
+			FCharacterPos characterpos;
+			auto i = reinterpret_cast<std::uintptr_t>(actor);
+			characterpos.instance = i;
+			characterpos.x = character->GetActorLocation().X;
+			characterpos.y = character->GetActorLocation().Y;
+			characterpos.z = character->GetActorLocation().Z;
+			command.ReponseJsonType = ResponseDataType::OBJECT;
+			characterposs.Push(characterpos);
+			command.ResponseJson = ArrayToJson<FCharacterPos>(characterposs);
+			FCommandHandler::cond_var->notify_one();
+			FPlatformProcess::Sleep(1);
+			character->EnableInput(NULL);
+			UE_LOG(GALog, Log, TEXT("Timer Stop."));
+			UInputSettings * Settings = const_cast <UInputSettings *>(GetDefault < UInputSettings >());
+			TArray<FInputAxisKeyMapping> AxisMap;
+			Settings->GetAxisMappingByName(FName("Turn"), AxisMap);
+			int j = 0;
+			if (scales.Num() > 0)
+			{
+				for (int m = 0; m < AxisMap.Num(); m++)
+				{
+					if (AxisMap[m].Key == "A" || AxisMap[m].Key == "D" || AxisMap[m].Key == "Gamepad_LeftX")
+					{
+						Settings->RemoveAxisMapping(AxisMap[m]);
+						AxisMap[m].Scale = scales[j++];
+						Settings->AddAxisMapping(AxisMap[m]);
+					}
+				}
+			}
+			
+			Settings->SaveKeyMappings();
+			characterposs.Empty();
+			return;
+		}
+		if (str != "0")
+		{
+			worldTemp->GetTimerManager().ClearTimer(*checkHit);
+			checkHit = nullptr;
+			UE_LOG(GALog, Log, TEXT("Disable monitor"));
+			FCharacterPos characterpos;
+			characterpos.instance = 0;
+			characterpos.x = 0;
+			characterpos.y = 0;
+			characterpos.z = 0;
+			command.ReponseJsonType = ResponseDataType::OBJECT;
+			characterposs.Push(characterpos);
+			command.ResponseJson = ArrayToJson<FCharacterPos>(characterposs);
+			FCommandHandler::cond_var->notify_one();
+			characterposs.Empty();
+		}
+	}
+
+	//进行人物转向操作
+	const bool ChangeRotator(const FString& str)
+	{
+		APawn* pawn = nullptr;
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* UserWidget = *Itr;
+
+			if (UserWidget == nullptr) {
+				continue;
+			}
+
+			pawn = Itr->GetWorld()->GetFirstPlayerController()->GetPawn();
+
+			break;
+		}
+		
+		pawn->AddControllerYawInput(FCString::Atof(*str));
+
+		return true;
+	}
+
+	//获得角色当前偏移量
+	const FRotator getRotation()
+	{
+		FRotator rotator = FRotator(90.0f, 90.0f, 90.0f);
+
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* UserWidget = *Itr;
+
+			if (UserWidget == nullptr) {
+				continue;
+			}
+
+			rotator = Itr->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorRotation();
+			break;
+		}
+
+		return rotator;
+	}
+
+
+	//获取转向值
+	const float getScale()
+	{
+		UWorld* world = nullptr;
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* UserWidget = *Itr;
+
+			if (UserWidget == nullptr) {
+				continue;
+			}
+
+			world = Itr->GetWorld();
+
+			break;
+		}
+		return world->GetFirstPlayerController()->InputYawScale;
+	}
+
+
+	//获取地图的大小
+	const FVector getLevelBound(const FString& str)
+	{	
+		FVector origin = FVector(0, 0, 0);
+		FVector boxextent = FVector(0, 0, 0);
+		
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* actor = *Itr;
+
+			if (actor == nullptr)
+				continue;
+
+			if (actor->GetName() == FString(str))
+			{
+				actor->GetActorBounds(false, origin, boxextent);
+				return boxextent;
+			}
+		}
+
+		return boxextent;
+	}
+
+	//人物向前位移
+	const bool setLocation(const FString& str)
+	{
+		ACharacter* character = nullptr;
+		FVector vec = FVector(0, 0, 0);
+
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* actor = *Itr;
+
+			if (actor == nullptr)
+				continue;
+
+			if (!character)
+			{
+				character = Itr->GetWorld()->GetFirstPlayerController()->GetCharacter();
+				vec = Itr->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorForwardVector() * FCString::Atof(*str);
+				vec += character->GetTargetLocation();
+				UE_LOG(GALog, Log, TEXT("%f,%f,%f"), vec.X, vec.Y, vec.Z);
+				if (character->SetActorLocation(vec))
+				{
+					return true;
+					
+				}
+				else
+					return false;
+			}
+				
+		}
+		return false;
+	}
+
+	//重新设置人物的位置
+	const bool setCharacter(float& posx,float& posy)
+	{
+		ACharacter* character = nullptr;
+		FVector vec = FVector(0, 0, 0);
+
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* actor = *Itr;
+
+			if (actor == nullptr)
+				continue;
+
+			if (!character)
+			{
+				character = Itr->GetWorld()->GetFirstPlayerController()->GetCharacter();
+				vec = character->GetTargetLocation();
+				vec.X = posx;
+				vec.Y = posy;
+				UE_LOG(GALog, Log, TEXT("%f,%f,%f"), vec.X, vec.Y, vec.Z);
+				if (character->SetActorLocation(vec))
+					return true;
+				break;
+
+			}
+
+		}
+		return false;
 	}
 
 }

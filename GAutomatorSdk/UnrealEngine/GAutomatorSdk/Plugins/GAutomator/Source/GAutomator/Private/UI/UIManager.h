@@ -13,9 +13,23 @@ namespace WeTestU3DAutomation
 
 	const UWidget* FindUWidgetObject(const FString& name);
 
+	const bool ChangeRotator(const FString& str);
+
+	const float getScale();
+
+	const FRotator getRotation();
+
+	const FVector getLevelBound(const FString& str);
+
+	const bool setLocation(const FString& str);
+
 	bool GetCurrentLevelName(FString& LevelName);
 
+	const bool setCharacter(float& posx, float& posy);
+
 	FString GetUWidgetLabelText(const UWidget* Widget);
+
+	//bool GetCurrentCharacter(AActor* Character);
 
 	class FUWidgetHelper
 	{
@@ -27,6 +41,7 @@ namespace WeTestU3DAutomation
 
 		const UWidget* FindUWidgetObjectByPos(float x, float y);
 
+	
 	private:
 		bool Inited;
 		static int32 SurfaceViewWidth;
@@ -40,6 +55,30 @@ namespace WeTestU3DAutomation
 		/*Use DPI not alway right,only not android or AndroidWindow can't use*/
 		bool InitViewPortScale();
 		bool InitScaleByAndroid();
+		
+
+	};
+
+	class TimeEvent
+	{
+	public:
+		TimeEvent():checkHit(new FTimerHandle())
+		{
+		};
+	
+		TArray<float> scales;
+
+		FTimerHandle* checkHit;
+
+		FTimerHandle* setControl;
+
+		bool SetTimerCheck(FCommand& command,const FString& str, const FString& frontDistance, const FString& sideDistance);
+
+		UWorld* world;
+
+		ACharacter* character;
+
+		void TraceLine(FCommand& command,FString str , int32 frontDistance, int32 sideDistance);
 
 	};
 }
