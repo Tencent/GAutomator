@@ -73,6 +73,42 @@ namespace WeTestU3DAutomation
 			HandleGetText();
 			break;
 		}
+		case Cmd::GET_CHARACTER_SWIP:
+		{
+			FCommandHandler::flag = 1;
+			HandleSwipCharacter();
+			break;
+		}
+		case Cmd::SET_CHANGEROTATOR:
+		{
+			HandleSetRotator();
+			break;
+		}
+		case Cmd::GET_SCALE:
+		{
+			GetInputScale();
+			break;
+		}
+		case Cmd::GET_BOUND:
+		{
+			GetBound();
+			break;
+		}
+		case Cmd::SET_LOCATION:
+		{
+			SetLocation();
+			break;
+		}
+		case Cmd::GET_ROTATOR:
+		{
+			GetRotator();
+			break;
+		}
+		case Cmd::SET_CHARACTER:
+		{
+			SetCharacter();
+			break;
+		}
 		default:
 		{
 			CommandResponse.ResponseJson = FString::Printf(TEXT("unknow cmd %d"),cmd);
@@ -246,4 +282,139 @@ namespace WeTestU3DAutomation
 		CommandResponse.ReponseJsonType = ResponseDataType::STRING;
 		CommandResponse.ResponseJson = Label;
 	}
+
+	void FCommandHandler::HandleSwipCharacter()
+	{
+		UE_LOG(GALog, Log, TEXT("MoveCharacter"));
+
+		TArray<FCharacterPos> characterposs;
+		TimeEvent* timeEv=new TimeEvent();
+		const TArray<TSharedPtr<FJsonValue>> Pos = ValuePtr->AsArray();
+		if (Pos.Num() != 3)
+		{
+			CommandResponse.status = ResponseStatus::UNPACK_ERROR;
+			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+			CommandResponse.ResponseJson = "Parameter is invaild";
+			return;
+		}
+		if (timeEv->SetTimerCheck(CommandResponse, Pos[0]->AsString() ,Pos[1]->AsString() ,Pos[2]->AsString()))
+		{
+			UE_LOG(GALog, Log, TEXT("SETTIMER SUCCESS"));
+		}
+		else
+		{
+			UE_LOG(GALog, Log, TEXT("SETTIMER FAILURE"));
+			CommandResponse.status = ResponseStatus::UN_KNOW_ERROR;
+			CommandResponse.ResponseJson = FString::Printf(TEXT("Error"), *ValuePtr->AsString());
+			return;
+		}
+	}
+
+	void FCommandHandler::HandleSetRotator()
+	{
+		UE_LOG(GALog, Log, TEXT("SetRotator"));
+
+		if (ChangeRotator(ValuePtr->AsString()))
+		{
+			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+			CommandResponse.ResponseJson = "success";
+		}
+		else
+		{
+			CommandResponse.status = ResponseStatus::UN_KNOW_ERROR;
+			CommandResponse.ResponseJson = FString::Printf(TEXT("Error"), *ValuePtr->AsString());
+		}
+	}
+
+	void FCommandHandler::GetInputScale()
+	{
+		UE_LOG(GALog, Log, TEXT("GetScale"));
+		float scale = getScale();
+		FString scaleStr = FString::SanitizeFloat(scale);
+		CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+		CommandResponse.ResponseJson = MoveTemp(scaleStr);
+		return;
+	}
+
+	void FCommandHandler::GetBound()
+	{
+		UE_LOG(GALog, Log, TEXT("GetBound"));
+		FVector vector = getLevelBound(ValuePtr->AsString());
+		TArray<FBound> Bounds;
+		FBound Bound;
+		Bound.x = vector.X;
+		Bound.y = vector.Y;
+		Bound.z = vector.Z;
+		Bounds.Push(Bound);
+
+		CommandResponse.ReponseJsonType = ResponseDataType::OBJECT;
+		CommandResponse.ResponseJson = ArrayToJson<FBound>(Bounds);
+		
+		return;
+	}
+
+	void FCommandHandler::SetLocation()
+	{
+		UE_LOG(GALog, Log, TEXT("SetLocation"));
+		
+		if (setLocation(ValuePtr->AsString()))
+		{
+			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+			CommandResponse.ResponseJson = "success";
+		}
+		else
+		{
+			CommandResponse.status = ResponseStatus::UN_KNOW_ERROR;
+			CommandResponse.ResponseJson = FString::Printf(TEXT("Error"), *ValuePtr->AsString());
+		}
+	}
+
+	void FCommandHandler::GetRotator()
+	{
+		UE_LOG(GALog, Log, TEXT("GetRotator"));
+
+		FRotator rotator = getRotation();
+		TArray<FBound> Bounds;
+		FBound Bound;
+		Bound.x = rotator.Roll;
+		Bound.y = rotator.Pitch;
+		Bound.z = rotator.Yaw;
+		Bounds.Push(Bound);
+
+		CommandResponse.ReponseJsonType = ResponseDataType::OBJECT;
+		CommandResponse.ResponseJson = ArrayToJson<FBound>(Bounds);
+
+		return;
+	}
+
+	void FCommandHandler::SetCharacter()
+	{
+		UE_LOG(GALog, Log, TEXT("SetCharacter"));
+
+		const TArray<TSharedPtr<FJsonValue>> Pos = ValuePtr->AsArray();
+
+		if (Pos.Num() != 2)
+		{
+			CommandResponse.status = ResponseStatus::UNPACK_ERROR;
+			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+			CommandResponse.ResponseJson = "Parameter is invaild";
+			return;
+		}
+
+		float x = Pos[0]->AsNumber();
+		float y = Pos[1]->AsNumber();
+
+		if (setCharacter(x, y))
+		{
+			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+			CommandResponse.ResponseJson = "success";
+		}
+		else
+		{
+			CommandResponse.status = ResponseStatus::UN_KNOW_ERROR;
+			CommandResponse.ResponseJson = FString::Printf(TEXT("Error"), *ValuePtr->AsString());
+		}
+	}
+
+
 }

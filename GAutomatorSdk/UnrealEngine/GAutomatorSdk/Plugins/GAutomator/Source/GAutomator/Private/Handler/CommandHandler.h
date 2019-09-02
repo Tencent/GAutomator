@@ -16,6 +16,7 @@ namespace WeTestU3DAutomation
 		virtual ~FCommandHandler();
 
 		FString HandleCommand();
+		static int flag;
 	private:
 		const TSharedPtr<FJsonValue> Request;
 		TSharedPtr<FJsonValue> ValuePtr;
@@ -34,5 +35,12 @@ namespace WeTestU3DAutomation
 		void HandleGetCurrentLevelName();//GET_CURRENT_SCENE
 		void HandleGetElementByPos(); //FIND_ELEMENT_BY_POS
 		void HandleGetText(); //GET_ELEMENT_TEXT
+		void HandleSwipCharacter();
+		void HandleSetRotator();
+		void GetInputScale();
+		void GetBound();
+		void SetLocation();
+		void GetRotator();
+		void SetCharacter();
 	};
 }
