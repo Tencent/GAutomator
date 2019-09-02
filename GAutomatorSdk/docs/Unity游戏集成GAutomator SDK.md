@@ -1,7 +1,6 @@
 GAutomator SDK Unity是专门给予Unity游戏引擎开发的组件感知、组件操作和崩溃异常捕获组件，能够感知和查询引擎的组件信息，比提供对应的操作。Unity SDK支持Android/IOS平台。GAutomator SDK Unity分为NGUI和UGUI版本，请根据自己的游戏[下载对应的版本](../UnitySDK/compiled)。SDK文件包括（iOS只需要U3DAutomation.dll）
 
 ```
-- libcrashmonitor.so
 - u3dautomation.jar
 - U3DAutomation.dll
 ```
@@ -11,7 +10,7 @@ GAutomator SDK Unity是专门给予Unity游戏引擎开发的组件感知、组�
 **step 1:导入Unity项目工程**
 
 1. U3DAutomation.dll中包含一个WeTest.U3DAutomation.U3DAutomationBehaviour组件，放在Assets目录下的任意位置均可
-2. 如果是针对android平台，libcrashmonitor.so、u3dautomation.jar需要被打包进游戏, 放在Assets\Plugins\Android或Builds\Plugin\Android目录下
+2. 如果是针对android平台, u3dautomation.jar需要被打包进游戏, 放在Assets\Plugins\Android或Builds\Plugin\Android目录下
 
 `
 如果使用python来进行编译。可以使用脚本来拷贝上述三个文件。编译完成后，从workspace目录中删除，这样可以避免发布版本带入WeTest SDK。
@@ -55,25 +54,4 @@ apk包编译好之后，拉起游戏，同时通过logcat查看日志
 `adb logcat -vthreadtime -s Unity`
 如果看到U3DAutomation Init OK代表，已经接入成功。
 ![](image/log_info.png)
-
-
-**FAQ**
-1、集成Bugly或其他异常捕获组件
-可以将WeTest.U3DAutomation.CrashMonitor._OnLogCallbackHandler，注册给其他组件的回调函数。如，Bugly可以用下面的代码，做兼容。
-
-```python
-public class WeTestManager : MonoBehaviour {
-
-    Application.LogCallback logCall;
-	void Start () {
-#if WETEST_SDK
-        this.gameObject.AddComponent<WeTest.U3DAutomation.U3DAutomationBehaviour>();
-        BuglyAgent.RegisterLogCallback(WeTest.U3DAutomation.CrashMonitor._OnLogCallbackHandler);
-#endif
-        
-    }
-}
-```
-2、不想用crashmonitor
-CrashReport/CrashMonitor中的CLOSE_MONITOR改成true后，重新编译新的dll。
 

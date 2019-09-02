@@ -196,10 +196,7 @@ namespace Dynamic
         public static void FrameUpdate()
         {
             ComputeFPS();
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                CrashMonitorSelfCheck();
-            }
+        
         }
 
         public static void ComputeFPS()
@@ -211,21 +208,6 @@ namespace Dynamic
             else
             {
                 Dynamic.ThirdManager.INSTANCE.InvokeStaticFunction("Dynamic.ThirdManager", "ComputeFPS");
-            }
-
-            return;
-        }
-
-        public static void CrashMonitorSelfCheck()
-        {
-            if (false == Dynamic.ThirdManager.INSTANCE.IsFileLoaded())
-            {
-                CrashMonitor.SelfCheck();
-                CrashMonitor.NativeCrashMonitorCheck();
-            }
-            else
-            {
-                Dynamic.ThirdManager.INSTANCE.InvokeStaticFunction("Dynamic.ThirdManager", "CrashMonitorSelfCheck"); 
             }
 
             return;

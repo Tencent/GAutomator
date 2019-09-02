@@ -76,11 +76,6 @@ namespace WeTest.U3DAutomation
             }
         }
 
-        public static Application.LogCallback getLogCallBack()
-        {
-            return CrashMonitor.getLogCallBackHandler();
-        }
-
         void OnApplicationPause(bool pauseStatus)
         {
             Logger.d("OnApplicationPause:{0}", pauseStatus);

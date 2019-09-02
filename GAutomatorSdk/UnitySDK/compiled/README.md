@@ -6,7 +6,7 @@
 ## 步骤1：导入Unity项目工程
 a. U3DAutomation.dll中包含一个WeTest.U3DAutomation.U3DAutomationBehaviour组件，放在Assets目录下的任意位置均可。
 
-b. 如果是针对android平台，libcrashmonitor.so、u3dautomation.jar需要被打包进游戏, 放在Assets\Plugins\Android或Builds\Plugin\Android目录下
+b. 如果是针对android平台，u3dautomation.jar需要被打包进游戏, 放在Assets\Plugins\Android或Builds\Plugin\Android目录下
 
 ## 步骤2：初始化WeTest SDK
 选择第一个Scene,创建一个空的GameObject，然后挂载WeTest.U3DAutomation.U3DAutomationBehaviour组件。

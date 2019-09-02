@@ -447,7 +447,6 @@ namespace WeTest.U3DAutomation
                     //返回无该gameobject
                     command.status = ResponseStatus.GAMEOBJ_NOT_EXIST;
                     command.sendObj = "GameObject " + instance + " is not exists";
-                    CommandDispatcher.SendCommand(command);
                     return;
                 }
                 string text = uiHelper.GetText(gameObject);

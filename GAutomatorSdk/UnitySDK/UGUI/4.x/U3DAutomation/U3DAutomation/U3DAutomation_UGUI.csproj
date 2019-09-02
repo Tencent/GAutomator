@@ -58,7 +58,6 @@
     <Compile Include="Handler\TouchEventHandler.cs" />
     <Compile Include="Common\U3DManager.cs" />
     <Compile Include="Common\UITool.cs" />
-    <Compile Include="CrashReport\CrashMonitor.cs" />
     <Compile Include="Dispatcher\Command.cs" />
     <Compile Include="Dispatcher\CommandDispatcher.cs" />
     <Compile Include="Dispatcher\JsonParser.cs" />
