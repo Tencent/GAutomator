@@ -108,4 +108,44 @@ namespace WeTestU3DAutomation
 
 		return MoveTemp(JsonStr);
 	}
+
+	FString FCharacterPos::ToJson()
+	{
+		FString JsonStr;
+
+		auto JsonWriter = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&JsonStr);
+
+		JsonWriter->WriteObjectStart();
+
+		JsonWriter->WriteValue("instance", instance);
+		JsonWriter->WriteValue("x", x);
+		JsonWriter->WriteValue("y", y);
+		JsonWriter->WriteValue("z", z);
+
+		JsonWriter->WriteObjectEnd();
+		JsonWriter->Close();
+
+		return MoveTemp(JsonStr);
+	}
+
+	FString FBound::ToJson()
+	{
+		FString JsonStr;
+
+		auto JsonWriter = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&JsonStr);
+
+		JsonWriter->WriteObjectStart();
+
+		JsonWriter->WriteValue("x", x);
+		JsonWriter->WriteValue("y", y);
+		JsonWriter->WriteValue("z", z);
+
+		JsonWriter->WriteObjectEnd();
+		JsonWriter->Close();
+
+		return MoveTemp(JsonStr);
+	}
+
+	int64 FCharacterPos::flag = 0;
+
 }
