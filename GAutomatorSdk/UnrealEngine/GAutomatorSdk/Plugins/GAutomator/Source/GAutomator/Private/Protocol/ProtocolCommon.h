@@ -1,9 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//ÐÞ¸ÄversionInfoÂ·¾¶
-#include "../../Public/VersionInfo.h"
-#include "Runtime/Launch/Resources/Version.h"
+#include "VersionInfo.h"
 
 namespace WeTestU3DAutomation
 {
