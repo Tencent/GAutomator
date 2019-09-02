@@ -6,6 +6,7 @@
 #include "Templates/SharedPointerInternals.h"
 #include "Serialization/JsonSerializer.h"
 #include "Protocol/ProtocolCommon.h"
+#include <condition_variable>
 
 namespace WeTestU3DAutomation
 {
@@ -16,6 +17,7 @@ namespace WeTestU3DAutomation
 		virtual ~FCommandHandler();
 
 		FString HandleCommand();
+		static std::condition_variable* cond_var;
 		static int flag;
 	private:
 		const TSharedPtr<FJsonValue> Request;
