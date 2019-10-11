@@ -3,18 +3,19 @@
 
 """Python wrapper for Android uiautomator tool."""
 
-import sys
-import os
-import subprocess
-import time
+import collections
+import hashlib
 import itertools
 import json
-import hashlib
-import socket
-import re
-import collections
-import xml.dom.minidom
 import logging
+import os
+import re
+import socket
+import subprocess
+import sys
+import time
+import xml.dom.minidom
+
 import libs.imap_utf7 as imap_utf7
 
 

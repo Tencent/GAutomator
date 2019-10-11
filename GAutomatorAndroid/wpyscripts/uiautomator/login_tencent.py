@@ -15,7 +15,7 @@ import uiautomator_manager as m
 import login_getter as getter
 import os
 from wpyscripts.common.adb_process import *
-from wpyscripts.common.utils import time_snap
+from wpyscripts.manager import time_snap
 
 logger = logging.getLogger("wetest")
 uiauto = m.get_uiautomator()

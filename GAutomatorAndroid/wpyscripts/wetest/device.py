@@ -70,7 +70,6 @@ class TopActivity(object):
     def __str__(self):
         return "package name = {0},activity = {1}".format(self.package_name, self.activity)
 
-
 def exception_call_super(fn):
     """
         Decorate function
@@ -169,7 +168,7 @@ class Device(object):
         try:
             result = excute_adb("shell dumpsys window windows")
             if result:
-                pattern = re.compile(r'mCurrentFocus=.*\s(.*)/(.*?)}?\s')
+                pattern = re.compile(r'mCurrentFocus=.*\s([^\s]*)/(.*?)}?\s')
                 line = result.readline()
                 while line:
                     match = pattern.search(line)
