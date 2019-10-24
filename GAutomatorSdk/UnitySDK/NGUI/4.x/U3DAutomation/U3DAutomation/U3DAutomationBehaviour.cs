@@ -86,6 +86,8 @@ namespace WeTest.U3DAutomation
             Logger.d("OnApplicationFocus:{0}", focusStatus);
         }
 
+       
+
 
         void OnDestroy()
         {

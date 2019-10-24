@@ -115,6 +115,7 @@ namespace WeTest.U3DAutomation
                     Logger.e(ex.Message + " " + ex.StackTrace);
                 }
             }
+            Logger.d("wetest SendThread out..");
         }
 
         private static void SendThread()
@@ -145,6 +146,7 @@ namespace WeTest.U3DAutomation
                 }
 
             }
+            Logger.d("wetest SendThread out..");
         }
 
         public static void Accept(IAsyncResult result)

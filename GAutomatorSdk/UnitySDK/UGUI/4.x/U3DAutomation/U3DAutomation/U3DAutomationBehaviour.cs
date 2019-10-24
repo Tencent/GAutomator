@@ -91,11 +91,17 @@ namespace WeTest.U3DAutomation
             Logger.d("OnApplicationFocus:{0}", focusStatus);
         }
 
+        private void OnApplicationQuit()
+        {
+            Logger.d("OnApplicationQuit close server socket...");
+            CommandDispatcher.CloseServerSocket();
+        }
+
 
         void OnDestroy()
         {
             Logger.d("Destroy Wetest sdk");
-            CommandDispatcher.CloseServerSocket();
+           
         }
 
         void OnGUI()
