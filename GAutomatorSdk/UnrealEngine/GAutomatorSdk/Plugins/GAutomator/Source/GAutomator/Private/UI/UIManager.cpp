@@ -251,7 +251,7 @@ namespace WeTestU3DAutomation
 			return true;
 		}
 
-		FAndroidWindow::CalculateSurfaceSize(SurfaceViewWidth, SurfaceViewHeight, true);
+		FAndroidWindow::CalculateSurfaceSize(SurfaceViewWidth, SurfaceViewHeight, false);
 		if (SurfaceViewWidth == 0.0f)
 		{
 			UE_LOG(GALog, Error, TEXT("SurfaceWidth error = 0.0 "));
