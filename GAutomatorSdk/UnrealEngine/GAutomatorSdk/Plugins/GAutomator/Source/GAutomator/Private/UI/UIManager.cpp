@@ -10,10 +10,10 @@
 #include "XmlParser.h"
 #include "Common/GXmlJsonTools.h"
 #include "Engine/UserInterfaceSettings.h"
-#include "TextBlock.h"
-#include "RichTextBlock.h"
-#include "MultiLineEditableTextBox.h"
-#include "MultiLineEditableText.h"
+#include "Components/TextBlock.h"
+#include "Components/RichTextBlock.h"
+#include "Components/MultiLineEditableTextBox.h"
+#include "Components/MultiLineEditableText.h"
 #ifdef __ANDROID__
 #include "Android/AndroidWindow.h"
 #endif
@@ -250,9 +250,8 @@ namespace WeTestU3DAutomation
 		if (SurfaceViewWidth != 0.0f&&SurfaceViewHeight != 0.0f) {
 			return true;
 		}
-		void* NativeWindow = FAndroidWindow::GetHardwareWindow();
 
-		FAndroidWindow::CalculateSurfaceSize(NativeWindow, SurfaceViewWidth, SurfaceViewHeight);
+		FAndroidWindow::CalculateSurfaceSize(SurfaceViewWidth, SurfaceViewHeight, true);
 		if (SurfaceViewWidth == 0.0f)
 		{
 			UE_LOG(GALog, Error, TEXT("SurfaceWidth error = 0.0 "));

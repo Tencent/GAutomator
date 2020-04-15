@@ -3,9 +3,9 @@
 #include "CoreMinimal.h"
 #include "Sockets.h"
 #include "Networking.h"
-#include "Runnable.h"
+#include "HAL/Runnable.h"
 #include "Interfaces/IPv4/IPv4Endpoint.h"
-#include "JsonValue.h"
+#include "Dom/JsonValue.h"
 
 namespace WeTestU3DAutomation
 {
