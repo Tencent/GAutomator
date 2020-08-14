@@ -35,10 +35,13 @@ class Minitouch(object):
     @retry_if_fail()
     def reinit(self): #reforward and relaunch minitouch connector
         self.sub_process = excute_adb_process_daemon(LAUNCH_MINITOUCH, shell=True, needStdout=False)
+        logger.debug("begin forward minitouch {}".format(FORWARD))
         excute_adb_process(FORWARD)
         atexit.register(self.cleanup)
+        logger.debug("forward minitouch ok")
         try:
             #   self.socketClient = SocketClient(self.screen_address, FORWARD_PORT)
+            logger.debug("connect minitouch socket port {}:{}".format(self.screen_address, FORWARD_PORT))
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -53,6 +56,8 @@ class Minitouch(object):
             self.socket.close()
             #  self.socketClient.close()
             self.sub_process.kill()
+            stack = traceback.format_exc()
+            logger.warning(stack)
             excute_adb_process(REMOVE_FORWARD)
             return None
 

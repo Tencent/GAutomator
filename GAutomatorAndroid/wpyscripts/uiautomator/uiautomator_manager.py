@@ -51,8 +51,8 @@ def write_dialog_config(config_path):
     textpattern=u'(^(完成|关闭|好|好的|确定|确认|安装|下次再说|暂不删除)$|(.*(?<!不|否)(忽略|允(\s)?许|同意)|继续|稍后|暂不|下一步).*)'
     textGroupPattern=u'((建议.*清理)|是否卸载|卸载后)&&&(取消|以后再说|下载再说);是否发送错误报告&&&否;为了给您提供丰富的图书资源&&&取消;简化备份恢复流程&&&(以后再说|下次再说)'
     pkgfilter=""
-    if os.environ.get('PKGNAME'):
-        pkgfilter = u'(?=(^(?!' + os.environ.get("PKGNAME") + u"$)))"
+    # if os.environ.get('PKGNAME'):
+    #     pkgfilter = u'(?=(^(?!' + os.environ.get("PKGNAME") + u"$)))"
     pkgattern =pkgfilter + u'^(?!(com.tencent.mm|com.tencent.mqq|com.tencent.mobileqq)$).*'
     content += "textpattern=" + textpattern + "\n"
     content += "textGroupPattern=" + textGroupPattern + "\n"
@@ -119,7 +119,7 @@ def _init():
             本地，初始化UiAutomator
         """
         init_uiautomator()
-       #  init_uiautomator_with_dialoghandler()
+        init_uiautomator_with_dialoghandler()
         atexit.register(kill_uiautomator)
         return int(_uiautomator_port)
 
