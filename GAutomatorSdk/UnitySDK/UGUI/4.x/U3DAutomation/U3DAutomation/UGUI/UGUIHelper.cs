@@ -29,7 +29,7 @@ namespace WeTest.U3DAutomation
                     string str = txt.text;
                     return str;
                 }
-                GUIText guiText = obj.GetComponent<GUIText>();
+                Text guiText = obj.GetComponent<Text>();
                 if (guiText != null)
                 {
                     return guiText.text;
@@ -68,7 +68,7 @@ namespace WeTest.U3DAutomation
                         }
                     }
                 }
-                GUIText[] guiTexts = obj.GetComponentsInChildren<GUIText>(); ;
+                Text[] guiTexts = obj.GetComponentsInChildren<Text>();
                 if (guiTexts != null)
                 {
                     for (int i = 0; i < guiTexts.Length; ++i)
