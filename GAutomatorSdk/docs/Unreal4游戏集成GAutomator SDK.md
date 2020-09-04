@@ -16,11 +16,12 @@ GAutomator UE版本的SDK以源码的形式发布，目前仅支持Android平台
 **GAutomator集成步骤：**
 **step 1:**
 将Unreal GAutomator的插件目录拷贝至项目的Plugins目录下。如果游戏项目目录中没有"Plugins"目录，创建"Plugins"目录。插件可拷贝至"Plugins"目录下的任何子目录下。
-<img src="image/PluginSdk/plugin_dir.jpg"/>
+<img src="image/PluginSDK/plugin_dir.jpg"/>
 
 **step 2:**
 **重新生成** c++ 项目文件。插件模块和代码应该在项目文件中被体现出来。
-<img src="image/PluginSdk/re_generate_sln.png"/>
+
+<img src="image/PluginSDK/re_generate_sln.png"/>
 
 **step 3:**
 正常的** 编译游戏项目**。Unreal Build Tool 会检测到插件的存在，并将它们作为游戏的依赖项进行编译。
@@ -30,7 +31,7 @@ GAutomator UE版本的SDK以源码的形式发布，目前仅支持Android平台
 
 **step 5:**
 打开插件编辑器（Window->Plugins），找到该插件并选中勾选框。
-<img src="image/PluginSdk/enable_plugin.png"/>
+<img src="image/PluginSDK/enable_plugin.png"/>
 
 **step 6:**
 **重启编辑器。**插件就会自动在启动时被加载。正常编译，即会集成SDK
@@ -38,7 +39,7 @@ GAutomator UE版本的SDK以源码的形式发布，目前仅支持Android平台
 
 **集成成功**
 集成GAutomator插件后，启动的时候会在左上角显示<span style="color:red">WeTest GAutomator</span>.
-<img src="image/PluginSdk/started.png"/>
+<img src="image/PluginSDK/started.png"/>
 
 GAutomator插件启动成功之后，会在手机上开启27019端口，可通过以下命令查看
 ```shell
