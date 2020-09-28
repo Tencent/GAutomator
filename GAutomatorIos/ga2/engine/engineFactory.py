@@ -1,8 +1,11 @@
 
 from ga2.engine.engine import *
 from ga2.engine.unityEngine import *
+from ga2.engine.UE4Engine import *
+from config import EngineType
 class EngineFactory:
-    __engineTypeMap = {EngineType.Unity: UnityEngine}
+    __engineTypeMap = {EngineType.Unity: UnityEngine,
+                       EngineType.UE4: UE4Engine}
 
     @staticmethod
     def registerNewEngineType( engine_type, connector_type):

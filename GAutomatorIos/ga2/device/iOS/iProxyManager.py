@@ -16,7 +16,8 @@ class IProxyManager(object):
         remoteport=str(remoteport)
         cmd="iproxy "+localport+" "+remoteport
         if self.udid:
-            cmd+=" "+self.udid
+            # 修改命令格式
+            cmd+=" -u "+self.udid
         CmdExecuter.executeWithoutWait(cmd)
         self.forward_list[localport]=remoteport
 

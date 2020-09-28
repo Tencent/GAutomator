@@ -22,7 +22,8 @@ class WdaManager(object):
         return self.__wdaport
 
     def new_session(self,bundleid=None):
-        self._cur_wda_session = self.wda_client.session(bundleid)
+        #使用新WDA连接方式
+        self._cur_wda_session = self.wda_client.SessionForNewWda(bundleid)
         self.sessionMap[bundleid]=self._cur_wda_session
         return self._cur_wda_session
 
