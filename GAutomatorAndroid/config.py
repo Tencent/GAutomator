@@ -10,7 +10,7 @@ class Account(object):
 
 
 class TestInfo(object):
-    PACKAGE="com.tencent.GAutomatorSdk" # test package name
+    PACKAGE="com.tencent.shootgame" # test package name
 
 ### Engine Type
 Unity="unity"

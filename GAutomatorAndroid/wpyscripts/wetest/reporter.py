@@ -162,9 +162,12 @@ class CloudReporter(Reporter):
                 logger.info("reportCurScene by platform :" + scene)
                 self.platform_client.scene_capture_tag(scenename=scene, sceneid=scene,
                                                                         timestamp=device_time)
+                return True
         except Exception as e:
             logger.exception(e)
+        return False
 
+    #@deprecated
     def add_start_scene_tag(self, scene):
         """
             @deprecated
@@ -185,6 +188,7 @@ class CloudReporter(Reporter):
         else:
             raise WeTestInvaildArg("scene tag can't be None")
 
+    # @deprecated
     def add_end_scene_tag(self, scene):
         """
             @deprecated
@@ -193,7 +197,7 @@ class CloudReporter(Reporter):
         """
         if scene and isinstance(scene, str):
             if self.scene_tag != scene:
-                reason = "no start tag {0},you can not add a end scene tag".format(scene)
+                reason = "no start tag {0},you can not add an end scene tag".format(scene)
                 raise SceneTagError(reason)
             result = self.add_scene_tag(scene+"end")
             if result:
@@ -246,7 +250,6 @@ class CloudReporter(Reporter):
         except:
             stack = traceback.format_exc()
             logger.error(stack)
-
 
 class NativeReporter(Reporter):
     def __init__(self):

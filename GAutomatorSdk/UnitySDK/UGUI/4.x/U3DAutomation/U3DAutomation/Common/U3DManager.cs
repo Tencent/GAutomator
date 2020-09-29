@@ -16,11 +16,6 @@ namespace WeTest.U3DAutomation
             }
           
             WeTest.U3DAutomation.CommandDispatcher.Start();
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                WeTest.U3DAutomation.CrashMonitor.RegisterExceptionHandler();
-            }
-
            
         }
 
