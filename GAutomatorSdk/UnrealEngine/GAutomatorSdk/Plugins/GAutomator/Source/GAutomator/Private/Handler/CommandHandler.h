@@ -17,6 +17,7 @@ namespace WeTestU3DAutomation
 		virtual ~FCommandHandler();
 
 		FString HandleCommand();
+		FString GetResponse();
 		static std::condition_variable* cond_var;
 		static int flag;
 	private:
@@ -44,5 +45,9 @@ namespace WeTestU3DAutomation
 		void SetLocation();
 		void GetRotator();
 		void SetCharacter();
+		void CallRegisterHandler();
 	};
+
+
+
 }

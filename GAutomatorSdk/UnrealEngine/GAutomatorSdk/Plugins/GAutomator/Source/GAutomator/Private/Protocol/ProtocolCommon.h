@@ -1,7 +1,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "VersionInfo.h"
+//修改versionInfo路径
+#include "../../Public/VersionInfo.h"
+#include "Runtime/Launch/Resources/Version.h"
 
 namespace WeTestU3DAutomation
 {
@@ -128,7 +130,6 @@ namespace WeTestU3DAutomation
 
 	struct FCharacterPos
 	{
-		static int64 flag;//记录障碍物标志位
 		int64 instance;
 		float x;
 		float y;
@@ -160,6 +161,13 @@ namespace WeTestU3DAutomation
 		FBoundInfo():visible(true),existed(true),width(0.0f),height(0.0f),x(0.0f),y(0.0f), path("")
 		{
 		};
+
+		FString ToJson();
+	};
+
+	struct FCallInfo
+	{
+		FString info;
 
 		FString ToJson();
 	};

@@ -368,239 +368,114 @@ namespace WeTestU3DAutomation
 		return ContainPosWidget;
 	}
 
-
-	//ÉèÖÃ¶¨Ê±Æ÷½øÐÐÅö×²¼ì²â
-	bool TimeEvent::SetTimerCheck(FCommand& command,const FString& str,const FString& frontDistance,const FString& sideDistance)
+	bool TimeTemp::SetTimerHandle()
 	{
-		UInputSettings * Settings = const_cast <UInputSettings *>(GetDefault < UInputSettings >());
-		TArray<FInputAxisKeyMapping> AxisMap;
-		Settings->GetAxisMappingByName(FName("Turn"), AxisMap);
-		if (str == "0")
+		handle = new FTimerHandle();
+		UGameInstance* gameInstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			for (int i = 0; i < AxisMap.Num(); i++)
+			gameInstance = *Itr;
+			if (gameInstance == nullptr)
 			{
-				if (AxisMap[i].Key == "A" || AxisMap[i].Key == "D" || AxisMap[i].Key == "Gamepad_LeftX")
-				{
-					Settings->RemoveAxisMapping(AxisMap[i]);
-					scales.Add(AxisMap[i].Scale);
-					AxisMap[i].Scale = 0.0f;
-					Settings->AddAxisMapping(AxisMap[i]);
-				}
-			}
-		}
-		Settings->SaveKeyMappings();
-
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
-		{
-			AActor* UserWidget = *Itr;
-
-			if (UserWidget == nullptr) {
 				continue;
 			}
-
-			world = Itr->GetWorld();
-
-			character = world->GetFirstPlayerController()->GetCharacter();
-
-			//character->EnableInput(NULL);
-
-			if (world)
-			{
-				/*FCheckHit checkHit(World);
-				if (checkHit.Initialize())
-				{
-					return true;
-				}*/
-				FTimerDelegate del;
-				FString out = str;
-				int32 out2 = FCString::Atoi(*frontDistance);
-				int32 out3 = FCString::Atoi(*sideDistance);
-				del.BindLambda([this,&command,out,out2,out3]() {TraceLine(command,out,out2,out3); });
-				world->GetTimerManager().SetTimer(*checkHit, del, 0.2f, str == "0" ? true : false);
-				return true;
-			}
+		
+			
+			timerDel.BindLambda([this]() {TimerHandleFunc(); });
+			gameInstance->GetWorld()->GetTimerManager().SetTimer(*handle, timerDel, tickTime, loop);
+			return true;
 		}
 		return false;
-		
 	}
 
 	static TArray<FCharacterPos> characterposs;
 
-	//¿ªÆôÉäÏß¼ì²â
-	void TimeEvent::TraceLine(FCommand& command, FString str,int32 frontDistance,int32 sideDistance)
+	void TimeTemp::TimerHandleFunc()
 	{
-		UWorld* worldTemp = nullptr;
-		APlayerController* characterControll = nullptr;
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		UGameInstance* gameInstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			AActor* UserWidget = *Itr;
-
-			if (UserWidget == nullptr) {
+			gameInstance = *Itr;
+			if (gameInstance == nullptr)
+			{
 				continue;
 			}
 
-			worldTemp = Itr->GetWorld();
+			FHitResult Hit, Hit2;
+			UE_LOG(GALog, Log, TEXT("Timer Start"));
 
-			character = Itr->GetWorld()->GetFirstPlayerController()->GetCharacter();
+			//ï¿½ï¿½Ï·ï¿½ß¼ï¿½Êµï¿½ï¿½
+			ACharacter* character = gameInstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
+			FVector vectorStart = character->GetActorLocation();
+			vectorStart.Z = 0.0f;
+			FVector actorRotator = character->GetActorForwardVector();
+			FVector vectorEnd = vectorStart + actorRotator * scales;
+			vectorEnd.Z = character->GetDefaultHalfHeight() * 2;
+			DrawDebugLine(gameInstance->GetWorld(), vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd, FColor(255, 0, 0), false, 0, 0, 10);
+			FCollisionObjectQueryParams checkTrace(ECollisionChannel::ECC_WorldStatic);
+			checkTrace.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½
+			gameInstance->GetWorld()->LineTraceSingleByObjectType(Hit, vectorStart + FVector(0.0f, 0.0f, 25.0f)
+				, vectorEnd, FCollisionObjectQueryParams(checkTrace));
+			AActor* actor = Hit.GetActor();
 
-			characterControll = Itr->GetWorld()->GetFirstPlayerController();
-
-			break;
-		}
-		FHitResult Hit,Hit2;
-		UE_LOG(GALog, Log,TEXT("Timer Start"));
-		FVector vectorStart = character->GetActorLocation();
-		vectorStart.Z = 0.0f;
-		FVector actorRotator = character->GetActorForwardVector();
-		FVector actorRotator2 = actorRotator;
-		float tempaxis = actorRotator2.X;
-		actorRotator2.X = actorRotator2.Y;
-		actorRotator2.Y = tempaxis;
-		if (actorRotator2.X > 0)
-		{
-			actorRotator2.Y *= -1;
-		}
-		else
-		{
-			actorRotator2.X *= -1;
-		}
-		//ÐÞ¸ÄÕýÏòÉäÏß¼ì²â¾àÀë£¬µ¥Î»cm
-		FVector vectorEnd = vectorStart + actorRotator * frontDistance;
-		//ÐÞ¸Ä²àÏòÉäÏß¼ì²â¾àÀë£¬µ¥Î»cm
-		FVector vectorEnd2 = vectorStart + actorRotator2 * sideDistance;
-		vectorEnd.Z = character->GetDefaultHalfHeight() * 2;
-		vectorEnd2.Z = character->GetDefaultHalfHeight() * 2;
-		DrawDebugLine(worldTemp, vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd, FColor(255, 0, 0), false, 0, 0, 10);
-		DrawDebugLine(worldTemp, vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd2, FColor(255, 0, 0), false, 0, 0, 10);
-		FCollisionObjectQueryParams checkTrace(ECollisionChannel::ECC_WorldStatic);
-		checkTrace.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
-		worldTemp->LineTraceSingleByObjectType(Hit, vectorStart + FVector(0.0f, 0.0f, 25.0f)
-			, vectorEnd, FCollisionObjectQueryParams(checkTrace));
-		worldTemp->LineTraceSingleByObjectType(Hit2, vectorStart + FVector(0.0f, 0.0f, 25.0f)
-			, vectorEnd2, FCollisionObjectQueryParams(checkTrace));
-		AActor* actor = Hit.GetActor();
-		AActor* actor2 = Hit2.GetActor();
-		if (actor2==nullptr&&str=="0")
-		{
-			if (FCharacterPos::flag == 0)
+			if (actor)
 			{
+				gameInstance->GetWorld()->GetTimerManager().ClearTimer(*handle);
+				handle = nullptr;
+				UE_LOG(GALog, Log, TEXT("Disable monitor"));
 				FCharacterPos characterpos;
-				characterpos.instance = 0;
+				auto i = reinterpret_cast<std::uintptr_t>(actor);
+				characterpos.instance = i;
 				characterpos.x = character->GetActorLocation().X;
 				characterpos.y = character->GetActorLocation().Y;
 				characterpos.z = character->GetActorLocation().Z;
-				FCharacterPos characterpos2;
-				characterpos2 = characterpos;
-				characterpos2.instance = 1;
+				command.ReponseJsonType = ResponseDataType::OBJECT;
 				characterposs.Push(characterpos);
-				characterposs.Push(characterpos2);	
-				FCharacterPos::flag = 1;
+				command.ResponseJson = ArrayToJson<FCharacterPos>(characterposs);
+				FCommandHandler::cond_var->notify_one();
 			}
-			else
-			{
-				characterposs.Last().x = character->GetActorLocation().X;
-				characterposs.Last().y = character->GetActorLocation().Y;
-				characterposs.Last().z = character->GetActorLocation().Z;
-			}
-		}
-		else
-		{
-			FCharacterPos::flag = 0;
-		}
-		if (actor)
-		{
-			worldTemp->GetTimerManager().ClearTimer(*checkHit);
-			checkHit = nullptr;
-			UE_LOG(GALog, Log, TEXT("Disable monitor"));
-			character->DisableInput(NULL);
-			FCharacterPos characterpos;
-			auto i = reinterpret_cast<std::uintptr_t>(actor);
-			characterpos.instance = i;
-			characterpos.x = character->GetActorLocation().X;
-			characterpos.y = character->GetActorLocation().Y;
-			characterpos.z = character->GetActorLocation().Z;
-			command.ReponseJsonType = ResponseDataType::OBJECT;
-			characterposs.Push(characterpos);
-			command.ResponseJson = ArrayToJson<FCharacterPos>(characterposs);
-			FCommandHandler::cond_var->notify_one();
-			FPlatformProcess::Sleep(1);
-			character->EnableInput(NULL);
-			UE_LOG(GALog, Log, TEXT("Timer Stop."));
-			UInputSettings * Settings = const_cast <UInputSettings *>(GetDefault < UInputSettings >());
-			TArray<FInputAxisKeyMapping> AxisMap;
-			Settings->GetAxisMappingByName(FName("Turn"), AxisMap);
-			int j = 0;
-			if (scales.Num() > 0)
-			{
-				for (int m = 0; m < AxisMap.Num(); m++)
-				{
-					if (AxisMap[m].Key == "A" || AxisMap[m].Key == "D" || AxisMap[m].Key == "Gamepad_LeftX")
-					{
-						Settings->RemoveAxisMapping(AxisMap[m]);
-						AxisMap[m].Scale = scales[j++];
-						Settings->AddAxisMapping(AxisMap[m]);
-					}
-				}
-			}
-			
-			Settings->SaveKeyMappings();
-			characterposs.Empty();
-			return;
-		}
-		if (str != "0")
-		{
-			worldTemp->GetTimerManager().ClearTimer(*checkHit);
-			checkHit = nullptr;
-			UE_LOG(GALog, Log, TEXT("Disable monitor"));
-			FCharacterPos characterpos;
-			characterpos.instance = 0;
-			characterpos.x = 0;
-			characterpos.y = 0;
-			characterpos.z = 0;
-			command.ReponseJsonType = ResponseDataType::OBJECT;
-			characterposs.Push(characterpos);
-			command.ResponseJson = ArrayToJson<FCharacterPos>(characterposs);
-			FCommandHandler::cond_var->notify_one();
-			characterposs.Empty();
+
+
 		}
 	}
 
-	//½øÐÐÈËÎï×ªÏò²Ù×÷
+
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½
 	const bool ChangeRotator(const FString& str)
 	{
-		APawn* pawn = nullptr;
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		UGameInstance* gameinstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			AActor* UserWidget = *Itr;
+			gameinstance = *Itr;
 
-			if (UserWidget == nullptr) {
+			if (gameinstance == nullptr) {
 				continue;
 			}
 
-			pawn = Itr->GetWorld()->GetFirstPlayerController()->GetPawn();
+			gameinstance->GetWorld()->GetFirstPlayerController()->GetPawn()->AddControllerYawInput(FCString::Atof(*str));
 
-			break;
+			return true;
 		}
-		
-		pawn->AddControllerYawInput(FCString::Atof(*str));
 
-		return true;
+		return false;
 	}
 
-	//»ñµÃ½ÇÉ«µ±Ç°Æ«ÒÆÁ¿
+	//ï¿½ï¿½Ã½ï¿½É«ï¿½ï¿½Ç°Æ«ï¿½ï¿½ï¿½ï¿½
 	const FRotator getRotation()
 	{
 		FRotator rotator = FRotator(90.0f, 90.0f, 90.0f);
+		UGameInstance* gameinstance = nullptr;
 
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			AActor* UserWidget = *Itr;
+			gameinstance = *Itr;
 
-			if (UserWidget == nullptr) {
+			if (gameinstance == nullptr) {
 				continue;
 			}
 
-			rotator = Itr->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorRotation();
+			rotator = gameinstance->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorRotation();
 			break;
 		}
 
@@ -608,27 +483,25 @@ namespace WeTestU3DAutomation
 	}
 
 
-	//»ñÈ¡×ªÏòÖµ
+	//ï¿½ï¿½È¡×ªï¿½ï¿½Öµ
 	const float getScale()
 	{
-		UWorld* world = nullptr;
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		UGameInstance* gameinstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			AActor* UserWidget = *Itr;
+			gameinstance = *Itr;
 
-			if (UserWidget == nullptr) {
+			if (gameinstance == nullptr) {
 				continue;
 			}
 
-			world = Itr->GetWorld();
-
-			break;
+			return gameinstance->GetWorld()->GetFirstPlayerController()->InputYawScale;
 		}
-		return world->GetFirstPlayerController()->InputYawScale;
+		return 0.0f;
 	}
 
 
-	//»ñÈ¡µØÍ¼µÄ´óÐ¡
+	//ï¿½ï¿½È¡ï¿½ï¿½Í¼ï¿½Ä´ï¿½Ð¡
 	const FVector getLevelBound(const FString& str)
 	{	
 		FVector origin = FVector(0, 0, 0);
@@ -651,23 +524,24 @@ namespace WeTestU3DAutomation
 		return boxextent;
 	}
 
-	//ÈËÎïÏòÇ°Î»ÒÆ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Î»ï¿½ï¿½
 	const bool setLocation(const FString& str)
 	{
 		ACharacter* character = nullptr;
 		FVector vec = FVector(0, 0, 0);
+		UGameInstance* gameinstance = nullptr;
 
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			AActor* actor = *Itr;
+			gameinstance = *Itr;
 
-			if (actor == nullptr)
+			if (gameinstance == nullptr)
 				continue;
 
 			if (!character)
 			{
-				character = Itr->GetWorld()->GetFirstPlayerController()->GetCharacter();
-				vec = Itr->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorForwardVector() * FCString::Atof(*str);
+				character = gameinstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
+				vec = gameinstance->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorForwardVector() * FCString::Atof(*str);
 				vec += character->GetTargetLocation();
 				UE_LOG(GALog, Log, TEXT("%f,%f,%f"), vec.X, vec.Y, vec.Z);
 				if (character->SetActorLocation(vec))
@@ -683,22 +557,23 @@ namespace WeTestU3DAutomation
 		return false;
 	}
 
-	//ÖØÐÂÉèÖÃÈËÎïµÄÎ»ÖÃ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	const bool setCharacter(float& posx,float& posy)
 	{
 		ACharacter* character = nullptr;
 		FVector vec = FVector(0, 0, 0);
+		UGameInstance* gameinstance = nullptr;
 
-		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
 		{
-			AActor* actor = *Itr;
+			gameinstance = *Itr;
 
-			if (actor == nullptr)
+			if (gameinstance == nullptr)
 				continue;
 
 			if (!character)
 			{
-				character = Itr->GetWorld()->GetFirstPlayerController()->GetCharacter();
+				character = gameinstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
 				vec = character->GetTargetLocation();
 				vec.X = posx;
 				vec.Y = posy;
@@ -712,5 +587,40 @@ namespace WeTestU3DAutomation
 		}
 		return false;
 	}
+	struct FParam
+	{
+		FString par;
+		FString outcome;
+	};
+
+	//ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Api
+	const FString callRegisterHandler(FName& funcname, FString& funcparams)
+	{
+		FParam par;
+		par.par = funcparams;
+		UClass* ActorRef = FindObject<UClass>((UObject*)ANY_PACKAGE, *FString("MyObject"));
+		if (ActorRef)
+		{
+			UFunction* func = ActorRef->FindFunctionByName(funcname);
+			if (func)
+			{
+				try
+				{
+					ActorRef->ProcessEvent(func, &par);
+					UE_LOG(GALog, Log, TEXT("ProcessEvent Success!"))
+					return par.outcome;
+				}
+				catch (const std::exception& ex)
+				{
+					UE_LOG(GALog, Log, TEXT("%s"), ex.what())
+					return "false";
+				}
+				
+			}
+		}
+		return "Null";
+
+	}
+
 
 }

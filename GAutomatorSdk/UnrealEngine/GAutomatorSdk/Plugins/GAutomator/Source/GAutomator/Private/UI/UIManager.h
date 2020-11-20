@@ -27,7 +27,11 @@ namespace WeTestU3DAutomation
 
 	const bool setCharacter(float& posx, float& posy);
 
+	const FString callRegisterHandler(FName& funcname, FString& funcparams);
+
 	FString GetUWidgetLabelText(const UWidget* Widget);
+
+
 
 	//bool GetCurrentCharacter(AActor* Character);
 
@@ -59,26 +63,57 @@ namespace WeTestU3DAutomation
 
 	};
 
-	class TimeEvent
+	class TimeEve
 	{
+
+
 	public:
-		TimeEvent():checkHit(new FTimerHandle())
-		{
-		};
-	
-		TArray<float> scales;
 
-		FTimerHandle* checkHit;
+		TimeEve() {};
+		virtual ~TimeEve() {};
+		//��ʱ��������
+		FTimerHandle* handle;
 
-		FTimerHandle* setControl;
+		//��ʱί�к���
+		FTimerDelegate timerDel;
 
-		bool SetTimerCheck(FCommand& command,const FString& str, const FString& frontDistance, const FString& sideDistance);
 
-		UWorld* world;
+		//ʱ�����
+		float tickTime;
 
-		ACharacter* character;
+		//ѭ������
+		bool loop;
 
-		void TraceLine(FCommand& command,FString str , int32 frontDistance, int32 sideDistance);
+		//���ö�ʱ��
+		virtual bool SetTimerHandle() = 0;
+
+		//��ʱ���߼�
+		virtual void TimerHandleFunc() = 0;
+
 
 	};
+
+	//���߼��
+	class TimeTemp :public TimeEve
+	{
+
+
+		~TimeTemp() {};
+
+
+	public:
+		TimeTemp(FCommand& coo):command(coo) {};
+
+		FCommand& command;
+
+		bool SetTimerHandle() override;
+
+		void TimerHandleFunc() override;
+
+		//���߼�����
+		float scales;
+
+	};
+
+
 }

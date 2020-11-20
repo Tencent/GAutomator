@@ -18,6 +18,10 @@ namespace WeTestU3DAutomation
 		FString ReponseJsonStr = CommandResponse.ToJson();
 		return ReponseJsonStr;
 	}
+	
+	FString FCommandHandler::GetResponse() {
+		return CommandResponse.ToJson();
+	}
 
 	bool FCommandHandler::Dispatcher() {
 		if (!Request.IsValid()) {
@@ -38,7 +42,7 @@ namespace WeTestU3DAutomation
 		}
 
 		switch (cmd) {
-		case Cmd::GET_VERSION: 
+		case Cmd::GET_VERSION:
 		{
 			HandleGetVersion();
 			break;
@@ -109,6 +113,11 @@ namespace WeTestU3DAutomation
 			SetCharacter();
 			break;
 		}
+		case Cmd::CALL_REGISTER_HANDLER:
+		{
+			CallRegisterHandler();
+			break;
+		}
 		default:
 		{
 			CommandResponse.ResponseJson = FString::Printf(TEXT("unknow cmd %d"),cmd);
@@ -130,7 +139,6 @@ namespace WeTestU3DAutomation
 	{
 		UE_LOG(GALog, Log, TEXT("HandleDumpTree"));
 		FDumpTree DumpTree;
-
 		DumpTree.xml = GetCurrentWidgetTree();
 
 		CommandResponse.ResponseJson = DumpTree.ToJson();
@@ -288,7 +296,7 @@ namespace WeTestU3DAutomation
 		UE_LOG(GALog, Log, TEXT("MoveCharacter"));
 
 		TArray<FCharacterPos> characterposs;
-		TimeEvent* timeEv=new TimeEvent();
+		
 		const TArray<TSharedPtr<FJsonValue>> Pos = ValuePtr->AsArray();
 		if (Pos.Num() != 3)
 		{
@@ -297,7 +305,11 @@ namespace WeTestU3DAutomation
 			CommandResponse.ResponseJson = "Parameter is invaild";
 			return;
 		}
-		if (timeEv->SetTimerCheck(CommandResponse, Pos[0]->AsString() ,Pos[1]->AsString() ,Pos[2]->AsString()))
+		TimeTemp* timeEv = new TimeTemp(CommandResponse);
+		timeEv->scales = Pos[0]->AsNumber();
+		timeEv->tickTime = Pos[1]->AsNumber();
+		timeEv->loop = Pos[2]->AsBool();
+		if (timeEv->SetTimerHandle())
 		{
 			UE_LOG(GALog, Log, TEXT("SETTIMER SUCCESS"));
 		}
@@ -397,7 +409,7 @@ namespace WeTestU3DAutomation
 		{
 			CommandResponse.status = ResponseStatus::UNPACK_ERROR;
 			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
-			CommandResponse.ResponseJson = "Parameter is invaild";
+			CommandResponse.ResponseJson = "Parameter is invalid";
 			return;
 		}
 
@@ -414,6 +426,35 @@ namespace WeTestU3DAutomation
 			CommandResponse.status = ResponseStatus::UN_KNOW_ERROR;
 			CommandResponse.ResponseJson = FString::Printf(TEXT("Error"), *ValuePtr->AsString());
 		}
+	}
+
+	void FCommandHandler::CallRegisterHandler()
+	{
+		UE_LOG(GALog, Log, TEXT("CallRegisterHandler"));
+
+		const TArray<TSharedPtr<FJsonValue>> Pos = ValuePtr->AsArray();
+
+		if (Pos.Num() != 2)
+		{
+			CommandResponse.status = ResponseStatus::UNPACK_ERROR;
+			CommandResponse.ReponseJsonType = ResponseDataType::STRING;
+			CommandResponse.ResponseJson = "Parameter is invalid";
+			return;
+		}
+
+		FName funcname = FName(*(Pos[0]->AsString()));
+		FString funcparms = Pos[1]->AsString();
+
+		FString outpar = callRegisterHandler(funcname, funcparms);
+		TArray<FCallInfo> callinfos;
+		FCallInfo callinfo;
+		callinfo.info = outpar;
+		callinfos.Push(callinfo);
+
+		CommandResponse.ReponseJsonType = ResponseDataType::OBJECT;
+		CommandResponse.ResponseJson = ArrayToJson<FCallInfo>(callinfos);
+
+		return;
 	}
 
 
