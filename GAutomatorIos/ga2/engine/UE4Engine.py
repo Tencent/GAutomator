@@ -66,3 +66,86 @@ class UE4Engine(GameEngine):
         send_params = [e.object_name for e in elements]
         ret = self.socket.send_command(Commands.GET_ELEMENTS_BOUND, send_params)
         return ret
+
+    def send_UE4_GM(self, params):
+        '''
+            发送gm指令
+        :param params: array contians(classname,funcname,cmd,param)
+        :return:
+        '''
+        if params is None:
+            raise WeTestInvaildArg("Invaild Instance,element is None")
+        ret = self.socket.send_command(Commands.CALL_REGISTER_HANDLER, params)
+        return ret
+
+    def get_character_swip(self, params):
+        '''
+            开启射线检测
+        :param flag: 【"float:检测距离"，"float:定时时间"，"bool:是否循环"】
+        :return:
+        '''
+        if params is None:
+            raise WeTestInvaildArg("Invaild Instance,element is None")
+        ret = self.socket.send_command(Commands.GET_CHARACTER_SWIP, params)
+        return ret
+
+    def set_change_rotator(self, params):
+        '''
+            设置人物转向值
+        :param flag: 调用参数 float
+        :return:
+        '''
+        if params is None:
+            raise WeTestInvaildArg("Invaild Instance,element is None")
+        ret = self.socket.send_command(Commands.SET_CHANGEROTATOR, params)
+        return ret
+
+    def get_character_scale(self):
+        '''
+            获取旋转倍数，配合set_change_rotator实现（例如90度=params*rotator）
+        :param flag:
+        :return:float
+        '''
+        ret = self.socket.send_command(Commands.GET_SCALE)
+        return ret
+
+    def get_bound(self):
+        '''
+            获取物体大小
+        :param flag:
+        :return:[x,y,z]
+        '''
+
+        ret = self.socket.send_command(Commands.GET_BOUND)
+        return ret
+
+    def set_character_forward(self, params):
+        '''
+            设置人物前进距离
+        :param flag: distance:int
+        :return:
+        '''
+        if params is None:
+            raise WeTestInvaildArg("Invaild Instance,element is None")
+        ret = self.socket.send_command(Commands.SET_LOCATION, params)
+        return ret
+
+    def get_character_rotation(self):
+        '''
+            获取角色当前旋转角度
+        :param flag:
+        :return:[roll,pitch,yall]
+        '''
+        ret = self.socket.send_command(Commands.GET_CHARACTER_ROTATION)
+        return ret
+
+    def set_character_location(self, params):
+        '''
+            角色瞬移
+        :param flag: float[X;Y]
+        :return:
+        '''
+        if params is None:
+            raise WeTestInvaildArg("Invaild Instance,element is None")
+        ret = self.socket.send_command(Commands.SET_CHARACTER, params)
+        return ret
