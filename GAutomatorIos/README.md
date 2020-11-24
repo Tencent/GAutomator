@@ -9,6 +9,9 @@ UIAutomation Test Framework For Games ( iOS ONLY FOR NOW)
 Python2.7/3.4+
 
 ### iOS Test Requirements:
+
+#### Unity
+
 Mac OS X 10.13.6+
 
 XCode10 For iOS9\~12
@@ -16,6 +19,19 @@ XCode10 For iOS9\~12
 Recommend Environment:Xcode10+iOS11
 
 [wt-wda](../wt-wda "wt-wda")
+
+[libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice")
+ (`brew install libimobiledevice`)
+
+#### UE4
+
+Mac OS X 10.13.6+
+
+XCode11+ For ios12+
+
+Recommend Environment:Xcode11+ios13
+
+[apm-wda](../apm-wda "apm-wda")
 
 [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice")
  (`brew install libimobiledevice`)
@@ -33,7 +49,9 @@ RUN:
 
 1.connect you iPhone to Mac by USB and get your device udid(`idevice_id -l`)
 
-2.build && run wt-wda(or WebDriverAgent) on the target device by xcodebuild(see [wt-wda](../wt-wda) for details
+2.1 Unity: build && run wt-wda(or WebDriverAgent) on the target device by xcodebuild(see [wt-wda](../wt-wda) for details
+
+UE4: build && run apm-wda(or Appium/WebDriverAgent) on the target device by xcodebuild(see [apm-wda](../apm-wda) for details
 
 3.run `iproxy $your_port 8100 $your_udid`
 
@@ -72,6 +90,8 @@ RUN:
 
 ## Thanks
 WebDriverAgent: https://github.com/facebook/WebDriverAgent
+
+Appium/WebDriverAgent: https://github.com/appium/WebDriverAgent
 
 openatx/facebook-wda: https://github.com/openatx/facebook-wda
 

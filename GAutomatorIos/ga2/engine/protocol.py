@@ -34,6 +34,14 @@ class Commands(object):
     RPC_METHOD = 119#游戏内的接口可调用，python端的方法
     SET_SERVER_TIME = 120  # 设置服务器时间
 
+    GET_CHARACTER_SWIP = 130#开启前向射线检测
+    SET_CHANGEROTATOR = 121#人物角色旋转角设置
+    GET_SCALE = 122#旋转倍速获取
+    GET_BOUND = 123#获取物体大小
+    SET_LOCATION = 124#根据偏移角度前进距离
+    GET_CHARACTER_ROTATION = 125#获取当前偏移量
+    SET_CHARACTER = 126#设置角色所在位置
+
     #######################/
     HANDLE_TOUCH_EVENTS = 200  # 发送down move up
 

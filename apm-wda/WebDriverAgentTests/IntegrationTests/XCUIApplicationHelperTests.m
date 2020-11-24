@@ -1,0 +1,93 @@
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+#import <XCTest/XCTest.h>
+
+#import "FBApplication.h"
+#import "FBIntegrationTestCase.h"
+#import "FBElement.h"
+#import "FBTestMacros.h"
+#import "FBSpringboardApplication.h"
+#import "XCUIApplication+FBHelpers.h"
+#import "XCUIElement+FBIsVisible.h"
+
+@interface XCUIApplicationHelperTests : FBIntegrationTestCase
+@end
+
+@implementation XCUIApplicationHelperTests
+
+- (void)setUp
+{
+  [super setUp];
+  [self launchApplication];
+}
+
+- (void)testQueringSpringboard
+{
+  [self goToSpringBoardFirstPage];
+  XCTAssertTrue([FBSpringboardApplication fb_springboard].icons[@"Safari"].exists);
+  XCTAssertTrue([FBSpringboardApplication fb_springboard].icons[@"Calendar"].exists);
+}
+
+- (void)testApplicationTree
+{
+  XCTAssertNotNil(self.testedApplication.fb_tree);
+  XCTAssertNotNil(self.testedApplication.fb_accessibilityTree);
+}
+
+- (void)disabled_testDeactivateApplication
+{
+  // This test randomly causes:
+  // Failure fetching attributes for element <XCAccessibilityElement: 0x6080008407b0> Device element: Error Domain=XCTDaemonErrorDomain Code=13 "Value for attribute 5017 is an error." UserInfo={NSLocalizedDescription=Value for attribute 5017 is an error.}
+  NSError *error;
+  XCTAssertTrue([self.testedApplication fb_deactivateWithDuration:1 error:&error]);
+  XCTAssertNil(error);
+  XCTAssertTrue(self.testedApplication.buttons[@"Alerts"].exists);
+  FBAssertWaitTillBecomesTrue(self.testedApplication.buttons[@"Alerts"].fb_isVisible);
+}
+
+- (void)testActiveApplication
+{
+  XCTAssertTrue([FBApplication fb_activeApplication].buttons[@"Alerts"].fb_isVisible);
+  [self goToSpringBoardFirstPage];
+  XCTAssertEqualObjects([FBApplication fb_activeApplication].bundleID, SPRINGBOARD_BUNDLE_ID);
+  XCTAssertTrue([FBApplication fb_activeApplicationWithDefaultBundleId:SPRINGBOARD_BUNDLE_ID].icons[@"Safari"].fb_isVisible);
+}
+
+- (void)testActiveElement
+{
+  [self goToAttributesPage];
+  XCTAssertNil(self.testedApplication.fb_activeElement);
+  XCUIElement *textField = self.testedApplication.textFields[@"aIdentifier"];
+  [textField tap];
+  FBAssertWaitTillBecomesTrue(nil != self.testedApplication.fb_activeElement);
+  XCTAssertEqualObjects(((id<FBElement>)self.testedApplication.fb_activeElement).wdUID,
+                        ((id<FBElement>)textField).wdUID);
+}
+
+- (void)testActiveApplicationsInfo
+{
+  NSArray *appsInfo = [XCUIApplication fb_activeAppsInfo];
+  XCTAssertTrue(appsInfo.count > 0);
+  BOOL isAppActive = NO;
+  for (NSDictionary *appInfo in appsInfo) {
+    if ([appInfo[@"bundleId"] isEqualToString:self.testedApplication.bundleID]) {
+      isAppActive = YES;
+      break;
+    }
+  }
+  XCTAssertTrue(isAppActive);
+}
+
+- (void)testTestmanagerdVersion
+{
+  XCTAssertGreaterThan([XCUIApplication fb_testmanagerdVersion], 0);
+}
+
+@end

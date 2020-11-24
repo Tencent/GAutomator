@@ -4,6 +4,7 @@ import cv2
 import time
 import logging
 import ga2.cloud.reporter as reporter
+from config import TestInfo,EngineType
 logger = logging.getLogger("iOSTestTutorial")
 
 '''
@@ -12,9 +13,6 @@ local test steps:
 2.iproxy xxxxx 8100 device_udid
 3. start to edit and run your code 
 '''
-
-TEST_PKG_NAME = "com.tencent.wetest.demo.ngui"
-udid = "8b281ff151d795bfc81212e45068dea12b91b706"
 
 
 '''
@@ -68,9 +66,9 @@ def screenshot_test():
     image = device.screenshot()
     cv2.imwrite("test.jpg", image)
 
-device = ga2.init_device(ga2.DeviceType.DEVICE_IOS, udid)  # get the instance of device
-ga2.launch_app(TEST_PKG_NAME)#if you are going to test a specific scene, just comment out this line.
-ga2.init_engine_sdk(enginetype=ga2.EngineType.Unity)
+device = ga2.init_device(ga2.DeviceType.DEVICE_IOS, TestInfo.udid)  # get the instance of device
+ga2.launch_app(TestInfo.PACKAGE)#if you are going to test a specific scene, just comment out this line.
+ga2.init_engine_sdk(enginetype=EngineType)
 wait_test()
 touch_test()
 random_travel()

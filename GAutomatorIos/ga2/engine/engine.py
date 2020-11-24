@@ -13,10 +13,6 @@ from ga2.engine.protocol import Commands, TouchEvent
 logger = logging.getLogger("wetest")
 
 
-from enum import Enum
-class EngineType(Enum):
-    Unity=0,
-    UE4=1
 
 class VersionInfo(object):
     """

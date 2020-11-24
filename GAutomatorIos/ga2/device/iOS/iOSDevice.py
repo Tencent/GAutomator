@@ -189,6 +189,19 @@ class IOSDevice(Device):
         cv_image = cv2.imdecode(pngarr, cv2.IMREAD_UNCHANGED)
         return cv_image
 
+    @callLog
+    def screenshot_format(self, localpath=None):
+        '''
+        图片转码
+        :param localpath:
+        :return:
+        '''
+        pngdata = self.__wda_connector.wda_client.screenshot(localpath)
+        from PIL import Image
+        import io
+        buff=io.BytesIO(pngdata)
+        return Image.open(buff)
+
     def __forward(self, local_port, remote_port):
         self.__iproxy.forward(localport=local_port, remoteport=remote_port)
 
@@ -264,6 +277,25 @@ class IOSDevice(Device):
         self.__wda_connector.get_session().swipe(sx, sy, dx, dy, duration)
 
     '''
+    written by david
+    note:  the param "duration" indicates the touchdown and hold time rather than the moving time.
+    param: sx,sy,dx,dy: start and end pixel pos  or rate of the current device screen.
+           holdduration: start coordinate press duration in seconds
+           dragduration: hold coordinate swiped to duration in seconds
+           velcoity: the speed at which to move from the initial press position to the other element, expressed in pixels per second.
+    '''
+
+    def drag_hold(self, sx, sy, dx, dy, holdduration=1, dragduration=1, velocity=1.0):
+        if 0 < sx < 1 and 0 < sy < 1 and 0 < dx < 1 and 0 < dy < 1:
+            display_size = self.display_size()
+            sx = sx * display_size[0]
+            sy = sy * display_size[1]
+            dx = dx * display_size[0]
+            dy = dy * display_size[1]
+        self.__wda_connector.get_session().swipe_and_hold(sx, sy, dx, dy, holdduration, dragduration, velocity)
+
+
+    '''
     touch and hold for duration at the given position
     param : x,y : pixel pos  or rate of the current device screen.
             duration: holding seconds
@@ -300,3 +332,14 @@ class IOSDevice(Device):
             bound[3] *= display_size[1]
         x, y = bound[0] + bound[2] / 2, bound[1] + bound[3] / 2
         self.long_press(x, y, duration)
+
+
+    # def perform_action(self,actions):
+    #     """
+    #     written by david
+    #     :param actions: the actrions list to perform in the list
+    #     :return:
+    #     """
+    #
+    #     return self.__wda_connector.get_session().perform(actions)
+

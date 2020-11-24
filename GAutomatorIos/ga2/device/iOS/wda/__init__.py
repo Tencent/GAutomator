@@ -23,7 +23,7 @@ if six.PY3:
 else:
     from urlparse import urljoin as _urljoin
 
-DEBUG = False
+DEBUG = True
 HTTP_TIMEOUT = 60.0 # unit second
 
 LANDSCAPE = 'LANDSCAPE'
@@ -79,8 +79,9 @@ def httpdo(url, method='GET', data=None):
         ms = (time.time() - start) * 1000
         print('Return ({:.0f}ms): {}'.format(ms, json.dumps(retjson, indent=4)))
     r = convert(retjson)
-    if r.status != 0:
-        raise WDAError(r.status, r.value)
+    if "error" in retjson:
+        if r.value.error != 0:
+            raise WDAError(r.errorcode, r.value.error)
     return r
 
 
@@ -279,6 +280,43 @@ class Client(object):
         httpclient = self.http.new_client('session/'+res.sessionId)
         return Session(httpclient, res.sessionId)
 
+    #添加新WDA构建方式
+    def SessionForNewWda(self, bundle_id=None, arguments=None, environment=None, alert_action= None):
+        if bundle_id is None:
+            #sid = self.status()['sessionId']
+            #if not sid:
+            raise RuntimeError("Boundle_id need to be set!")
+            #http = self.http.new_client('session/' + sid)
+            #return Session(http, sid)
+
+        if arguments and type(arguments) is not list:
+            raise TypeError('arguments must be a list')
+
+        if environment and type(environment) is not dict:
+            raise TypeError('environment must be a dict')
+
+        capabilities = {}
+        always_match = {
+            'bundleId': bundle_id,
+            'arguments': arguments or [],
+            'environment': environment or {},
+            'shouldWaitForQuiescence': False,
+        }
+
+        if alert_action:
+            assert alert_action in ["accept", "dismiss"]
+            capabilities["defaultAlertAction"] = alert_action
+
+        capabilities['alwaysMatch'] = always_match
+
+        data = json.dumps({
+            "capabilities": capabilities,
+            'desiredCapabilities': capabilities.get('alwaysMatch',{})
+        })
+        res = self.http.post('session', data)
+        httpclient = self.http.new_client('session/' + res.sessionId)
+        return Session(httpclient, res.sessionId)
+
 
     def screenshot(self, png_filename=None):
         """
@@ -427,25 +465,47 @@ class Session(object):
         data = dict(fromX=x1, fromY=y1, toX=x2, toY=y2, duration=duration)
         return self.http.post('/wda/dragfromtoforduration', data=data)
 
-    def swipe_left(self):
-        self.check_alert()
-        w, h = self.window_size()
-        return self.swipe(w, h/2, 0, h/2)
+    def swipe_and_hold(self, x1, y1, x2, y2, dragduration=0, holdduration=0,velicty=0):
+        """
+        Args:
+            duration (float): start coordinate press duration (seconds)
 
-    def swipe_right(self):
+        [[FBRoute POST:@"/wda/dragfromtofordurationandhold"] respondWithTarget:self action:@selector(handleDragCoordinateAndHold:)],
+        """
         self.check_alert()
-        w, h = self.window_size()
-        return self.swipe(0, h/2, w, h/2)
+        data = dict(fromX=x1, fromY=y1, toX=x2, toY=y2, dragduration=dragduration, holdduration=holdduration, velocity=velicty)
+        return self.http.post('/wda/dragfromtofordurationandhold', data=data)
 
-    def swipe_up(self):
-        self.check_alert()
-        w, h = self.window_size()
-        return self.swipe(w/2, h, w/2, 0)
+    def perform(self,actions):
+        '''
 
-    def swipe_down(self):
+        :param actions: the action to perfom in input device
+        :return:
+        '''
+
         self.check_alert()
-        w, h = self.window_size()
-        return self.swipe(w/2, 0, w/2, h)
+        #data=dict(actions=[dict(type='pointer',id='0',parameters=dict(pointerType='touch'),actions=[dict(type='pointerMove'),dict(type='pointerDown',x=x,y=y)]),
+                          # dict(type='pointer',id='1',parameters=dict(pointerType='touch'),actions=[dict(type='pointerMove',x=x+50,y=y,duration=10)])])
+        #data = dict(actions=[dict(action='press',options=dict(x=x,y=y)),dict(action='wait',options=dict(ms=1000)),dict(action='moveTo',options=dict(x=x-50,y=y)),dict(action='wait',options=dict(ms=5000)),dict(action='moveTo',options=dict(x=x-50,y=y))])
+        data=dict(actions=actions)
+        return self.http.post('/wda/touch/perform',data)
+
+    def actionmember(self,**param):
+        """
+
+        :param action: action perform on the input device
+        :param x: X coordinate of pointer move event
+        :param y: Y coordinate of pointer move event
+        :param ms: wait time
+        :return: the member of the actions list
+        """
+
+        opt={}
+        for k,v in param.items():
+            if(k !="action"):
+                opt[k]=v
+
+        return dict(action=param["action"],options=opt)
 
     @property
     def orientation(self):

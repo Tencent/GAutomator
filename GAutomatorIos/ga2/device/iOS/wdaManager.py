@@ -5,6 +5,7 @@ import subprocess
 import logging
 from ga2.common.singleton import singleton
 from ga2.device.iOS import wda
+from config import EngineType
 
 logger=logging.getLogger(__name__)
 
@@ -22,7 +23,11 @@ class WdaManager(object):
         return self.__wdaport
 
     def new_session(self,bundleid=None):
-        self._cur_wda_session = self.wda_client.session(bundleid)
+        #使用新WDA连接方式
+        if EngineType==EngineType.UE4:
+            self._cur_wda_session = self.wda_client.SessionForNewWda(bundleid)
+        else:
+            self._cur_wda_session = self.wda_client.session(bundleid)
         self.sessionMap[bundleid]=self._cur_wda_session
         return self._cur_wda_session
 

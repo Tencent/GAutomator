@@ -12,7 +12,7 @@ void FGAutomatorModule::StartupModule()
 {
 
 	UE_LOG(GALog, Log, TEXT("FGAutomatorModule StartupModule"));
-#ifdef  __ANDROID__
+#if defined PLATFORM_IOS || defined __ANDROID__
 
 	CommandDispatcherPtr = new WeTestU3DAutomation::FCommandDispatcher();
 
@@ -29,7 +29,6 @@ void FGAutomatorModule::StartupModule()
 	
 
 #endif
-
 }
 
 void FGAutomatorModule::ShutdownModule()

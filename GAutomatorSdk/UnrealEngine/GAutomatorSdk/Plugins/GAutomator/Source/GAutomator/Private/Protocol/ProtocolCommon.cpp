@@ -1,4 +1,4 @@
-#include "Protocol/ProtocolCommon.h"
+#include "ProtocolCommon.h"
 #include "CoreMinimal.h"
 #include "Serialization/JsonSerializer.h"
 #include "Runtime/Launch/Resources/Version.h"
@@ -108,4 +108,58 @@ namespace WeTestU3DAutomation
 
 		return MoveTemp(JsonStr);
 	}
+
+	FString FCharacterPos::ToJson()
+	{
+		FString JsonStr;
+
+		auto JsonWriter = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&JsonStr);
+
+		JsonWriter->WriteObjectStart();
+
+		JsonWriter->WriteValue("instance", instance);
+		JsonWriter->WriteValue("x", x);
+		JsonWriter->WriteValue("y", y);
+		JsonWriter->WriteValue("z", z);
+
+		JsonWriter->WriteObjectEnd();
+		JsonWriter->Close();
+
+		return MoveTemp(JsonStr);
+	}
+
+	FString FBound::ToJson()
+	{
+		FString JsonStr;
+
+		auto JsonWriter = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&JsonStr);
+
+		JsonWriter->WriteObjectStart();
+
+		JsonWriter->WriteValue("x", x);
+		JsonWriter->WriteValue("y", y);
+		JsonWriter->WriteValue("z", z);
+
+		JsonWriter->WriteObjectEnd();
+		JsonWriter->Close();
+
+		return MoveTemp(JsonStr);
+	}
+
+	FString FCallInfo::ToJson()
+	{
+		FString JsonStr;
+
+		auto JsonWriter = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&JsonStr);
+
+		JsonWriter->WriteObjectStart();
+
+		JsonWriter->WriteValue("info", info);
+
+		JsonWriter->WriteObjectEnd();
+		JsonWriter->Close();
+
+		return MoveTemp(JsonStr);
+	}
+
 }

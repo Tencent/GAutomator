@@ -18,10 +18,10 @@
 			"Name": "GAutomator",
 			"Type": "Runtime",
 			"LoadingPhase": "PostEngineInit",
-			"WhitelistPlatforms" :
-			[
-				"Android"
-			]
+      "WhitelistPlatforms": [
+        "Android",
+        "IOS"
+      ]
 		}
 	]
 }

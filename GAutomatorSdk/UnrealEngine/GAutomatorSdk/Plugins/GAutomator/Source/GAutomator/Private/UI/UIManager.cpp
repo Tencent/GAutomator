@@ -13,7 +13,9 @@
 #include "TextBlock.h"
 #include "RichTextBlock.h"
 #include "MultiLineEditableTextBox.h"
+#include "Handler/CommandHandler.h"
 #include "MultiLineEditableText.h"
+#include <ctime> 
 #ifdef __ANDROID__
 #include "Android/AndroidWindow.h"
 #endif
@@ -149,6 +151,8 @@ namespace WeTestU3DAutomation
 
 		return false;
 	}
+
+
 
 	FString GetUWidgetLabelText(const UWidget* Widget)
 	{
@@ -363,5 +367,260 @@ namespace WeTestU3DAutomation
 
 		return ContainPosWidget;
 	}
+
+	bool TimeTemp::SetTimerHandle()
+	{
+		handle = new FTimerHandle();
+		UGameInstance* gameInstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameInstance = *Itr;
+			if (gameInstance == nullptr)
+			{
+				continue;
+			}
+		
+			
+			timerDel.BindLambda([this]() {TimerHandleFunc(); });
+			gameInstance->GetWorld()->GetTimerManager().SetTimer(*handle, timerDel, tickTime, loop);
+			return true;
+		}
+		return false;
+	}
+
+	static TArray<FCharacterPos> characterposs;
+
+	void TimeTemp::TimerHandleFunc()
+	{
+		UGameInstance* gameInstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameInstance = *Itr;
+			if (gameInstance == nullptr)
+			{
+				continue;
+			}
+
+			FHitResult Hit, Hit2;
+			UE_LOG(GALog, Log, TEXT("Timer Start"));
+
+			//��Ϸ�߼�ʵ��
+			ACharacter* character = gameInstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
+			FVector vectorStart = character->GetActorLocation();
+			vectorStart.Z = 0.0f;
+			FVector actorRotator = character->GetActorForwardVector();
+			FVector vectorEnd = vectorStart + actorRotator * scales;
+			vectorEnd.Z = character->GetDefaultHalfHeight() * 2;
+			DrawDebugLine(gameInstance->GetWorld(), vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd, FColor(255, 0, 0), false, 0, 0, 10);
+			FCollisionObjectQueryParams checkTrace(ECollisionChannel::ECC_WorldStatic);
+			checkTrace.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
+			//�������߼��
+			gameInstance->GetWorld()->LineTraceSingleByObjectType(Hit, vectorStart + FVector(0.0f, 0.0f, 25.0f)
+				, vectorEnd, FCollisionObjectQueryParams(checkTrace));
+			AActor* actor = Hit.GetActor();
+
+			if (actor)
+			{
+				gameInstance->GetWorld()->GetTimerManager().ClearTimer(*handle);
+				handle = nullptr;
+				UE_LOG(GALog, Log, TEXT("Disable monitor"));
+				FCharacterPos characterpos;
+				auto i = reinterpret_cast<std::uintptr_t>(actor);
+				characterpos.instance = i;
+				characterpos.x = character->GetActorLocation().X;
+				characterpos.y = character->GetActorLocation().Y;
+				characterpos.z = character->GetActorLocation().Z;
+				command.ReponseJsonType = ResponseDataType::OBJECT;
+				characterposs.Push(characterpos);
+				command.ResponseJson = ArrayToJson<FCharacterPos>(characterposs);
+				FCommandHandler::cond_var->notify_one();
+			}
+
+
+		}
+	}
+
+
+	//��������ת�����
+	const bool ChangeRotator(const FString& str)
+	{
+		UGameInstance* gameinstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameinstance = *Itr;
+
+			if (gameinstance == nullptr) {
+				continue;
+			}
+
+			gameinstance->GetWorld()->GetFirstPlayerController()->GetPawn()->AddControllerYawInput(FCString::Atof(*str));
+
+			return true;
+		}
+
+		return false;
+	}
+
+	//��ý�ɫ��ǰƫ����
+	const FRotator getRotation()
+	{
+		FRotator rotator = FRotator(90.0f, 90.0f, 90.0f);
+		UGameInstance* gameinstance = nullptr;
+
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameinstance = *Itr;
+
+			if (gameinstance == nullptr) {
+				continue;
+			}
+
+			rotator = gameinstance->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorRotation();
+			break;
+		}
+
+		return rotator;
+	}
+
+
+	//��ȡת��ֵ
+	const float getScale()
+	{
+		UGameInstance* gameinstance = nullptr;
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameinstance = *Itr;
+
+			if (gameinstance == nullptr) {
+				continue;
+			}
+
+			return gameinstance->GetWorld()->GetFirstPlayerController()->InputYawScale;
+		}
+		return 0.0f;
+	}
+
+
+	//��ȡ��ͼ�Ĵ�С
+	const FVector getLevelBound(const FString& str)
+	{	
+		FVector origin = FVector(0, 0, 0);
+		FVector boxextent = FVector(0, 0, 0);
+		
+		for (TObjectIterator<AActor> Itr; Itr; ++Itr)
+		{
+			AActor* actor = *Itr;
+
+			if (actor == nullptr)
+				continue;
+
+			if (actor->GetName() == FString(str))
+			{
+				actor->GetActorBounds(false, origin, boxextent);
+				return boxextent;
+			}
+		}
+
+		return boxextent;
+	}
+
+	//������ǰλ��
+	const bool setLocation(const FString& str)
+	{
+		ACharacter* character = nullptr;
+		FVector vec = FVector(0, 0, 0);
+		UGameInstance* gameinstance = nullptr;
+
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameinstance = *Itr;
+
+			if (gameinstance == nullptr)
+				continue;
+
+			if (!character)
+			{
+				character = gameinstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
+				vec = gameinstance->GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorForwardVector() * FCString::Atof(*str);
+				vec += character->GetTargetLocation();
+				UE_LOG(GALog, Log, TEXT("%f,%f,%f"), vec.X, vec.Y, vec.Z);
+				if (character->SetActorLocation(vec))
+				{
+					return true;
+					
+				}
+				else
+					return false;
+			}
+				
+		}
+		return false;
+	}
+
+	//�������������λ��
+	const bool setCharacter(float& posx,float& posy)
+	{
+		ACharacter* character = nullptr;
+		FVector vec = FVector(0, 0, 0);
+		UGameInstance* gameinstance = nullptr;
+
+		for (TObjectIterator<UGameInstance> Itr; Itr; ++Itr)
+		{
+			gameinstance = *Itr;
+
+			if (gameinstance == nullptr)
+				continue;
+
+			if (!character)
+			{
+				character = gameinstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
+				vec = character->GetTargetLocation();
+				vec.X = posx;
+				vec.Y = posy;
+				UE_LOG(GALog, Log, TEXT("%f,%f,%f"), vec.X, vec.Y, vec.Z);
+				if (character->SetActorLocation(vec))
+					return true;
+				break;
+
+			}
+
+		}
+		return false;
+	}
+	struct FParam
+	{
+		FString par;
+		FString outcome;
+	};
+
+	//���ڷ������Api
+	const FString callRegisterHandler(FName& funcname, FString& funcparams)
+	{
+		FParam par;
+		par.par = funcparams;
+		UClass* ActorRef = FindObject<UClass>((UObject*)ANY_PACKAGE, *FString("MyObject"));
+		if (ActorRef)
+		{
+			UFunction* func = ActorRef->FindFunctionByName(funcname);
+			if (func)
+			{
+				try
+				{
+					ActorRef->ProcessEvent(func, &par);
+					UE_LOG(GALog, Log, TEXT("ProcessEvent Success!"))
+					return par.outcome;
+				}
+				catch (const std::exception& ex)
+				{
+					UE_LOG(GALog, Log, TEXT("%s"), ex.what())
+					return "false";
+				}
+				
+			}
+		}
+		return "Null";
+
+	}
+
 
 }

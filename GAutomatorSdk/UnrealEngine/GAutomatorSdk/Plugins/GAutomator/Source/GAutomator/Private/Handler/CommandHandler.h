@@ -6,6 +6,7 @@
 #include "Templates/SharedPointerInternals.h"
 #include "Serialization/JsonSerializer.h"
 #include "Protocol/ProtocolCommon.h"
+#include <condition_variable>
 
 namespace WeTestU3DAutomation
 {
@@ -16,6 +17,9 @@ namespace WeTestU3DAutomation
 		virtual ~FCommandHandler();
 
 		FString HandleCommand();
+		FString GetResponse();
+		static std::condition_variable* cond_var;
+		static int flag;
 	private:
 		const TSharedPtr<FJsonValue> Request;
 		TSharedPtr<FJsonValue> ValuePtr;
@@ -34,5 +38,16 @@ namespace WeTestU3DAutomation
 		void HandleGetCurrentLevelName();//GET_CURRENT_SCENE
 		void HandleGetElementByPos(); //FIND_ELEMENT_BY_POS
 		void HandleGetText(); //GET_ELEMENT_TEXT
+		void HandleSwipCharacter();
+		void HandleSetRotator();
+		void GetInputScale();
+		void GetBound();
+		void SetLocation();
+		void GetRotator();
+		void SetCharacter();
+		void CallRegisterHandler();
 	};
+
+
+
 }

@@ -66,7 +66,7 @@ namespace WeTestU3DAutomation
 		//Set Buffer Size
 		int32 NewSize = 0;
 		bool SetResult= ListenerSocket->SetReceiveBufferSize(ReceiveBufferSize, NewSize);
-		if(!SetResult)
+		if(!SetResult&&NewSize==0)
 		{
 			UE_LOG(GALog, Error, TEXT("Set ReceiveBufferSize to %d"), NewSize);
 			return false;
@@ -336,19 +336,25 @@ namespace WeTestU3DAutomation
 
 		FCommandHandler CommandHandler(InValue);
 		std::mutex m;
-		std::condition_variable cond_var;
+		std::condition_variable* cond_var= FCommandHandler::cond_var;
 
 
-		AsyncTask(ENamedThreads::GameThread, [&CommandHandler,&OutResponse,&m,&cond_var]() {
+		AsyncTask(ENamedThreads::GameThread, [&CommandHandler,&OutResponse,&m,cond_var]() {
 
 			std::unique_lock<std::mutex> lock(m);
 			OutResponse =CommandHandler.HandleCommand();
 
 			UE_LOG(GALog, Log, TEXT("Response body : %s"), *OutResponse);
-			cond_var.notify_one();
+			if(FCommandHandler::flag==0)
+				cond_var->notify_one();
 		});
 		std::unique_lock<std::mutex> lock(m);
-		cond_var.wait(lock);
+		cond_var->wait(lock);
+		if (FCommandHandler::flag != 0)
+		{
+			OutResponse = CommandHandler.GetResponse();
+			FCommandHandler::flag = 0;
+		}
 		return true;
 	}
 
@@ -384,5 +390,6 @@ namespace WeTestU3DAutomation
 		return TotalSend;
 	}
 
-
+	std::condition_variable* FCommandHandler::cond_var = new std::condition_variable();
+	int FCommandHandler::flag = 0;
 }
