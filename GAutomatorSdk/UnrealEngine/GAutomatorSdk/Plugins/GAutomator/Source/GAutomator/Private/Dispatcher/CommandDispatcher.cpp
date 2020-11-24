@@ -66,7 +66,7 @@ namespace WeTestU3DAutomation
 		//Set Buffer Size
 		int32 NewSize = 0;
 		bool SetResult= ListenerSocket->SetReceiveBufferSize(ReceiveBufferSize, NewSize);
-		if(!SetResult)
+		if(!SetResult&&NewSize==0)
 		{
 			UE_LOG(GALog, Error, TEXT("Set ReceiveBufferSize to %d"), NewSize);
 			return false;
