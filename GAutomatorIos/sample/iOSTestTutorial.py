@@ -66,9 +66,19 @@ def screenshot_test():
     image = device.screenshot()
     cv2.imwrite("test.jpg", image)
 
+def test_multifingers():
+    actions = [
+        dict(x1=100, y1=200, x2=200, y2=200, dur=5000),
+        dict(x1=100, y1=250, x2=200, y2=250, dur=5000),
+        dict(x1=100, y1=300, x2=200, y2=300, dur=5000),
+        dict(x1=100, y1=350, x2=200, y2=350, dur=5000)
+    ]
+    ga2.multi_fingers_swipe(ga2.By.NAME_IN_ENGINE,actions)
+
 device = ga2.init_device(ga2.DeviceType.DEVICE_IOS, TestInfo.udid)  # get the instance of device
 ga2.launch_app(TestInfo.PACKAGE)#if you are going to test a specific scene, just comment out this line.
 ga2.init_engine_sdk(enginetype=EngineType)
+test_multifingers()
 wait_test()
 touch_test()
 random_travel()

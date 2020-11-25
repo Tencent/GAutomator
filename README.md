@@ -14,7 +14,7 @@ GAutomator(Game Automator) is an open source test automation framework for mobil
 python test project for games on Android(with Unity/UE4 UI interaction)
 
 ## GAutomatorIos
-python scripts library for games on iOS(with Unity UI interaction)
+python scripts library for games on iOS(with Unity UI/UE4 interaction, however, different engines need to be configured the environment separately)
 
 ## GAutomatorSDK
 SDK source code . In order to interact with Game Engine Elements, the SDK is required to be integrated to game.
@@ -43,7 +43,7 @@ GAutomator是一个针对手游的UI自动化测试框架。设计理念与使�
 针对android游戏的Python测试工程。（目前支持Unity与UE4引擎的交互）
 
 ## GAutomatorIos
-针对iOS游戏的Python库。（目前支持Unity引擎交互）
+针对iOS游戏的Python库。（目前支持Unity引擎交互,但不同引擎需分别配置环境）
 
 ## GAutomatorSDK
 GAutomator SDK的源码。为了实现测试脚本或工具与游戏引擎的交互，需要将GAutomator SDK集成到游戏包中。

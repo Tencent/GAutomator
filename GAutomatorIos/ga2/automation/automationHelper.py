@@ -137,8 +137,13 @@ class AutomationHelper:
             return None
         return method_map.get(method)(param)
 
-
-
+    @callLog
+    def multifingers_swip(self, method, param):
+        method_map = {By.NAME_IN_ENGINE: getattr(self, "multi_fingers_control")}
+        if method not in method_map:
+            logger.error("invalid screenshot method :" + method)
+            return None
+        return method_map.get(method)(param)
 
     ##################################################################
 
@@ -370,6 +375,30 @@ class AutomationHelper:
             return None
         self.device.screenshot(param)
         return
+
+    @callLog
+    def multi_fingers_control(self, param):
+        '''
+        多指控制
+        Args:
+            param:array[dict(x1,y1,x2,y2,dur)......]
+            每个dict代表一个手指的滑动操作，多指通过多个dict表示
+            x1,y1为按压初始坐标，x2,y2为滑动终止坐标，dur为滑动时长（ms）
+        Returns:
+        '''
+        wda=self.device.wda_session()
+        actions=[]
+        for item in param:
+            action=[]
+            action.append(wda.actionmember(action='press',x=item['x1'],y=item['y1']))
+            action.append(wda.actionmember(action='wait', ms=item['dur']))
+            action.append(wda.actionmember(action='moveTo',x=item['x2'],y=item['y2']))
+            actions.append(action)
+        wda.perform(actions)
+
+
+
+
 
 
 
