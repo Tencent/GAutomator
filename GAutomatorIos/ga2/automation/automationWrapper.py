@@ -133,6 +133,17 @@ def screen_shot(method, param):
     '''
     return AutomationHelper().screen_shot(method, param)
 
+def multi_fingers_swipe(method, params):
+    '''
+    多指滑动操作
+    :param method:
+    :param params: param:array[dict(x1,y1,x2,y2,dur)......]
+            每个dict代表一个手指的滑动操作，多指通过多个dict表示
+            x1,y1为按压初始坐标，x2,y2为滑动终止坐标，dur为滑动时长（ms）
+    :return:
+    '''
+    return AutomationHelper().multifingers_swip(method, params)
+
 #
 # '''
 # find the center of  engine element on device specified by its name in the engine

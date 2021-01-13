@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//ĞŞ¸ÄversionInfoÂ·¾¶
+//ä¿®æ”¹versionInfoè·¯å¾„
 #include "../../Public/VersionInfo.h"
 #include "Runtime/Launch/Resources/Version.h"
 
@@ -9,67 +9,67 @@ namespace WeTestU3DAutomation
 {
 	namespace Cmd
 	{
-		static const ::int32 EXIT = 0;//ÍË³öÓÎÏ·
+		static const ::int32 EXIT = 0;//é€€å‡ºæ¸¸æˆ
 									////////////////////////
-		static const ::int32 GET_VERSION = 100;//»ñÈ¡°æ±¾ºÅ
-		static const ::int32 FIND_ELEMENTS = 101;//²éÕÒ½Úµã
-		static const ::int32 FIND_ELEMENT_PATH = 102;//Ä£ºı²éÕÒ
-		static const ::int32 GET_ELEMENTS_BOUND = 103;//»ñÈ¡½ÚµãµÄÎ»ÖÃĞÅÏ¢
-		static const ::int32 GET_ELEMENT_WORLD_BOUND = 104;//»ñÈ¡½ÚµãµÄÊÀ½ç×ø±ê
-		static const ::int32 GET_UI_INTERACT_STATUS = 105;//»ñÈ¡ÓÎÏ·µÄ¿Éµã»÷ĞÅÏ¢£¬°üÀ¨scene¡¢¿Éµã»÷½Úµã£¬¼°Î»ÖÃĞÅÏ¢
-		static const ::int32 GET_CURRENT_SCENE = 106;//»ñÈ¡UnityµÄSceneÃû³Æ
-		static const ::int32 GET_ELEMENT_TEXT = 107;//»ñÈ¡½ÚµãµÄÎÄ×ÖÄÚÈİ
-		static const ::int32 GET_ELEMENT_IMAGE = 108;//»ñÈ¡½ÚµãµÄÍ¼Æ¬Ãû³Æ
-		static const ::int32 GET_REGISTERED_HANDLERS = 109;//»ñÈ¡×¢²áµÄº¯ÊıµÄÃû³Æ
-		static const ::int32 CALL_REGISTER_HANDLER = 110;//µ÷ÓÃ×¢²áµÄº¯Êı
-		static const ::int32 SET_INPUT_TEXT = 111;//input¿Ø¼ş¸ü»»ÎÄ×ÖĞÅÏ¢
-		static const ::int32 GET_OBJECT_FIELD = 112;//·´Éä»ñÈ¡¶ÔÏóÊôĞÔÖµ
-		static const ::int32 FIND_ELEMENTS_COMPONENT = 113;//»ñÈ¡ËùÓĞ°üº¬¸Ä×é¼şµÄgameobject
-		static const ::int32 SET_CAMERA_NAME = 114;//ÉèÖÃäÖÈ¾µÄ×î¼ÑµÄCamera
-		static const ::int32 GET_COMPONENT_METHODS = 115;//·´Éä»ñÈ¡×é¼şÉÏµÄ·½·¨
-		static const ::int32 CALL_COMPONENT_MOTHOD = 116;//Í¨¹ı·´Éäµ÷ÓÃ×é¼şµÄº¯Êı
-		static const ::int32 LOAD_TEST_LIB = 117;//À­ÆğtestÏà¹ØµÄ¿â
+		static const ::int32 GET_VERSION = 100;//è·å–ç‰ˆæœ¬å·
+		static const ::int32 FIND_ELEMENTS = 101;//æŸ¥æ‰¾èŠ‚ç‚¹
+		static const ::int32 FIND_ELEMENT_PATH = 102;//æ¨¡ç³ŠæŸ¥æ‰¾
+		static const ::int32 GET_ELEMENTS_BOUND = 103;//è·å–èŠ‚ç‚¹çš„ä½ç½®ä¿¡æ¯
+		static const ::int32 GET_ELEMENT_WORLD_BOUND = 104;//è·å–èŠ‚ç‚¹çš„ä¸–ç•Œåæ ‡
+		static const ::int32 GET_UI_INTERACT_STATUS = 105;//è·å–æ¸¸æˆçš„å¯ç‚¹å‡»ä¿¡æ¯ï¼ŒåŒ…æ‹¬sceneã€å¯ç‚¹å‡»èŠ‚ç‚¹ï¼ŒåŠä½ç½®ä¿¡æ¯
+		static const ::int32 GET_CURRENT_SCENE = 106;//è·å–Unityçš„Sceneåç§°
+		static const ::int32 GET_ELEMENT_TEXT = 107;//è·å–èŠ‚ç‚¹çš„æ–‡å­—å†…å®¹
+		static const ::int32 GET_ELEMENT_IMAGE = 108;//è·å–èŠ‚ç‚¹çš„å›¾ç‰‡åç§°
+		static const ::int32 GET_REGISTERED_HANDLERS = 109;//è·å–æ³¨å†Œçš„å‡½æ•°çš„åç§°
+		static const ::int32 CALL_REGISTER_HANDLER = 110;//è°ƒç”¨æ³¨å†Œçš„å‡½æ•°
+		static const ::int32 SET_INPUT_TEXT = 111;//inputæ§ä»¶æ›´æ¢æ–‡å­—ä¿¡æ¯
+		static const ::int32 GET_OBJECT_FIELD = 112;//åå°„è·å–å¯¹è±¡å±æ€§å€¼
+		static const ::int32 FIND_ELEMENTS_COMPONENT = 113;//è·å–æ‰€æœ‰åŒ…å«æ”¹ç»„ä»¶çš„gameobject
+		static const ::int32 SET_CAMERA_NAME = 114;//è®¾ç½®æ¸²æŸ“çš„æœ€ä½³çš„Camera
+		static const ::int32 GET_COMPONENT_METHODS = 115;//åå°„è·å–ç»„ä»¶ä¸Šçš„æ–¹æ³•
+		static const ::int32 CALL_COMPONENT_MOTHOD = 116;//é€šè¿‡åå°„è°ƒç”¨ç»„ä»¶çš„å‡½æ•°
+		static const ::int32 LOAD_TEST_LIB = 117;//æ‹‰èµ·testç›¸å…³çš„åº“
 
-		static const ::int32 PRC_SET_METHOD = 118;//×¢²ápython¶ËµÄ·½·¨
-		static const ::int32 RPC_METHOD = 119;//ÓÎÏ·ÄÚµÄ½Ó¿Ú¿Éµ÷ÓÃ£¬python¶ËµÄ·½·¨
+		static const ::int32 PRC_SET_METHOD = 118;//æ³¨å†Œpythonç«¯çš„æ–¹æ³•
+		static const ::int32 RPC_METHOD = 119;//æ¸¸æˆå†…çš„æ¥å£å¯è°ƒç”¨ï¼Œpythonç«¯çš„æ–¹æ³•
 
-		static const ::int32 GET_CHARACTER_SWIP = 120;//ÓÎÏ·ÄÚµÄ½Ó¿Ú¿Éµ÷ÓÃ£¬python¶ËµÄ·½·¨
-		static const ::int32 SET_CHANGEROTATOR = 121;//ĞŞ¸ÄÈËÎï×ªÏò
-		static const ::int32 GET_SCALE = 122;//»ñÈ¡inputscal
-		static const ::int32 GET_BOUND = 123;//»ñµÃµØÍ¼³ß´ç
-		static const ::int32 SET_LOCATION = 124;//ÉèÖÃÈËÎïÎ»ÖÃ
-		static const ::int32 GET_ROTATOR = 125;//»ñÈ¡ÈËÎïÆ«ÒÆÁ¿
-		static const ::int32 SET_CHARACTER = 126;//ÉèÖÃÈËÎï×ªÒÆ
+		static const ::int32 GET_CHARACTER_SWIP = 120;//æ¸¸æˆå†…çš„æ¥å£å¯è°ƒç”¨ï¼Œpythonç«¯çš„æ–¹æ³•
+		static const ::int32 SET_CHANGEROTATOR = 121;//ä¿®æ”¹äººç‰©è½¬å‘
+		static const ::int32 GET_SCALE = 122;//è·å–inputscal
+		static const ::int32 GET_BOUND = 123;//è·å¾—åœ°å›¾å°ºå¯¸
+		static const ::int32 SET_LOCATION = 124;//è®¾ç½®äººç‰©ä½ç½®
+		static const ::int32 GET_ROTATOR = 125;//è·å–äººç‰©åç§»é‡
+		static const ::int32 SET_CHARACTER = 126;//è®¾ç½®äººç‰©è½¬ç§»
 
 
 		///////////////////////////////////////////////
-		static const ::int32 HANDLE_TOUCH_EVENTS = 200;//·¢ËÍdown;move;up
+		static const ::int32 HANDLE_TOUCH_EVENTS = 200;//å‘é€down;move;up
 
 		//////////////////////////////////////////////
-		static const ::int32 DUMP_TREE = 300;//»ñÈ¡½ÚµãÊ÷xml
-		static const ::int32 FIND_ELEMENT_BY_POS = 301;//¸ù¾İÎ»ÖÃĞÅÏ¢»ñÈ¡½ÚµãÄÚÈİ
+		static const ::int32 DUMP_TREE = 300;//è·å–èŠ‚ç‚¹æ ‘xml
+		static const ::int32 FIND_ELEMENT_BY_POS = 301;//æ ¹æ®ä½ç½®ä¿¡æ¯è·å–èŠ‚ç‚¹å†…å®¹
 
 		//////////////////////////////////////////////
-		static const ::int32 GET_FPS = 400;//»ñÈ¡FPS
-		static const ::int32 GET_TRAFFIC_DATA = 401;//»ñÈ¡Á÷Á¿
+		static const ::int32 GET_FPS = 400;//è·å–FPS
+		static const ::int32 GET_TRAFFIC_DATA = 401;//è·å–æµé‡
 
 		//////////////////////////////////////////////
-		static const ::int32 ENTER_RECORD = 500;//¿ªÊ¼Â¼ÖÆ
-		static const ::int32 LEAVE_RECORD = 501;//½áÊøÂ¼ÖÆ
-		static const ::int32 TOUCH_NOTIFY = 502;//·µ»Øµã»÷µÄ½Úµã
+		static const ::int32 ENTER_RECORD = 500;//å¼€å§‹å½•åˆ¶
+		static const ::int32 LEAVE_RECORD = 501;//ç»“æŸå½•åˆ¶
+		static const ::int32 TOUCH_NOTIFY = 502;//è¿”å›ç‚¹å‡»çš„èŠ‚ç‚¹
 	};
 
 	enum class ResponseStatus :int32 {
 		SUCCESS = 0,
-		NO_SUCH_CMD = 1,//·¢ËÍµÄÃüÁî²»¿ÉÊ¶±ğ
-		UNPACK_ERROR = 2,//·¢ÉúµÄbodyÊı¾İ£¬json·´ĞòÁĞ»¯Ê§°Ü
-		UN_KNOW_ERROR = 3,//Ò»°ãÊÇÔÚÖ´ĞĞÈÎÎñµÄ¹ı³ÌÖĞÅ×³öÒì³££¬Î´Ô¤ÁÏµÄÎÊÌâ
-		GAMEOBJ_NOT_EXIST = 4,//gameobject ²»´æÔÚ
-		COMPONENT_NOT_EXIST = 5,//component ²»´æÔÚ
-		NO_SUCH_HANDLER = 6,//Ã»ÓĞ¸Ã×Ô¶¨ÒåµÄhandler
+		NO_SUCH_CMD = 1,//å‘é€çš„å‘½ä»¤ä¸å¯è¯†åˆ«
+		UNPACK_ERROR = 2,//å‘ç”Ÿçš„bodyæ•°æ®ï¼Œjsonååºåˆ—åŒ–å¤±è´¥
+		UN_KNOW_ERROR = 3,//ä¸€èˆ¬æ˜¯åœ¨æ‰§è¡Œä»»åŠ¡çš„è¿‡ç¨‹ä¸­æŠ›å‡ºå¼‚å¸¸ï¼Œæœªé¢„æ–™çš„é—®é¢˜
+		GAMEOBJ_NOT_EXIST = 4,//gameobject ä¸å­˜åœ¨
+		COMPONENT_NOT_EXIST = 5,//component ä¸å­˜åœ¨
+		NO_SUCH_HANDLER = 6,//æ²¡æœ‰è¯¥è‡ªå®šä¹‰çš„handler
 
-		REFLECTION_ERROR = 7,//·´Éä»ñÈ¡Ä³¸ö¶ÔÏóÊ±³ö´í
-		NO_SUCH_RESOURCE = 8,//Ã»ÓĞËùĞèµÄ×ÊÔ´ÄÚÈİ
+		REFLECTION_ERROR = 7,//åå°„è·å–æŸä¸ªå¯¹è±¡æ—¶å‡ºé”™
+		NO_SUCH_RESOURCE = 8,//æ²¡æœ‰æ‰€éœ€çš„èµ„æºå†…å®¹
 	};
 
 	enum class ResponseDataType :uint8 
@@ -96,7 +96,7 @@ namespace WeTestU3DAutomation
 
 	struct FVersionData
 	{
-		FString sdkVersion;//SDK°æ±¾ºÅÈç1.0.1,Ö÷°æ±¾.×Ó°æ±¾.ĞŞÕı°æ±¾
+		FString sdkVersion;//SDKç‰ˆæœ¬å·å¦‚1.0.1,ä¸»ç‰ˆæœ¬.å­ç‰ˆæœ¬.ä¿®æ­£ç‰ˆæœ¬
 		FString engine;
 		FString engineVersion;
 		FString sdkUIType;//UGUI,NGUI

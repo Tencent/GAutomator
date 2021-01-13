@@ -404,7 +404,7 @@ namespace WeTestU3DAutomation
 			FHitResult Hit, Hit2;
 			UE_LOG(GALog, Log, TEXT("Timer Start"));
 
-			//��Ϸ�߼�ʵ��
+			//开启射线检测
 			ACharacter* character = gameInstance->GetWorld()->GetFirstPlayerController()->GetCharacter();
 			FVector vectorStart = character->GetActorLocation();
 			vectorStart.Z = 0.0f;
@@ -414,7 +414,7 @@ namespace WeTestU3DAutomation
 			DrawDebugLine(gameInstance->GetWorld(), vectorStart + FVector(0.0f, 0.0f, 25.0f), vectorEnd, FColor(255, 0, 0), false, 0, 0, 10);
 			FCollisionObjectQueryParams checkTrace(ECollisionChannel::ECC_WorldStatic);
 			checkTrace.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
-			//�������߼��
+			//获取检测结果
 			gameInstance->GetWorld()->LineTraceSingleByObjectType(Hit, vectorStart + FVector(0.0f, 0.0f, 25.0f)
 				, vectorEnd, FCollisionObjectQueryParams(checkTrace));
 			AActor* actor = Hit.GetActor();
@@ -441,7 +441,7 @@ namespace WeTestU3DAutomation
 	}
 
 
-	//��������ת�����
+	//改变角色旋转角度
 	const bool ChangeRotator(const FString& str)
 	{
 		UGameInstance* gameinstance = nullptr;
@@ -461,7 +461,7 @@ namespace WeTestU3DAutomation
 		return false;
 	}
 
-	//��ý�ɫ��ǰƫ����
+	//获取角色当前旋转角度
 	const FRotator getRotation()
 	{
 		FRotator rotator = FRotator(90.0f, 90.0f, 90.0f);
@@ -483,7 +483,7 @@ namespace WeTestU3DAutomation
 	}
 
 
-	//��ȡת��ֵ
+	//获取旋转阈值
 	const float getScale()
 	{
 		UGameInstance* gameinstance = nullptr;
@@ -501,7 +501,7 @@ namespace WeTestU3DAutomation
 	}
 
 
-	//��ȡ��ͼ�Ĵ�С
+	//获取物体大小
 	const FVector getLevelBound(const FString& str)
 	{	
 		FVector origin = FVector(0, 0, 0);
@@ -524,7 +524,7 @@ namespace WeTestU3DAutomation
 		return boxextent;
 	}
 
-	//������ǰλ��
+	//角色向前位移
 	const bool setLocation(const FString& str)
 	{
 		ACharacter* character = nullptr;
@@ -557,7 +557,7 @@ namespace WeTestU3DAutomation
 		return false;
 	}
 
-	//�������������λ��
+	//重设角色位置
 	const bool setCharacter(float& posx,float& posy)
 	{
 		ACharacter* character = nullptr;
@@ -593,7 +593,7 @@ namespace WeTestU3DAutomation
 		FString outcome;
 	};
 
-	//���ڷ������Api
+	//基于反射调用Api
 	const FString callRegisterHandler(FName& funcname, FString& funcparams)
 	{
 		FParam par;

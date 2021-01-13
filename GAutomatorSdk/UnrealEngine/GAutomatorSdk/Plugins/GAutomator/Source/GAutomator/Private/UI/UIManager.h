@@ -71,29 +71,29 @@ namespace WeTestU3DAutomation
 
 		TimeEve() {};
 		virtual ~TimeEve() {};
-		//��ʱ��������
+		//计时器句柄
 		FTimerHandle* handle;
 
-		//��ʱί�к���
+		//委托函数
 		FTimerDelegate timerDel;
 
 
-		//ʱ�����
+		//计时间隔
 		float tickTime;
 
-		//ѭ������
+		//是否循环
 		bool loop;
 
-		//���ö�ʱ��
+		//设置计时器
 		virtual bool SetTimerHandle() = 0;
 
-		//��ʱ���߼�
+		//主体逻辑
 		virtual void TimerHandleFunc() = 0;
 
 
 	};
 
-	//���߼��
+	//计时器设置样例
 	class TimeTemp :public TimeEve
 	{
 
@@ -110,7 +110,7 @@ namespace WeTestU3DAutomation
 
 		void TimerHandleFunc() override;
 
-		//���߼�����
+		//射线检测距离
 		float scales;
 
 	};
