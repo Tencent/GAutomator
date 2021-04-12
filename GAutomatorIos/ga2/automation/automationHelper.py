@@ -8,12 +8,16 @@ from ga2.cloud.reporter import Reporter
 from ga2.common.WebDriverWait import WebDriverWait
 from config import Account
 
+
 class AutomationHelper:
 
     def __init__(self, device=None):
         if device is None:
             device = Device.getDefaultDevice()
         self.device = device
+        self.scale = 0
+        self.UNscale = 0.0
+        self.ue4_device = []
 
     @callLog
     def computetarget(self, param):
@@ -22,18 +26,26 @@ class AutomationHelper:
         :param param:
         :return:
         '''
-        display = self.device.display_size()
-        scale = max(self.device.screenshot_format().size) / max(display)
+        engine = self.device.engine_connector()
+        if self.device is None or engine is None:
+            return None
+        self.ue4_device = engine.get_device_info() if self.ue4_device == [] else self.ue4_device
+        self.scale = max(self.device.screenshot_format().size) / max(
+            self.device.display_size()) if self.scale == 0 else self.scale
 
-        #设置屏幕像素与逻辑像素比值，iphonex=1.5  ipad pro 11inch=1.2438
-        UNscale=1.2438
-        targetPos = ((param.x + param.width / 2) * UNscale / scale, (param.y + param.height / 2) * UNscale / scale)
+        if self.UNscale == 0.0:
+            size = self.device.screenshot_format().size
+            self.UNscale = size[0] / self.ue4_device[0]['y']
+        targetPos = (
+            (param['x'] + param['width'] / 2) * self.UNscale / self.scale,
+            (param['y'] + param['height'] / 2) * self.UNscale / self.scale)
         if isInCloudMode():
-            Reporter().screenshot_with_mark(display[0], display[1],targetPos[0],targetPos[1])
+            Reporter().screenshot_with_mark(self.device.display_size()[0], self.device.display_size()[1], targetPos[0],
+                                            targetPos[1])
         return targetPos
 
     @callLog
-    def get_version(self, method,timeout):
+    def get_version(self, method, timeout):
         method_map = {By.NAME_IN_ENGINE: getattr(self, "get_engine_version")}
         if method not in method_map:
             logger.error("invalid find method :" + method)
@@ -163,18 +175,18 @@ class AutomationHelper:
         if self.device and self.device.engine_connector():
             element = None
             try:
-                element = WebDriverWait(timeout,2).until(self.device.engine_connector().find_element,name)
+                element = WebDriverWait(timeout, 2).until(self.device.engine_connector().find_element, name)
             except Exception as e:
                 logger.warn("element wait timeout:" + name)
             return element
         return None
 
     @callLog
-    def wait_engine_dump_tree(self,timeout):
+    def wait_engine_dump_tree(self, timeout):
         if self.device and self.device.engine_connector():
             element = None
             try:
-                element = WebDriverWait(timeout,2).until(self.device.engine_connector()._get_dump_tree)
+                element = WebDriverWait(timeout, 2).until(self.device.engine_connector()._get_dump_tree)
             except Exception as e:
                 logger.warn("getdumptree timeout")
             return element
@@ -189,9 +201,9 @@ class AutomationHelper:
         if element is None:
             logger.error("touch element is none in touch_engine_elem")
             return None
-        bound = engine.get_element_bound(element)
-        targetPos=self.computetarget(bound)
-        self.device.touch(targetPos[0],targetPos[1])
+        bound = engine._get_elements_UE4_bound([element])
+        targetPos = self.computetarget(bound[0])
+        self.device.touch(targetPos[0], targetPos[1])
 
         return element
 
@@ -231,6 +243,7 @@ class AutomationHelper:
         return element
 
         # @callLog
+
     # def login_tencent(self,account,password):
     #     if  self.login_helper:
     #         return self.login_helper.login_tencent(account=account,password=password)
@@ -243,7 +256,7 @@ class AutomationHelper:
         if not self.device or not self.device.engine_connector():
             return None
         engine = self.device.engine_connector()
-        self.device.drag(param['fx'],param['fy'],param['tx'],param['ty'],param['duration'])
+        self.device.drag(param['fx'], param['fy'], param['tx'], param['ty'], param['duration'])
 
     @callLog
     def swipe_hold(self, param):
@@ -255,7 +268,8 @@ class AutomationHelper:
         if not self.device or not self.device.engine_connector():
             return None
         engine = self.device.engine_connector()
-        self.device.drag_hold(param['fx'], param['fy'], param['tx'], param['ty'], param['dragduration'], param['holdduration'], param['velocity'])
+        self.device.drag_hold(param['fx'], param['fy'], param['tx'], param['ty'], param['dragduration'],
+                              param['holdduration'], param['velocity'])
 
     @callLog
     def joystick_move(self, param):
@@ -278,18 +292,18 @@ class AutomationHelper:
         if element is None:
             logger.error("long press element is none in long_press_engine_element_by_name")
             return None
-        ret=engine.get_element_bound(element)
+        ret = engine.get_element_bound(element)
         if not ret:
             return False
-        targetpos=self.computetarget(ret)
-        switch={'left': lambda x:[x[0]-param['distance'],x[1]],
-                'right': lambda x:[x[0]+param['distance'],x[1]],
-                'up': lambda x:[x[0],x[1]-param['distance']],
-                'down': lambda x:[x[0],x[1]+param['distance']]
-                }
+        targetpos = self.computetarget(ret)
+        switch = {'left': lambda x: [x[0] - param['distance'], x[1]],
+                  'right': lambda x: [x[0] + param['distance'], x[1]],
+                  'up': lambda x: [x[0], x[1] - param['distance']],
+                  'down': lambda x: [x[0], x[1] + param['distance']]
+                  }
 
         topos = switch.get(param['style'], lambda: False)(targetpos)
-        self.device.drag_hold(targetpos[0], targetpos[1], topos[0], topos[1], 1,param['duration'], param['velocity'])
+        self.device.drag_hold(targetpos[0], targetpos[1], topos[0], topos[1], 1, param['duration'], param['velocity'])
         return
 
     @callLog
@@ -317,11 +331,11 @@ class AutomationHelper:
             self.device.wda_session().tap(200, 200)
             time.sleep(1)
             while True:
-                if self.device.wda_session()(className='Button',name=u'好').exists:
+                if self.device.wda_session()(className='Button', name=u'好').exists:
                     self.device.wda_session()(className='Button', name=u'好').tap()
                     time.sleep(1)
                     continue
-                if self.device.wda_session()(className='Button',name=u'允许').exists:
+                if self.device.wda_session()(className='Button', name=u'允许').exists:
                     self.device.wda_session()(className='Button', name=u'允许').tap()
                     time.sleep(1)
                     continue
@@ -329,7 +343,6 @@ class AutomationHelper:
                     self.device.wda_session()(className='StaticText', name=u'同意').tap()
                     time.sleep(1)
                 break
-
 
             time.sleep(1)
             if self.device.wda_session()(name=u'允许').exists:
@@ -340,12 +353,12 @@ class AutomationHelper:
                 self.device.wda_session()(name=u'同意').tap()
 
             time.sleep(1)
-            if self.device.wda_session()(className='TextField',name=u'帐号').exists:
-                self.device.wda_session()(className='TextField',name=u'帐号').set_text(Account.QQNAME)
+            if self.device.wda_session()(className='TextField', name=u'帐号').exists:
+                self.device.wda_session()(className='TextField', name=u'帐号').set_text(Account.QQNAME)
 
             time.sleep(1)
-            if self.device.wda_session()(className='SecureTextField',name=u'密码').exists:
-                self.device.wda_session()(className='SecureTextField',name=u'密码').set_text(Account.QQPWD)
+            if self.device.wda_session()(className='SecureTextField', name=u'密码').exists:
+                self.device.wda_session()(className='SecureTextField', name=u'密码').set_text(Account.QQPWD)
 
             time.sleep(1)
             if self.device.wda_session()(className='Button', name=u'登录按钮').exists:
@@ -355,7 +368,6 @@ class AutomationHelper:
             if self.device.wda_session()(className='StaticText', value=u'确定').exists:
                 self.device.wda_session()(className='StaticText', value=u'确定').tap()
 
-
             time.sleep(1)
             if self.device.wda_session()(className='Button', name=u'QQ授权登录').exists:
                 self.device.wda_session()(className='Button', name=u'QQ授权登录').tap()
@@ -363,8 +375,6 @@ class AutomationHelper:
             time.sleep(1)
             if self.device.wda_session()(className='Button', name=u'完成QQ授权').exists:
                 self.device.wda_session()(className='Button', name=u'完成QQ授权').tap()
-
-
 
     @callLog
     def screen_engine_shot(self, param):
@@ -386,24 +396,12 @@ class AutomationHelper:
             x1,y1为按压初始坐标，x2,y2为滑动终止坐标，dur为滑动时长（ms）
         Returns:
         '''
-        wda=self.device.wda_session()
-        actions=[]
+        wda = self.device.wda_session()
+        actions = []
         for item in param:
-            action=[]
-            action.append(wda.actionmember(action='press',x=item['x1'],y=item['y1']))
+            action = []
+            action.append(wda.actionmember(action='press', x=item['x1'], y=item['y1']))
             action.append(wda.actionmember(action='wait', ms=item['dur']))
-            action.append(wda.actionmember(action='moveTo',x=item['x2'],y=item['y2']))
+            action.append(wda.actionmember(action='moveTo', x=item['x2'], y=item['y2']))
             actions.append(action)
         wda.perform(actions)
-
-
-
-
-
-
-
-
-
-
-
-

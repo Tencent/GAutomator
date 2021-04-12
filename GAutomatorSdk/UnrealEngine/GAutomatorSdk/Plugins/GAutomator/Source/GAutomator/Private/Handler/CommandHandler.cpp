@@ -118,6 +118,11 @@ namespace WeTestU3DAutomation
 			CallRegisterHandler();
 			break;
 		}
+		case Cmd::GET_EQUIPMETN_INFO:
+		{
+			GetEqInfo();
+			break;
+		}
 		default:
 		{
 			CommandResponse.ResponseJson = FString::Printf(TEXT("unknow cmd %d"),cmd);
@@ -453,6 +458,28 @@ namespace WeTestU3DAutomation
 
 		CommandResponse.ReponseJsonType = ResponseDataType::OBJECT;
 		CommandResponse.ResponseJson = ArrayToJson<FCallInfo>(callinfos);
+
+		return;
+	}
+
+	void FCommandHandler::GetEqInfo()
+	{
+		UE_LOG(GALog, Log, TEXT("GetMobileInof"));
+
+		FUWidgetHelper WidgetHelper;
+		bool res = WidgetHelper.Initialize();
+		FVector vector = WidgetHelper.GetMobileinfo();
+
+		//FRotator rotator = getRotation();
+		TArray<FBound> Bounds;
+		FBound Bound;
+		Bound.x = vector.X;
+		Bound.y = vector.Y;
+		Bound.z = vector.Z;
+		Bounds.Push(Bound);
+
+		CommandResponse.ReponseJsonType = ResponseDataType::OBJECT;
+		CommandResponse.ResponseJson = ArrayToJson<FBound>(Bounds);
 
 		return;
 	}

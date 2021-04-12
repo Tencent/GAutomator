@@ -149,3 +149,10 @@ class UE4Engine(GameEngine):
             raise WeTestInvaildArg("Invaild Instance,element is None")
         ret = self.socket.send_command(Commands.SET_CHARACTER, params)
         return ret
+
+    def get_device_info(self):
+        '''
+            获取设备信息
+        '''
+        ret = self.socket.send_command(Commands.GET_EQUIPMENT_INFO)
+        return ret

@@ -286,6 +286,16 @@ namespace WeTestU3DAutomation
 		return true;
 	}
 
+
+	FVector FUWidgetHelper::GetMobileinfo()
+	{
+		FVector vector;
+		vector.X = ViewportScale;
+		vector.Y = SurfaceViewWidth;
+		vector.Z = SurfaceViewHeight;
+		return vector;
+	}
+
 	bool FUWidgetHelper::GetElementBound(const FString& name, FBoundInfo& BoundInfo)
 	{
 		if (!Inited&&Initialize())
