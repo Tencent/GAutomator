@@ -46,6 +46,8 @@ namespace WeTestU3DAutomation
 		void GetRotator();
 		void SetCharacter();
 		void CallRegisterHandler();
+		void GetEqInfo();
+
 	};
 
 

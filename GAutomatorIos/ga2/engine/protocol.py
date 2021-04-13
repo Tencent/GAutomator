@@ -42,6 +42,8 @@ class Commands(object):
     GET_CHARACTER_ROTATION = 125#获取当前偏移量
     SET_CHARACTER = 126#设置角色所在位置
 
+    GET_EQUIPMENT_INFO = 160 # 获取设备信息
+
     #######################/
     HANDLE_TOUCH_EVENTS = 200  # 发送down move up
 

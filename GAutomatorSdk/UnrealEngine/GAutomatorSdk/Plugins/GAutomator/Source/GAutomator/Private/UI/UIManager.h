@@ -44,6 +44,8 @@ namespace WeTestU3DAutomation
 		bool GetElementBound(const FString& name, FBoundInfo& BoundInfo);
 
 		const UWidget* FindUWidgetObjectByPos(float x, float y);
+		//获取移动设备屏幕信息
+		FVector GetMobileinfo();
 
 	
 	private:
@@ -55,6 +57,8 @@ namespace WeTestU3DAutomation
 		static float ViewportScale;
 		bool CheckGEngine();
 		bool PositionInRect(const FGeometry& geometry,float x,float y);
+
+
 
 		/*Use DPI not alway right,only not android or AndroidWindow can't use*/
 		bool InitViewPortScale();

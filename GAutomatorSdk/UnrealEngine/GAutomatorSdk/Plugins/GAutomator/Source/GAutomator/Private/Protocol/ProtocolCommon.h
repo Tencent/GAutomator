@@ -41,6 +41,9 @@ namespace WeTestU3DAutomation
 		static const ::int32 GET_ROTATOR = 125;//获取人物偏移量
 		static const ::int32 SET_CHARACTER = 126;//设置人物转移
 
+		static const ::int32 GET_EQUIPMETN_INFO = 160;//获取设备信息
+
+
 
 		///////////////////////////////////////////////
 		static const ::int32 HANDLE_TOUCH_EVENTS = 200;//发送down;move;up
