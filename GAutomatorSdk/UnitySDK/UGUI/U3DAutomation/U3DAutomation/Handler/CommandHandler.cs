@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.EventSystems;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 namespace WeTest.U3DAutomation
 {
@@ -173,7 +174,7 @@ namespace WeTest.U3DAutomation
                 }
                 bool finded = false;
                 TouchNotify touchNotify = new TouchNotify();
-                string scene = Application.loadedLevelName;
+                string scene = SceneManager.GetActiveScene().name;
                 touchNotify.scene = scene;
                 for (int i = 0; i < fingerNum && i < 5; ++i)
                 {
@@ -529,7 +530,7 @@ namespace WeTest.U3DAutomation
             try
             {
                 string xml = GameObjectTool.DumpTree();
-                string scene = Application.loadedLevelName;
+                string scene = SceneManager.GetActiveScene().name;
                 DumpTree dumpTree = new DumpTree();
                 dumpTree.scene = scene;
                 dumpTree.xml = xml;
@@ -596,7 +597,7 @@ namespace WeTest.U3DAutomation
             Logger.d("handleGetCurrentScene");
             try
             {
-                command.sendObj = Application.loadedLevelName;
+                command.sendObj = SceneManager.GetActiveScene().name;
             }
             catch(System.Exception ex)
             {
@@ -619,6 +620,7 @@ namespace WeTest.U3DAutomation
             catch (System.Exception ex)
             {
                 buttonTypes = new List<string>();
+                Logger.w(ex.Message + "\n" + ex.StackTrace);
             }
             try
             {

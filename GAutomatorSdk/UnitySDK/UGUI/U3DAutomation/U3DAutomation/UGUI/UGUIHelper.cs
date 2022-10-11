@@ -37,7 +37,7 @@ namespace WeTest.U3DAutomation
             }
             catch (System.Exception ex)
             {
-            	
+                Logger.w(ex.Message + "\n" + ex.StackTrace);
             }
             
             return null;
@@ -83,7 +83,7 @@ namespace WeTest.U3DAutomation
             }
             catch (System.Exception ex)
             {
-            	
+                Logger.w(ex.Message + "\n" + ex.StackTrace);
             }
             return txtNames;
             
@@ -122,7 +122,7 @@ namespace WeTest.U3DAutomation
             }
             catch (System.Exception ex)
             {
-            	
+                Logger.w(ex.Message + "\n" + ex.StackTrace);
             }
             
 
@@ -175,7 +175,7 @@ namespace WeTest.U3DAutomation
             }
             catch (System.Exception ex)
             {
-            	
+                Logger.w(ex.Message + "\n" + ex.StackTrace);
             }
             
 

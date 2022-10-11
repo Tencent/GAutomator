@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace WeTest.U3DAutomation
 {
@@ -21,7 +22,7 @@ namespace WeTest.U3DAutomation
 
         public static string GetSceneName()
         {
-            return Application.loadedLevelName;
+            return SceneManager.GetActiveScene().name;
         }
 	}
 }
