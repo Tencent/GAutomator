@@ -335,26 +335,16 @@ namespace WeTestU3DAutomation
 	{
 
 		FCommandHandler CommandHandler(InValue);
-		std::mutex m;
-		std::condition_variable* cond_var= FCommandHandler::cond_var;
+		FScopedEvent FinishedEvent;
 
+		AsyncTask(ENamedThreads::GameThread, [&CommandHandler, &OutResponse, &FinishedEvent]() {
 
-		AsyncTask(ENamedThreads::GameThread, [&CommandHandler,&OutResponse,&m,cond_var]() {
-
-			std::unique_lock<std::mutex> lock(m);
 			OutResponse =CommandHandler.HandleCommand();
 
 			UE_LOG(GALog, Log, TEXT("Response body : %s"), *OutResponse);
-			if(FCommandHandler::flag==0)
-				cond_var->notify_one();
+			FinishedEvent.Trigger();
 		});
-		std::unique_lock<std::mutex> lock(m);
-		cond_var->wait(lock);
-		if (FCommandHandler::flag != 0)
-		{
-			OutResponse = CommandHandler.GetResponse();
-			FCommandHandler::flag = 0;
-		}
+
 		return true;
 	}
 
